@@ -28,7 +28,9 @@ export default function Login() {
       {isLoggedIn ? (
         <UserProfile user={userData} />
       ) : (
+        <div className="mt-4" style={{borderRadius:"50px" ,width:"250px",height:"60px",overflow:"hidden" ,backgroundColor:"#4c69ba"}}>
         <FacebookLoginButton onLogin={handleLogin} />
+        </div>
       )}
     </div>
     </div>

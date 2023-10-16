@@ -15,7 +15,7 @@ export default function App() {
   return (
     <div>
       <NavBar ></NavBar>
-<div>123</div>
+<div>1234</div>
 
       <Routes>
       <Route path="/chart" element={<Chart />} />

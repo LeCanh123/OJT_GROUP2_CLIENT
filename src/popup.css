@@ -1,0 +1,9 @@
+.leaflet-popup-content-wrapper {
+    padding: 1px;
+    text-align: center;
+    border-radius: 12px;
+  }
+  
+  .leaflet-popup-content {
+    margin: 8px 10px;
+  }

@@ -6,30 +6,22 @@ import Loading from "./../../components/Loading/Loading"
 //lấy vị trí
 import geolib from 'geolib';
 import axios from 'axios';
-<<<<<<< HEAD
-import { Link, Outlet } from 'react-router-dom';
-=======
+
 //thông báo
-import { Button, message } from 'antd';
->>>>>>> 610a102245b447748e9698726487c22186c4f017
-
-
+import { message } from 'antd';
+import { Link, Outlet } from 'react-router-dom';
 
 export default function Admin() {
-<<<<<<< HEAD
+
+    let [isLoading, setIsLoading] = useState(false);
+    //thông báo antd
+    const [messageApi, contextHolder] = message.useMessage();
+
+
 
     //change component
     let [selectComponent, SetSelectComponent] = useState(1);
-=======
-let [isLoading,setIsLoading]=useState(false);
-//thông báo antd
-const [messageApi, contextHolder] = message.useMessage();
 
-
-
-//change component
-let [selectComponent,SetSelectComponent]=useState(1);
->>>>>>> 610a102245b447748e9698726487c22186c4f017
 
 
 
@@ -54,7 +46,8 @@ let [selectComponent,SetSelectComponent]=useState(1);
         //lấy toạ độ thành phố
         //10.6786996
         //106.6826963
-<<<<<<< HEAD
+
+        setIsLoading(true)
         await axios.get(apiUrl)
             .then(async response => {
                 const { city, state, country } = response.data.address;
@@ -63,27 +56,12 @@ let [selectComponent,SetSelectComponent]=useState(1);
                 console.log(`Country: ${country}`);
                 setCountry(`${city},${country}`)
 
+
             })
             .catch(error => {
                 console.error('Error:', error);
+                messageApi.info('Thêm Forcecast thất bại');
             });
-=======
-        setIsLoading(true)
-        await   axios.get(apiUrl)
-        .then(async response => {
-        const { city, state, country } = response.data.address;
-        console.log(`City: ${city}`);
-        console.log(`State: ${state}`);
-        console.log(`Country: ${country}`);
-        setCountry(`${city},${country}`)
-
-
-        })
-        .catch(error => {
-        console.error('Error:', error);
-        messageApi.info('Thêm Forcecast thất bại');
-        });
->>>>>>> 610a102245b447748e9698726487c22186c4f017
 
 
         let addForeCastResult = await AdminApi.AddForeCast({
@@ -95,19 +73,10 @@ let [selectComponent,SetSelectComponent]=useState(1);
             CategoryId: selectedOption
         })
 
-<<<<<<< HEAD
-
-
-=======
         messageApi.info('Thêm Forcecast thành công');
         setIsLoading(false)
->>>>>>> 610a102245b447748e9698726487c22186c4f017
 
     }
-
-
-
-
 
 
     //manage Category
@@ -354,12 +323,6 @@ let [selectComponent,SetSelectComponent]=useState(1);
 
 
             </div>
-
-<<<<<<< HEAD
-        </div >
+        </div>
     )
-=======
-    </div>
-  )
->>>>>>> 610a102245b447748e9698726487c22186c4f017
 }

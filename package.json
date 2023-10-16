@@ -17,6 +17,7 @@
     "@types/react-facebook-login": "^4.1.6",
     "@types/react-vis": "^1.11.12",
     "axios": "^1.5.1",
+    "flowbite": "^1.8.1",
     "geolib": "^3.3.4",
     "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",

@@ -87,6 +87,8 @@ let [data,setData]=useState([])
         <FacebookLoginButton onLogin={handleLogin} />
       )}
     </div>
+
+    <>test</>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className='container mt-5' style={{backgroundColor:"#33FFCC"}}>
+    <div className='container  footer' style={{backgroundColor:"#33FFCC",marginTop:"5000px"}}>
     <div className='container'>
         <footer className="text-center text-white mt-5" style={{backgroundColor:"#33FFCC"}}>
 

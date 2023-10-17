@@ -19,7 +19,7 @@ const columns: ColumnsType<DataType> = [
         sorter: (a, b) => a.age - b.age,
     },
     {
-        title: 'Title',
+        title: 'Title234',
         dataIndex: 'name',
         filters: [
             {

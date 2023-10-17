@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import React, { useState } from 'react';
 import "./category.scss"
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, FormSelect, Modal } from 'react-bootstrap';
 
 interface DataType {
     key: React.Key;
@@ -13,13 +13,13 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
     {
-        title: 'Index',
+        title: '#',
         dataIndex: 'age',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
     {
-        title: 'Title234',
+        title: 'Tên danh mục',
         dataIndex: 'name',
         filters: [
             {
@@ -51,28 +51,18 @@ const columns: ColumnsType<DataType> = [
         sorter: (a, b) => a.name.length - b.name.length,
         sortDirections: ['descend'],
     },
-
     {
-        title: 'Icon',
-        dataIndex: 'address',
-        filters: [
-            {
-                text: 'London',
-                value: 'London',
-            },
-            {
-                text: 'New York',
-                value: 'New York',
-            },
-        ],
-        onFilter: (value: string, record) => record.address.indexOf(value) === 0,
+        title: 'Trạng thái',
     },
     {
-        title: "Actions",
+        title: 'Hình ảnh',
+    },
+    {
+        title: "Thao tác",
         render: (text, record) => (
             <div>
-                <button type="button" className="btn btn-primary" onClick={() => handleEdit(record)} style={{ width: "100px", marginLeft: "50px", marginRight: "20px" }}>Edit</button>
-                <button type="button" className="btn btn-danger" onClick={() => handleDelete(record)}>Delete</button>
+                <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px" }}>Sửa</button>
+
             </div>
         ),
 
@@ -116,41 +106,49 @@ export default function Category() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
     return (
         <div className='component'>
-            <div style={{ display: "flex", marginLeft: "300px", marginTop: "30px", marginBottom: "30px" }}>
-                <h4 style={{}}>List Category</h4>
-                <Button variant="primary" style={{ marginLeft: "500px" }} onClick={handleShow}>New Category</Button>
+            <div className='category-modal'>
+                <h4 className='category-modal-title'>DANH SÁCH LOẠI THIÊN TAI</h4>
+                <Button variant="outline-primary" style={{ marginLeft: "220px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Header closeButton >
+                        <Modal.Title className='modal-title'>THÊM MỚI LOẠI THIÊN TAI</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Email address</Form.Label>
+                                <Form.Label className='modal-title'>Tên Danh Mục</Form.Label>
                                 <Form.Control
-                                    type="email"
-                                    placeholder="name@example.com"
+                                    type="text"
                                     autoFocus
                                 />
                             </Form.Group>
-                            <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlTextarea1"
-                            >
-                                <Form.Label>Example textarea</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label className='modal-title'>Trạng thái</Form.Label>
+                                <FormSelect>
+                                    <option value="" disabled selected hidden>Chọn trạng thái</option>
+                                    <option value="0">Kích hoạt</option>
+                                    <option value="1">Vô hiệu hóa</option>
+                                </FormSelect>
                             </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label className='modal-title'>Hình ảnh</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                />
+                            </Form.Group>
+
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                            Đóng
                         </Button>
                         <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+                            Lưu
                         </Button>
                     </Modal.Footer>
                 </Modal>

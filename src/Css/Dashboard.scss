@@ -1,0 +1,71 @@
+.component{
+    padding-top: 5em;
+    .col-md-5{
+        height: 50px ;
+        .ms-n5 {
+            margin-left: -40px ;
+            // margin-top: 4px;
+            border-radius: 50%;
+            height: 34px;
+        }
+        .fa-search{
+        }
+        .boder{
+        border-radius: 50%;
+        border: none;
+        margin-right: -20px;
+    
+    
+    }
+    
+    }
+    Table{
+        width: 80%;
+        align-items: center;
+    }
+}
+
+.dashboard-map{
+    padding: 0px 1em;
+    .dashboard-btn button{
+        font-size: 20px;
+        font-weight: bold;
+        background-color: red;
+        margin-top: 1em;
+    }
+    
+}
+
+.warning-btn{
+    width: 280px;
+    height: 140px !important;
+    margin: 1em;
+
+    .card-warning{
+        display: flex;
+        justify-content: space-between;
+
+        .card-title{
+            font-weight: bold;
+        }
+
+        i{
+            font-size: 25px;
+            color: red;
+        }
+    }
+
+    .card-text{
+        font-size: 11px;
+    }
+
+    .btn-send{
+        background-color: red;
+    }
+
+}
+
+.map-admin{
+    width: 1230px;
+    height: 450px;
+}

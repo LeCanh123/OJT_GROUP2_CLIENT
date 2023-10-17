@@ -1,0 +1,40 @@
+.col-md-5{
+    height: 50px ;
+    .ms-n5 {
+        margin-left: -40px ;
+        // margin-top: 4px;
+        border-radius: 50%;
+        height: 34px;
+      
+    }
+    .fa-search{
+    }
+    .boder{
+    border-radius: 50%;
+    border: none;
+    margin-right: -20px;
+
+}
+
+}
+table{
+    min-width: 1220px !important;
+    margin: auto;
+}
+
+.category-modal{
+    display: flex;
+    margin-left: 300px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #000;
+
+    .category-modal-title{
+        font-weight: bold;
+        color: #000;
+    }
+}
+
+.modal-title {
+    color: #000;
+}

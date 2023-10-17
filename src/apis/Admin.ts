@@ -26,12 +26,13 @@ export default {
         return res
         })
         .catch(error => {
-        console.log("errr",error);
+          console.log("errr",error);
         
             return {data: {
                             status:false,
                             message:"Lỗi hệ thống"
-                            }}}
+                            }}
+        }
         );
 
     },

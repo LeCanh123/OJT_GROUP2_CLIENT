@@ -18,5 +18,23 @@
 
 }
 table{
-    width: 1540px !important;
+    min-width: 1220px !important;
+    margin: auto;
+}
+
+.category-modal{
+    display: flex;
+    margin-left: 300px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #000;
+
+    .category-modal-title{
+        font-weight: bold;
+        color: #000;
+    }
+}
+
+.modal-title {
+    color: #000;
 }

@@ -51,8 +51,8 @@ function Map() {
           <div style={{ width: "100%", textAlign: "left", position: "relative", left: "-11px" }}>
             <MapContainer
 
-              center={[21.0285, 105.8542]}
-              zoom={13}
+              center={[14.0583, 108.2772]}
+              zoom={5}
               style={{ height: '600px', width: '1000px', margin: "auto", zIndex: "1" }}
             >
 

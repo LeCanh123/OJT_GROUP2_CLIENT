@@ -15,13 +15,13 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
     {
-        title: 'Index',
+        title: '#',
         dataIndex: 'age',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
     {
-        title: 'Name',
+        title: 'Tên',
         dataIndex: 'name',
         filters: [
             {
@@ -55,7 +55,17 @@ const columns: ColumnsType<DataType> = [
     },
 
     {
-        title: 'Lat',
+        title: 'Vĩ độ (Lat)'
+
+    },
+    {
+        title: "Kinh độ (Lng)"
+    },
+    {
+        title: "Mức độ"
+    },
+    {
+        title: "Địa điểm",
         dataIndex: 'address',
         filters: [
             {
@@ -70,24 +80,21 @@ const columns: ColumnsType<DataType> = [
         onFilter: (value: string, record) => record.address.indexOf(value) === 0,
     },
     {
-        title: "Lag"
+        title: "Phạm vi ảnh hưởng"
     },
     {
-        title: "Level"
+        title: "Thời gian bắt đầu"
     },
     {
-        title: "Place"
+        title: "Thời gian kết thúc"
     },
-    {
-        title: "Size"
-    },
- 
+
     {
         title: "Actions",
         render: (text, record) => (
             <div>
-                <button type="button" className="btn btn-primary" onClick={() => handleEdit(record)} style={{ width: "100px", marginLeft: "40px", marginRight: "20px" }}>Edit</button>
-                <button type="button" className="btn btn-danger" onClick={() => handleDelete(record)} style={{marginRight:"10px"}}>Delete</button>
+                <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px", marginRight: "10px" }}>Sửa</button>
+
             </div>
         ),
 
@@ -134,38 +141,80 @@ export default function Forecast() {
 
     return (
         <div className='component'>
-            <div style={{ display: "flex", marginLeft: "300px", marginTop: "30px", marginBottom: "30px" }}>
-                <h4 style={{}}>List Earthquake</h4>
-                <Button variant="primary" style={{ marginLeft: "500px" }} onClick={handleShow}>New Earthquake</Button>
+            <div className='category-modal'>
+                <h4 className='category-modal-title'>DANH SÁCH THIÊN TAI</h4>
+                <Button variant="outline-primary" style={{ marginLeft: "300px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>THÊM MỚI THIÊN TAI</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Email address</Form.Label>
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Tên</Form.Label>
                                 <Form.Control
-                                    type="email"
-                                    placeholder="name@example.com"
+                                    type="text"
                                     autoFocus
                                 />
                             </Form.Group>
-                            <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlTextarea1"
-                            >
-                                <Form.Label>Example textarea</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Vĩ độ (Lat)</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                />
                             </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Kinh độ (Lng)</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Mức độ</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Địa điểm</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Phạm vi ảnh hưởng (m)</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Thời gian bắt đầu</Form.Label>
+                                <Form.Control
+                                    type="datetime-local"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Thời gian kết thúc</Form.Label>
+                                <Form.Control
+                                    type="datetime-local"
+                                />
+                            </Form.Group>
+
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                            Đóng
                         </Button>
                         <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+                            Lưu
                         </Button>
                     </Modal.Footer>
                 </Modal>

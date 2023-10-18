@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StoreType } from '../../../redux/store';
 import { categoryAction } from '../../../redux/CategorySlice';
 import adminApi from '../../../apis/Admin';
-import CategoryModal from './CategoryModal/CategoryModal';
 import { Button, Form, FormSelect, Modal } from 'react-bootstrap';
 
 
@@ -37,7 +36,6 @@ export default function Category() {
             adminApi.addCategory(formData)
                 .then(res => {
                     console.log("res", res.data.data);
-
                     dispatch(categoryAction.addCategory(res.data.data))
                 })
                 .catch(err => {
@@ -45,6 +43,8 @@ export default function Category() {
                 })
 
         } catch (err) {
+            console.log("err", err);
+
             console.log("Lỗi hệ thống", err);
         }
     }
@@ -53,6 +53,8 @@ export default function Category() {
         const updateFormData: any = new FormData();
         updateFormData.append("title", editCategory?.title)
         updateFormData.append("block", editCategory?.block);
+        console.log("block", editCategory?.block);
+
         try {
             await adminApi.updateCategory(category.id, updateFormData)
                 .then(res => {

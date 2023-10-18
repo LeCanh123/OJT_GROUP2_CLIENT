@@ -200,13 +200,6 @@ export default function Forecast() {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Thời gian kết thúc</Form.Label>
-                                <Form.Control
-                                    type="datetime-local"
-                                />
-                            </Form.Group>
-
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>

@@ -1,110 +1,146 @@
-import { Table } from 'antd';
+import { Popconfirm, Table, Typography, message } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./category.scss"
+import { CategoryType } from '../../../interface/Category';
+import { useDispatch, useSelector } from 'react-redux';
+import { StoreType } from '../../../redux/store';
+import { categoryAction } from '../../../redux/CategorySlice';
+import adminApi from '../../../apis/Admin';
+import CategoryModal from './CategoryModal/CategoryModal';
 import { Button, Form, FormSelect, Modal } from 'react-bootstrap';
 
-interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-}
-
-const columns: ColumnsType<DataType> = [
-    {
-        title: '#',
-        dataIndex: 'age',
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.age - b.age,
-    },
-    {
-        title: 'Tên danh mục',
-        dataIndex: 'name',
-        filters: [
-            {
-                text: 'Joe',
-                value: 'Joe',
-            },
-            {
-                text: 'Jim',
-                value: 'Jim',
-            },
-            {
-                text: 'Submenu',
-                value: 'Submenu',
-                children: [
-                    {
-                        text: 'Green',
-                        value: 'Green',
-                    },
-                    {
-                        text: 'Black',
-                        value: 'Black',
-                    },
-                ],
-            },
-        ],
-        // specify the condition of filtering result
-        // here is that finding the name started with `value`
-        onFilter: (value: string, record) => record.name.indexOf(value) === 0,
-        sorter: (a, b) => a.name.length - b.name.length,
-        sortDirections: ['descend'],
-    },
-    {
-        title: 'Trạng thái',
-    },
-    {
-        title: 'Hình ảnh',
-    },
-    {
-        title: "Thao tác",
-        render: (text, record) => (
-            <div>
-                <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px" }}>Sửa</button>
-
-            </div>
-        ),
-
-    }
-];
-
-const data = [
-    {
-        key: '1',
-        name: 'aohn Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'bim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'cim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-    },
-];
-
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-};
 
 export default function Category() {
-    const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
+    const categoryStore = useSelector((store: StoreType) => {
+        return store.categoryStore
+    })
 
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // Categoty
+    const [title, setTitle] = useState("")
+    const [block, setBlock] = useState("0")
+    const formData: any = new FormData();
+
+    async function handleAddCategory() {
+        const fileImage: any = document.getElementById("imageCategory");
+        const image = fileImage.files[0];
+
+        formData.append("image", image);
+        formData.append("block", block ? "0" : "1");
+        formData.append("title", title);
+        try {
+            adminApi.addCategory(formData)
+                .then(res => {
+                    console.log("res", res.data.data);
+
+                    dispatch(categoryAction.addCategory(res.data.data))
+                })
+                .catch(err => {
+                    console.log("Err Api", err);
+                })
+
+        } catch (err) {
+            console.log("Lỗi hệ thống", err);
+        }
+    }
+
+    async function handleUpdateCategory(category: CategoryType) {
+        const updateFormData: any = new FormData();
+        updateFormData.append("title", editCategory?.title)
+        updateFormData.append("block", editCategory?.block);
+        try {
+            await adminApi.updateCategory(category.id, updateFormData)
+                .then(res => {
+                    dispatch(categoryAction.updateCategory(res.data.data));
+                })
+                .catch(err => {
+                    console.log("Err Api", err);
+                });
+        } catch (err) {
+            console.log("Lỗi hệ thống", err);
+        }
+    }
+
+    // Get All Categories
+    useEffect(() => {
+        try {
+            adminApi.getCategory()
+                .then(res => {
+                    dispatch(categoryAction.setDataCategory(res.data.data))
+                })
+                .catch(err => {
+                    console.log("Err Api", err);
+                })
+
+        } catch (err) {
+            console.log('Lỗi hệ thống', err)
+        }
+    }, [])
+
+    // Table Render
+    const [editCategory, setEditCategory] = useState<CategoryType | null>(null);
+
+    const columns: ColumnsType<CategoryType> = [
+        {
+            title: '#',
+            dataIndex: 'rowIndex',
+            render: (text, record, index) => index + 1,
+            defaultSortOrder: 'ascend',
+            // sorter: (a, b) => a.rowIndex - b.rowIndex,
+            width: "10%"
+        },
+        {
+            title: 'Tên danh mục',
+            dataIndex: 'title',
+            filters: categoryStore.data
+                ? categoryStore.data.map((category) => ({
+                    text: category.title,
+                    value: category.title,
+                }))
+                : [],
+            onFilter: (value: string, record) => record.title.indexOf(value) === 0,
+            sorter: (a, b) => a.title.localeCompare(b.title, 'vi', { sensitivity: 'base' }),
+            width: "30%"
+
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: "block",
+            render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
+            width: "20%"
+
+        },
+        {
+            title: 'Thao tác',
+            dataIndex: 'operation',
+            render: (text, record) => (
+                <div>
+                    <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px" }}>Sửa</button>
+
+                </div>
+            ),
+            width: "20%"
+        },
+    ];
+
+    const onChange: TableProps<CategoryType>['onChange'] = (pagination, filters, sorter, extra) => {
+        console.log('params', pagination, filters, sorter, extra);
+    };
+
+    function handleEdit(record: CategoryType) {
+        setEditCategory({ ...record });
+        handleShow();
+    }
+
+    useEffect(() => {
+        console.log("categoryStore", categoryStore);
+
+    }, [])
 
     return (
         <div className='component'>
@@ -113,7 +149,11 @@ export default function Category() {
                 <Button variant="outline-primary" style={{ marginLeft: "220px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton >
-                        <Modal.Title className='modal-title'>THÊM MỚI LOẠI THIÊN TAI</Modal.Title>
+                        <Modal.Title className='modal-title'>
+                            {
+                                editCategory ? 'CHỈNH SỬA LOẠI THIÊN TAI' : 'THÊM MỚI LOẠI THIÊN TAI'
+                            }
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -122,22 +162,38 @@ export default function Category() {
                                 <Form.Control
                                     type="text"
                                     autoFocus
+                                    value={editCategory ? editCategory.title : title}
+                                    onChange={(e) => {
+                                        if (editCategory) {
+                                            setEditCategory({ ...editCategory, title: e.target.value });
+                                        } else {
+                                            setTitle(e.target.value);
+                                        }
+
+
+                                    }}
                                 />
                             </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label className='modal-title'>Trạng thái</Form.Label>
-                                <FormSelect>
-                                    <option value="" disabled selected hidden>Chọn trạng thái</option>
-                                    <option value="0">Kích hoạt</option>
-                                    <option value="1">Vô hiệu hóa</option>
-                                </FormSelect>
-                            </Form.Group>
+                            <Form.Label className='modal-title'>Trạng thái</Form.Label>
+                            <Form.Select
+                                value={editCategory ? (editCategory.block ? '1' : '0') : '0'}
+                                onChange={(e) => {
+                                    if (editCategory) {
+                                        setEditCategory({ ...editCategory, block: e.target.value === '1' });
+                                    } else {
+                                        setBlock(e.target.value === '0');
+                                    }
+                                }}
+                            >
+                                <option value="0">Kích hoạt</option>
+                                <option value="1">Vô hiệu hóa</option>
+                            </Form.Select>
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label className='modal-title'>Hình ảnh</Form.Label>
                                 <Form.Control
                                     type="file"
+                                    id='imageCategory'
                                 />
                             </Form.Group>
 
@@ -147,7 +203,16 @@ export default function Category() {
                         <Button variant="secondary" onClick={handleClose}>
                             Đóng
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary"
+                            onClick={() => {
+                                if (editCategory) {
+                                    handleUpdateCategory(editCategory);
+                                } else {
+                                    handleAddCategory();
+                                }
+                                message.success(editCategory ? "Cập nhật danh mục loại thiên tai thành công!" : "Thêm mới danh mục loại thiên tai thành công!");
+                                handleClose();
+                            }}>
                             Lưu
                         </Button>
                     </Modal.Footer>
@@ -174,15 +239,9 @@ export default function Category() {
                 </div>
             </div>
 
-            <Table columns={columns} dataSource={data} onChange={onChange} style={{ width: "100%!important" }} />
+            <Table columns={columns} dataSource={categoryStore.data} onChange={onChange} style={{ width: "100%!important" }} />
         </div>
     )
 }
-function handleEdit(record: DataType) {
-    throw new Error('Function not implemented.');
-}
 
-function handleDelete(record: DataType) {
-    throw new Error('Function not implemented.');
-}
 

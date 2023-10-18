@@ -5,6 +5,7 @@ import Category from "../pages/admin/category/Category";
 import Forecast from "../pages/admin/forecast/Forecast";
 import User from "../pages/admin/user/User";
 import Report from "../pages/admin/report/Report";
+import App from "../pages/admin/category/CateTest";
 
 export default
     <>

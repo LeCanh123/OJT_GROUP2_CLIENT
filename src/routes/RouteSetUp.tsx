@@ -7,6 +7,8 @@ import Login from "../pages/homes/components/Login";
 
 /* Route Setup */
 import RouteAdmin from "./RouteAdmin";
+import About from "../pages/about /About";
+import Help from "../pages/help/Help";
 
 
 export default function RouteSetUp() {
@@ -14,9 +16,13 @@ export default function RouteSetUp() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />}>
-                    <Route path="/chart" element={<Chart />} />
+                    <Route path="/chart" element={<Chart />} />     
                     <Route path="/" element={<Map />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/help" element={<Help />} />
+
+
                 </Route>
                 {RouteAdmin}
 

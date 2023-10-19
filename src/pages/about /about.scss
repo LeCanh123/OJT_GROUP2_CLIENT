@@ -1,0 +1,26 @@
+.about{
+    margin-bottom: 0 px;
+    line-height: 40px;
+    font-size: 17px;
+    .contribute{
+
+        padding: 30px;
+        background-color: hsl(0, 3%, 93%);
+        display: flex;
+        justify-content: center;
+        .contribute-flex{
+        width: 70%;
+            .mailbox_1{
+                width: 250px;
+                height: 70px;
+                margin-top: 100px !important;
+                margin-left: 200px !important;
+            }
+        }
+    }
+    .about-1{
+        width: 80%;
+        margin: auto;
+        padding: 40px;
+    }
+}

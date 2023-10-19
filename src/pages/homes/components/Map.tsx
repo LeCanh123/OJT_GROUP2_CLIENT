@@ -23,23 +23,62 @@ function Map() {
     iconSize: [40, 40],
     iconAnchor: [20, 40]
   });
-  const customIcon1 = L.icon({
-    iconUrl: "https://media.istockphoto.com/id/810737024/vi/vec-to/h%C3%ACnh-%E1%BA%A3nh-ho%E1%BA%A1t-h%C3%ACnh-c%E1%BB%A7a-storm-icon-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-m%C6%B0a-b%C3%A3o.jpg?s=612x612&w=0&k=20&c=FXky1znRY56hF5NXmwlLFT9x6O4VvAEhPN4_l_NidC4=",
-    iconSize: [40, 40],
-    iconAnchor: [20, 40]
-  });
+  const customIcon1 =(icon:any)=>{
+return   L.icon({
+  iconUrl: icon,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
+});
+
+  } 
+
+  //get data 
   let [data, setData] = useState([])
   useEffect(() => {
     async function getAllMap() {
-      let getAllMapResult = await MapApi.getAllMap();
-      console.log("getAllMapResult", getAllMapResult);
-
-      setData(getAllMapResult.data.data)
-      console.log("getAllMapResult", getAllMapResult);
+    let getAllMapResult = await MapApi.getAllMap();
+    console.log("getAllMapResult", getAllMapResult);
+    if(getAllMapResult.status){
+      setData(getAllMapResult.data)
+      alert(getAllMapResult.message)
+    }
+    else{
+      alert(getAllMapResult.message)
+    }
+    console.log("getAllMapResult.data",getAllMapResult);
     }
     getAllMap()
-
   }, [])
+  
+  //get category
+  let [listCategory,setListCategory]=useState([]);
+  let [ChooseCategoryList,setChooseCategoryList]=useState("null");
+  useEffect(()=>{
+    async function getAllCategory() {
+      let getAllCategory = await MapApi.getAllCategory();
+      console.log("getAllCategory",getAllCategory);
+      if(getAllCategory.status){
+        setListCategory(getAllCategory.data)
+      }else{
+        alert(getAllCategory.message)
+      }
+
+    }
+    getAllCategory()
+
+
+    async function getCategoryById() {
+
+
+
+      
+    }
+
+
+  },[ChooseCategoryList]);
+  function handleChooseCategoryList(e:any){
+    setChooseCategoryList(e);
+  }
 
 
   return (
@@ -50,17 +89,15 @@ function Map() {
         <div className="col col-md-9">
           <div style={{ width: "100%", textAlign: "left", position: "relative", left: "-11px" }}>
             <MapContainer
-
               center={[14.0583, 108.2772]}
               zoom={5}
               style={{ height: '600px', width: '1000px', margin: "auto", zIndex: "1" }}
             >
-
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
               {data?.map((center: any, index: any) => (
-                <Circle key={index} center={[Number(center.locationx), Number(center.locationy)]} radius={center.size}>
-                  <Marker position={[Number(center.locationx), Number(center.locationy)]} icon={customIcon1}>
+                <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
+                  <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon1(center?.categorys?.icon)}>
                     <Popup>{center.name}</Popup>
                   </Marker>
                 </Circle>
@@ -75,11 +112,11 @@ function Map() {
             <div className='mt-1' style={{ backgroundColor: "#FFFFCC" }}>Động Đất</div>
             <div className='mt-1' style={{ backgroundColor: "#FFFFCC" }}>Sóng Thần</div> */}
 
-            <select className="form-select" aria-label="Default select example">
-              <option selected>Danh sách loại thiên tai</option>
-              <option value={1}>One</option>
-              <option value={2}>Two</option>
-              <option value={3}>Three</option>
+            <select className="form-select" aria-label="Default select example" onChange={(e:any)=>{handleChooseCategoryList(e.target.value)}}>
+              <option selected value={"null"}>Danh sách loại thiên tai</option>
+              {listCategory.map((item:any, index) => (
+              <option key={index} value={item.id}>{item.title}</option>
+              ))}
             </select>
 
           </div>

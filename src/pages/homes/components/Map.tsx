@@ -33,9 +33,12 @@ return   L.icon({
   } 
 
   //get data 
-  let [data, setData] = useState([])
+  //danh sách để lọc theo category
+  let [ChooseCategoryList,setChooseCategoryList]=useState("null");
+
+  let [data, setData] = useState([]) //dữ liệu render ra
   useEffect(() => {
-    async function getAllMap() {
+    async function getAllEarthquake() {
     let getAllMapResult = await MapApi.getAllMap();
     console.log("getAllMapResult", getAllMapResult);
     if(getAllMapResult.status){
@@ -47,12 +50,29 @@ return   L.icon({
     }
     console.log("getAllMapResult.data",getAllMapResult);
     }
-    getAllMap()
-  }, [])
+   
+
+    async function getEarthquakeByCategoryById() {
+      let getCategoryById = await MapApi.getCategoryById({categoryId:ChooseCategoryList});
+      if(getCategoryById.status){
+        setListCategory(getCategoryById.data)
+      }else{
+        alert(getCategoryById.message)
+      }
+
+      
+    }
+    if(ChooseCategoryList=="null"){
+      getAllEarthquake();
+    }else{
+      getEarthquakeByCategoryById();
+    }
+
+
+  }, [ChooseCategoryList])
   
-  //get category
+  //get category chỉ lấy danh sách category
   let [listCategory,setListCategory]=useState([]);
-  let [ChooseCategoryList,setChooseCategoryList]=useState("null");
   useEffect(()=>{
     async function getAllCategory() {
       let getAllCategory = await MapApi.getAllCategory();
@@ -65,17 +85,9 @@ return   L.icon({
 
     }
     getAllCategory()
+  },[]);
 
-
-    async function getCategoryById() {
-
-
-
-      
-    }
-
-
-  },[ChooseCategoryList]);
+  //chọn category để lấy earchquake
   function handleChooseCategoryList(e:any){
     setChooseCategoryList(e);
   }

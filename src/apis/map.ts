@@ -42,7 +42,7 @@ export default {
   },
 
   getCategoryById:async (data:any)=> {
-    return await axios.post(import.meta.env.VITE_SERVER_HOST+`categorys/user/getbyid`,{...data})
+    return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/user/getbyid`,{...data}) //categoryId
       .then(res => {
         if(res.data){
           return res.data

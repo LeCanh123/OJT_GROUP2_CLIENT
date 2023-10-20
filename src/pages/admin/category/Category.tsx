@@ -28,7 +28,6 @@ export default function Category() {
     async function handleAddCategory() {
         const fileImage: any = document.getElementById("imageCategory");
         const image = fileImage.files[0];
-
         formData.append("image", image);
         formData.append("block", block ? "0" : "1");
         formData.append("title", title);

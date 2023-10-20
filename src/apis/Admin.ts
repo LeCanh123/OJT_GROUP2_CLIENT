@@ -42,4 +42,12 @@ export default {
                 };
             });
     },
+    //Message
+    addMessage:async (data:any)=>{
+        return await axios.post(import.meta.env.VITE_SERVER_HOST+"message",data)
+        }
+        
+
+    
+
 };

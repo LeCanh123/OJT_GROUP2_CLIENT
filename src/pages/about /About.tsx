@@ -3,13 +3,35 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import adminApi from "../../apis/Admin";
+import { toast } from 'react-toastify';
+
+
 
 export default function About() {
     const [show, setShow] = useState(false);
+    const [message, setMessage] = useState('');
+  const [file, setFile] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  async function handleAdd() {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("message", message);
+    try {
+      let result=await adminApi.addMessage(formData);
+      if (result.status!==200) {
+        toast.error("Thử lại sau");
+      }else{
+        toast.success("Thêm thành công!");
+      }
 
+     
+    } catch (error) {
+      console.log("err", error);
+    }
+  }
   return (
     <div className="about">
         <div className="about-1">
@@ -47,32 +69,38 @@ export default function About() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Hình ảnh</Form.Label>
-              <Form.Control
-                type="file"
-                placeholder="name@example.com"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Nội dung góp ý</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
+          <Form>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Form.Label>Hình ảnh</Form.Label>
+                  <Form.Control
+                    id="Image"
+                    type="file"
+                    placeholder="name@example.com"
+                    autoFocus
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Nội dung góp ý</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </Form.Group>
+              </Form>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Đóng 
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleAdd}>
           Gửi
           </Button>
         </Modal.Footer>
       </Modal>
+    
                             
                         </div>
                     </div>

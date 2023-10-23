@@ -80,5 +80,26 @@ export default {
     }
     );
 
-  }  
+  },
+  
+  UserGetNotification:async (data:any)=>{
+    return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/user/getnotification`,{...data})
+    .then(res => {
+      if(res.data){
+        return res.data
+      }
+      console.log("ress",res);
+      
+    })
+    .catch(error => {
+      console.log("errr",error);
+      
+      return {
+        status:false,
+        message:"Lỗi hệ thống"
+            }
+    }
+    );
+  }
+
   }

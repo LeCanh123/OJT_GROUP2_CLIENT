@@ -94,6 +94,17 @@ return   L.icon({
     setChooseCategoryList(e);
   }
 
+  //lấy thông báo user
+  useEffect(()=>{
+    async function UserGetNotification(){
+    let UserGetNotificationResult = await MapApi.UserGetNotification({
+      token:localStorage.getItem("token")
+    })
+
+    };
+    UserGetNotification()
+  },[])
+
 
   return (
     <div className='container' >

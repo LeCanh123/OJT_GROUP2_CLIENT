@@ -100,28 +100,28 @@ export default function Admin() {
         formData.append('image', image);
         formData.append('type', CategoryName);
 
-        let addCategoryResult = await AdminApi.AddCategory(formData);
+        let addCategoryResult = await AdminApi.addCategory(formData);
         console.log("addCategoryResult", addCategoryResult);
 
     }
     useEffect(() => {
         async function getListCategory() {
-            let getCategoryResult = await AdminApi.GetCategory("");
-            console.log("getCategoryResult", getCategoryResult);
+            let getCategoryResult = await AdminApi.getCategory();
+            // console.log("getCategoryResult", getCategoryResult);
             setListGetCategory(getCategoryResult.data.data);
         }
         getListCategory();
     }, [])
 
-    async function handleDeleteCategory() {
-        let deleteCategoryResult = await AdminApi.DeleteCategory(selectedOption);
-        async function getListCategory() {
-            let getCategoryResult = await AdminApi.GetCategory("");
-            console.log("getCategoryResult", getCategoryResult);
-            setListGetCategory(getCategoryResult.data.data);
-        }
-        getListCategory();
-    }
+    // async function handleDeleteCategory() {
+    //     let deleteCategoryResult = await AdminApi.DeleteCategory(selectedOption);
+    //     async function getListCategory() {
+    //         let getCategoryResult = await AdminApi.GetCategory("");
+    //         console.log("getCategoryResult", getCategoryResult);
+    //         setListGetCategory(getCategoryResult.data.data);
+    //     }
+    //     getListCategory();
+    // }
 
 
 

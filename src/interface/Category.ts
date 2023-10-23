@@ -3,4 +3,6 @@ export interface CategoryType {
     title: string;
     block: boolean;
     icon: string;
+    created_at?: string;
+    updated_at?: string;
 }

@@ -249,6 +249,12 @@ export default function Admin() {
                                 <span className="links_name">Manage User</span>
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/admin/message">
+                                <i className="bx bx-book-alt" />
+                                <span className="links_name">Manage Message</span>
+                            </Link>
+                        </li>
 
                         <li>
                             <Link to="/admin/report">

@@ -11,23 +11,21 @@ import { toast } from 'react-toastify';
 export default function About() {
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
-  const [file, setFile] = useState(null);
+  const [file,setFile] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   async function handleAdd() {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file",file);
     formData.append("message", message);
     try {
       let result=await adminApi.addMessage(formData);
       if (result.status!==200) {
-        toast.error("Thử lại sau");
+        alert("Thử lại sau");
       }else{
-        toast.success("Thêm thành công!");
-      }
-
-     
+       alert("Gửi thành công!");
+      } 
     } catch (error) {
       console.log("err", error);
     }

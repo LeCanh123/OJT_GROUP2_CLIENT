@@ -7,7 +7,7 @@ import Login from "../pages/homes/components/Login";
 
 /* Route Setup */
 import RouteAdmin from "./RouteAdmin";
-import About from "../pages/about /About";
+import About from "../pages/about/About";
 import Help from "../pages/help/Help";
 
 

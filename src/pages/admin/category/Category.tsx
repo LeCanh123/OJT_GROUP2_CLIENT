@@ -32,6 +32,7 @@ export default function Category() {
         formData.append("image", image);
         formData.append("block", block ? "0" : "1");
         formData.append("title", title);
+
         try {
             adminApi.addCategory(formData)
                 .then(res => {
@@ -70,18 +71,16 @@ export default function Category() {
 
     // Get All Categories
     useEffect(() => {
-        try {
-            adminApi.getCategory()
+        async function getCategory() {
+            await adminApi.getCategory()
                 .then(res => {
                     dispatch(categoryAction.setDataCategory(res.data.data))
                 })
                 .catch(err => {
                     console.log("Err Api", err);
                 })
-
-        } catch (err) {
-            console.log('Lỗi hệ thống', err)
         }
+        getCategory();
     }, [])
 
     // Table Render
@@ -139,10 +138,9 @@ export default function Category() {
         handleShow();
     }
 
-    useEffect(() => {
-        console.log("categoryStore", categoryStore);
-
-    }, [])
+    // useEffect(() => {
+    //     console.log("categoryStore", categoryStore);
+    // }, [categoryStore])
 
     return (
         <div className='component'>

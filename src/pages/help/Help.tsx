@@ -3,12 +3,29 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import adminApi from "../../apis/Admin"
 
 export default function Help() {
   const [show, setShow] = useState(false);
-
+  const [message ,setMessage]=useState('');
+  const [file,setFile]=useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  async function handleAddHelp(){
+    const formData= new FormData();
+    formData.append("file",file)
+    formData.append('message',message)
+    try {
+      let result=await adminApi.addMessage(formData);
+      if (result.status!==200) {
+        alert("Thử lại sau");
+      }else{
+       alert("Gửi thành công!");
+      } 
+    } catch (error) {
+      console.log("err", error);
+    }
+  }
 
   return (
     <div className="about">
@@ -44,14 +61,18 @@ export default function Help() {
                 type="file"
                 placeholder="name@example.com"
                 autoFocus
+                onChange={(e)=>setFile(e.target.files[0])}
               />
             </Form.Group>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
+    
             >
               <Form.Label>Nội dung góp ý</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control as="textarea" rows={3} 
+              onChange={(e)=>setMessage(e.target.value)}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -59,7 +80,7 @@ export default function Help() {
           <Button variant="secondary" onClick={handleClose}>
             Đóng 
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleAddHelp}>
            Gửi 
           </Button>
         </Modal.Footer>

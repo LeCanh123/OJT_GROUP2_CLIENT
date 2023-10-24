@@ -2,6 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import FacebookLoginButton from "../../../../module/facebook/Facebook";
+import LoginApi from "./../../../../apis/Login"
+
+
 
 export default function LoginForm() {
   //facebook
@@ -12,9 +15,20 @@ export default function LoginForm() {
     picture: { data: { url: "" } },
   });
 
-  const handleLogin = (response: any) => {
+
+  //facebook
+  const handleLogin = async(response: any) => {
     setIsLoggedIn(true);
     setUserData(response);
+    console.log("response",response);
+    try{
+      let loginFacebookResult=await LoginApi.loginWithFacebook(response);
+      console.log("loginFacebookResult",loginFacebookResult);
+      
+    }
+    catch(err){
+
+    }
   };
   return (
     <div>

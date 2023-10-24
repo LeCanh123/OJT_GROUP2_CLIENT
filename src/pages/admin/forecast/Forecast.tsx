@@ -96,18 +96,6 @@ export default function Forecast() {
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
         e.preventDefault();
 
-        // let updateData = {
-        //     categorysId: (e.target as any).category.value,
-        //     name: (e.target as any).name.value,
-        //     lat: (e.target as any).lat.value,
-        //     lng: (e.target as any).lng.value,
-        //     level: (e.target as any).level.value,
-        //     place: (e.target as any).place.value,
-        //     size: (e.target as any).size.value,
-        //     block: (e.target as any).block.value,
-        //     time_start: (e.target as any).time_start.value,
-        // }
-
         let updateData = {
             categorysId: editForecast?.categorysId.id!,
             name: editForecast?.name!,
@@ -141,12 +129,7 @@ export default function Forecast() {
         }
     }
 
-    // useEffect(() => {
-    //     console.log("forecastStore", forecastStore);
-    // }, [forecastStore])
-
     function handleEdit(record: ForecastType) {
-        // console.log("record", record);
         setEditForecast({ ...record });
         handleShow();
     }
@@ -200,12 +183,17 @@ export default function Forecast() {
             onFilter: (value: string, record) => record.place.indexOf(value) === 0,
         },
         {
-            title: "Phạm vi ảnh hưởng",
+            title: "Phạm vi ảnh hưởng (m2)",
             dataIndex: 'size',
         },
         {
             title: "Thời gian bắt đầu",
             dataIndex: 'time_start',
+        },
+        {
+            title: "Trạng thái",
+            dataIndex: 'block',
+            render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
         },
         {
             title: "Actions",
@@ -218,13 +206,6 @@ export default function Forecast() {
 
         }
     ];
-
-    // useEffect(() => {
-    //     console.log("editForecastId", editForecastId);
-    // }, [editForecastId])
-    useEffect(() => {
-        console.log("editForecast", editForecast);
-    }, [editForecast])
 
     return (
         <div className='component'>
@@ -263,6 +244,8 @@ export default function Forecast() {
                                     type="text"
                                     autoFocus
                                     name='name'
+                                    value={editForecast?.name}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, name: e.target.value })}
                                 />
                             </Form.Group>
 
@@ -271,6 +254,8 @@ export default function Forecast() {
                                 <Form.Control
                                     type="text"
                                     name='lat'
+                                    value={editForecast?.lat}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, lat: e.target.value })}
                                 />
                             </Form.Group>
 
@@ -279,6 +264,8 @@ export default function Forecast() {
                                 <Form.Control
                                     type="text"
                                     name='lng'
+                                    value={editForecast?.lng}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, lng: e.target.value })}
                                 />
                             </Form.Group>
 
@@ -287,6 +274,8 @@ export default function Forecast() {
                                 <Form.Control
                                     type="number"
                                     name='level'
+                                    value={editForecast?.level}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, level: e.target.value })}
                                 />
                             </Form.Group>
 
@@ -295,6 +284,8 @@ export default function Forecast() {
                                 <Form.Control
                                     type="text"
                                     name='place'
+                                    value={editForecast?.place}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, place: e.target.value })}
                                 />
                             </Form.Group>
 
@@ -303,19 +294,15 @@ export default function Forecast() {
                                 <Form.Control
                                     type="number"
                                     name='size'
+                                    value={editForecast?.size}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, size: Number(e.target.value) })}
                                 />
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label className='modal-title'>Trạng thái</Form.Label>
                                 <Form.Select name='block'
-                                // value={editForecast ? (editForecast.block ? '1' : '0') : '0'}
-                                // onChange={(e) => {
-                                //     if (editForecast) {
-                                //         setEditForecast({ ...editForecast, block: e.target.value === '1' });
-                                //     } else {
-                                //         setBlock(e.target.value === '0');
-                                //     }
-                                // }}
+                                    value={editForecast ? (editForecast.block ? '1' : '0') : '0'}
+                                    onChange={(e) => { setEditForecast({ ...editForecast!, block: e.target.value === '1' }); }}
                                 >
                                     <option value="0">Kích hoạt</option>
                                     <option value="1">Vô hiệu hóa</option>
@@ -327,6 +314,8 @@ export default function Forecast() {
                                 <Form.Control
                                     type="datetime-local"
                                     name='time_start'
+                                    value={editForecast?.time_start || ""}
+                                    onChange={(e) => setEditForecast({ ...editForecast!, time_start: e.target.value })}
                                 />
                             </Form.Group>
                         </Modal.Body>

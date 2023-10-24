@@ -42,24 +42,41 @@ export default {
             import.meta.env.VITE_SERVER_HOST + `earthquakes`
         );
     },
-    //Message
-    addMessage:async (data:any)=>{
-        return await axios.post(import.meta.env.VITE_SERVER_HOST+"message",data)
-        },
-    getMessage: async (page: number, limit: number) => {
-            try {
-              const url = `${import.meta.env.VITE_SERVER_HOST}message?page=${page}&limit=${limit}`;
-              const response = await axios.get(url);
-              return response.data;
-            } catch (error) {
-              console.log("getMessage error:", error);
-              throw error;
-            }
-          },
-    delete:async (id:number)=>{
-        return await axios.delete(import.meta.env.VITE_SERVER_HOST+"message/"+id)
+
+    /* Message */
+    addMessage: async (data: any) => {
+        return await axios.post(
+            import.meta.env.VITE_SERVER_HOST + "message",
+            data
+        );
     },
-    search: async (search:string)=>{
-        return await axios.get(import.meta.env.VITE_SERVER_HOST +"message?q="+search)
-    }
+    getMessage: async (page: number, limit: number) => {
+        try {
+            const url = `${
+                import.meta.env.VITE_SERVER_HOST
+            }message?page=${page}&limit=${limit}`;
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.log("getMessage error:", error);
+            throw error;
+        }
+    },
+    delete: async (id: number) => {
+        return await axios.delete(
+            import.meta.env.VITE_SERVER_HOST + "message/" + id
+        );
+    },
+    search: async (search: string) => {
+        return await axios.get(
+            import.meta.env.VITE_SERVER_HOST + "message?q=" + search
+        );
+    },
+
+    /* Mail */
+    sendMail: async () => {
+        return await axios.post(
+            import.meta.env.VITE_SERVER_HOST + "earthquakes/mail"
+        );
+    },
 };

@@ -2,24 +2,47 @@ import React, { useEffect, useState } from 'react'
 import "../../../Css/Navbar.scss"
 import { useNavigate } from 'react-router-dom';
 import MapApi from "../../../apis/map"
+import { StoreType } from '../../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { mapAction } from '../../../redux/MapSlice';
 
 
 export default function NavBar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   let [notification, setnotification] = useState(false);
 
-  async function HandleChangeTimeNotification() {
-    await MapApi.UserChangeTimeNotification("")
+
+  //function lấy thông báo
+  async function userGetNoication(){
+    let userGetNoicationResult= await MapApi.UserGetNotification({token:localStorage.getItem("token")});
+    console.log("userGetNoicationResult",userGetNoicationResult);
+    if(userGetNoicationResult.status){
+      dispatch(mapAction.setnotification({data:userGetNoicationResult.data,total:userGetNoicationResult.data?.length}));
+    }else{
+      //nếu lỗi
+    }
   }
+
+
+  //thay đổi thời gian nhận thông báo khi click vào thông báo
+  async function HandleChangeTimeNotification() {
+    await MapApi.UserChangeTimeNotification({token:localStorage.getItem("token")});
+    // userGetNoication()
+  }
+
+
+
+  const MapStore = useSelector((store: StoreType) => {
+    return store.MapSlice
+});
+console.log("MapStore",MapStore);
+
 
   //lấy thông báo user về
   useEffect(()=>{
 
-    async function userGetNoication(){
-      let userGetNoicationResult= await MapApi.UserGetNotification(localStorage.getItem("token"));
-      console.log("userGetNoicationResult",userGetNoicationResult);
-      
-    }
+
     userGetNoication()
 
   },[])
@@ -80,14 +103,18 @@ export default function NavBar() {
                 }}></i>
 
                 <div style={{ position: "absolute" }}>
-                  <div style={{ position: "absolute", top: "-35px", left: "10px" }}>100</div>
+                  <div style={{ position: "absolute", top: "-35px", left: "10px" }}>{MapStore.total}</div>
                 </div>
                 {notification ?
-                  <div style={{ width: "100px", backgroundColor: "red", zIndex: "10", position: "relative" }}>
-                    <div style={{ width: "100px" }}>Cảnh</div>
-                    <div>thông báo 1</div>
+                  <div style={{ width: "150px", backgroundColor: "#6699FF", zIndex: "10", position: "relative" }}>
+                    {MapStore.notification.map((item:any)=>{
+                      return <div style={{width:"150px",border:"1px solid red"}}>
+                        Có thiên tai mới ở {item.place}
+                      </div>
+                    })}
+                    {/* <div>thông báo 1</div>
                     <div>thông báo 2</div>
-                    <div>thông báo 3</div>
+                    <div>thông báo 3</div> */}
                   </div>
 
                   :

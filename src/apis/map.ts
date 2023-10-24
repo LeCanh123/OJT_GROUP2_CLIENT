@@ -63,20 +63,20 @@ export default {
   
     UserChangeTimeNotification:async (data:any)=>{
         
-      return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/user/changetime`,{data})
+      return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/user/changetime`,{...data})
       .then(res => {
         console.log("ress",res);
-        return res
+        return res.data
       })
       .catch(error => {
         console.log("errr",error);
         
-        return {data: 
-          {
-            status:false,
-            message:"Lỗi hệ thống"
-          }
+        return   {
+          status:false,
+          message:"Lỗi hệ thống"
         }
+        
+       
       }
       );
   

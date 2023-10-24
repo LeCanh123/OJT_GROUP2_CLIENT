@@ -67,19 +67,19 @@ console.log("MapStore",MapStore);
 
 
               </div>
-              <div className='col-md-1 mt-3 text-center'
+              <div className='col-md-1 mt-3 text-center itemhover'
                 onClick={() => {
                   navigate('/');
                 }}
               >
                 Home</div>
-              <div className='col-md-1 mt-3 text-center'
+              <div className='col-md-1 mt-3 text-center itemhover'
                 onClick={() => {
                   navigate('/about');
                 }}
               >About</div>
 
-              <div className='col-md-1 mt-3 text-center'
+              <div className='col-md-1 mt-3 text-center itemhover'
                 onClick={() => {
                   navigate('/help');
                 }}
@@ -91,15 +91,16 @@ console.log("MapStore",MapStore);
           </div>
           <div className='col-6 col-md-2'>
             <div className='row'>
-              <div className='col-6 col-md-3 mt-3'
+              <div className='col-6 col-md-3 mt-3 itemhover'
                 onClick={() => {
                   navigate('/login');
                 }}
               >Login</div>
-              <div className='col-6 col-md-3 mt-3' style={{ height: "50px" }}>
+              <div className='col-6 col-md-3 mt-3 itemhover' style={{ height: "50px" }}>
                 <i className="fa-regular fa-bell" onClick={() => {
                   setnotification(!notification);
-                  HandleChangeTimeNotification()
+                  HandleChangeTimeNotification();
+                  if(MapStore.total==0){alert("Không có thông báo")}
                 }}></i>
 
                 <div style={{ position: "absolute" }}>

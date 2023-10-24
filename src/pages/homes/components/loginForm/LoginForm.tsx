@@ -3,7 +3,7 @@
 import { useState } from "react";
 import FacebookLoginButton from "../../../../module/facebook/Facebook";
 import LoginApi from "./../../../../apis/Login"
-
+import { Table, message } from 'antd';
 
 
 export default function LoginForm() {
@@ -24,7 +24,12 @@ export default function LoginForm() {
     try{
       let loginFacebookResult=await LoginApi.loginWithFacebook(response);
       console.log("loginFacebookResult",loginFacebookResult);
-      
+      if(loginFacebookResult.status){
+        localStorage.setItem("token",loginFacebookResult.token);
+        message.success(loginFacebookResult.message)
+      }else{
+        message.error(loginFacebookResult.message)
+      }
     }
     catch(err){
 

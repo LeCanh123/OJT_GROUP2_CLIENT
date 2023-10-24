@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../../../Css/Navbar.scss"
 import { useNavigate } from 'react-router-dom';
 import MapApi from "../../../apis/map"
@@ -12,7 +12,17 @@ export default function NavBar() {
     await MapApi.UserChangeTimeNotification("")
   }
 
+  //lấy thông báo user về
+  useEffect(()=>{
 
+    async function userGetNoication(){
+      let userGetNoicationResult= await MapApi.UserGetNotification(localStorage.getItem("token"));
+      console.log("userGetNoicationResult",userGetNoicationResult);
+      
+    }
+    userGetNoication()
+
+  },[])
   return (
     <>
       <div className='container' style={{ zIndex: "100" }}>

@@ -343,7 +343,7 @@ export default function Forecast() {
                                 <Form.Control
                                     type="datetime-local"
                                     name='time_start'
-                                    value={(editForecast?.time_start || '').toString().substring(0, 16)}
+                                    value={(editForecast?.time_start!).toString().substring(0, 16)}
                                     onChange={(e) => {
                                         if (editForecast) {
                                             setEditForecast({ ...editForecast!, time_start: e.target.value })

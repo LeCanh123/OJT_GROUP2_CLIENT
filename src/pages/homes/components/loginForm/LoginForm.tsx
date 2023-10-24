@@ -1,12 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FacebookLoginButton from "../../../../module/facebook/Facebook";
 import LoginApi from "./../../../../apis/Login"
 import { Table, message } from 'antd';
 
+//google
+import GoogleLoginButton from "../../../../module/google/Google";
+// import { gapi } from 'gapi-script';
+
 
 export default function LoginForm() {
+  // useEffect(() => {
+  //   function start() {
+  //   gapi.client.init({
+  //   clientId : "idCliente",
+  //   scope : ''
+  //   })
+  //   };
+  //   gapi.load('client:auth2',start);
+  //   });
+    
   //facebook
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({
@@ -26,7 +40,8 @@ export default function LoginForm() {
       console.log("loginFacebookResult",loginFacebookResult);
       if(loginFacebookResult.status){
         localStorage.setItem("token",loginFacebookResult.token);
-        message.success(loginFacebookResult.message)
+        message.success(loginFacebookResult.message);
+
       }else{
         message.error(loginFacebookResult.message)
       }
@@ -86,7 +101,7 @@ export default function LoginForm() {
               backgroundColor: "white",
             }}
           >
-            {/* <GoogleLoginButton /> */}
+             <GoogleLoginButton />
           </div>
         </li>
         <br /> <br />

@@ -155,7 +155,7 @@ return   L.icon({
           <div>Bảng ghi chú</div>
           <div style={{display:"flex",flexWrap:"wrap",}}>
           {listCategory.map((item:any, index) => (
-                    <div className='mt-3 ms-5' style={{backgroundColor:"#FFFFCC",width:"30%"}}>
+                    <div className='mt-3 ms-5' style={{backgroundColor:"#FFFFCC",width:"30%",marginBottom:"20px"}}>
                     <img src={item.icon}   alt="" style={{width:"40px",height:"40px",display:"inline"}} />
                     <div className='ms-3' style={{width: "33.33%", flexGrow: "1", flexShrink: "0",display:"inline"}}>
                      {item.title}

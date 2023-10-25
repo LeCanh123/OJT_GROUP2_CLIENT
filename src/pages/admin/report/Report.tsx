@@ -1,56 +1,41 @@
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useEffect, useState } from 'react';
 import html2PDF from 'jspdf-html2canvas';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import AdminApi from '../../../apis/Admin';
 
-const data = [
-  {
-  name: 'Page A',
-  uv: 4000,
-  pv: 2400,
-  amt: 2400000,
-  },
-  {
-  name: 'Page B',
-  uv: 3000,
-  pv: 1398,
-  amt: 2210,
-  },
-  {
-  name: 'Page C',
-  uv: 2000,
-  pv: 9800,
-  amt: 2290,
-  },
-  {
-  name: 'Page D',
-  uv: 2780,
-  pv: 3908,
-  amt: 2000,
-  },
-  {
-  name: 'Page E',
-  uv: 1890,
-  pv: 4800,
-  amt: 2181,
-  },
-  {
-  name: 'Page F',
-  uv: 2390,
-  pv: 3800,
-  amt: 2500,
-  },
-  {
-  name: 'Page G',
-  uv: 3490,
-  pv: 4300,
-  amt: 2100,
-  },
-  ];
+
+
+
+
+
 export default function Report() {
+  const [data,setData] = useState([
+    {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400000,
+    },
+    {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+    },
+    {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+    },
+  
+    ])
+
   // pdf
     const handleButtonClick = async () => {
       console.log("click");
@@ -69,7 +54,30 @@ export default function Report() {
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
         });
-  }
+  
+  
+
+  
+      }
+
+      function convertName1ToName(data:any) {
+        return data.map((item:any) => {
+          return { ...item, name: item.name1 };
+        });
+      }
+      //get chart
+      async function getChart(){
+        let chartResult=await AdminApi.AdminGetChart({type:"day"})
+        console.log("chartResult",chartResult);
+        if(chartResult.status){
+          setData(convertName1ToName(chartResult.data))
+        }
+      };
+    
+    useEffect(()=>{
+      console.log("!");
+      getChart()
+    },[])
   return (
     <div className='component' style={{ paddingTop: "10em" }}>
       <div id='chart'>

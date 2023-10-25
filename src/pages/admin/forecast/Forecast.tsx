@@ -104,18 +104,6 @@ let [change,setChange]=useState(1)
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
         e.preventDefault();
 
-        // let updateData = {
-        //     categorysId: (e.target as any).category.value,
-        //     name: (e.target as any).name.value,
-        //     lat: (e.target as any).lat.value,
-        //     lng: (e.target as any).lng.value,
-        //     level: (e.target as any).level.value,
-        //     place: (e.target as any).place.value,
-        //     size: (e.target as any).size.value,
-        //     block: (e.target as any).block.value,
-        //     time_start: (e.target as any).time_start.value,
-        // }
-
         let updateData = {
             categorysId: editForecast?.categorysId.id!,
             name: editForecast?.name!,
@@ -149,13 +137,7 @@ let [change,setChange]=useState(1)
         }
     }
 
-
-    // useEffect(() => {
-    //     console.log("forecastStore", forecastStore);
-    // }, [forecastStore])
-
     function handleEdit(record: ForecastType) {
-        // console.log("record", record);
         setEditForecast({ ...record });
         handleShow();
     }
@@ -209,12 +191,17 @@ let [change,setChange]=useState(1)
             onFilter: (value: string, record) => record.place.indexOf(value) === 0,
         },
         {
-            title: "Phạm vi ảnh hưởng",
+            title: "Phạm vi ảnh hưởng (m2)",
             dataIndex: 'size',
         },
         {
             title: "Thời gian bắt đầu",
             dataIndex: 'time_start',
+        },
+        {
+            title: "Trạng thái",
+            dataIndex: 'block',
+            render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
         },
         {
             title: "Actions",
@@ -228,45 +215,6 @@ let [change,setChange]=useState(1)
         }
     ];
 
-    // useEffect(() => {
-    //     console.log("editForecastId", editForecastId);
-    // }, [editForecastId])
-    useEffect(() => {
-        console.log("editForecast", editForecast);
-    }, [editForecast])
-    let timeOut: string | number | NodeJS.Timeout | undefined;
-    function searchKeyWords(serchValue: string) {
-        clearTimeout(timeOut);
-        timeOut=setTimeout(async()=>{
-            await adminApi.searchCategory(serchValue)
-            .then((res)=>{
-                if (res.status===200) {
-                    const updatedTotalPages=Math.ceil(res.data.data.length/itemsPerPage)
-                    setSearchData(res.data.data.length !==0 ? res.data.data : null)
-                    setTotalSearchPages(updatedTotalPages)
-                }
-            })
-        })
-    }
-    const handlePageChange = (page:number) => {
-        setCurrentPage(page);
-      };
-    useEffect(() => {
-        const fetchData = async (page: number, limit: number) => {
-          try {
-            const response = await adminApi.paginationForecast(page, limit);
-            dispatch(forecastAction.paginationForecast(response.data.data))
-            setData(response.data.data);
-            setTotalPages(response.data.totalPage);
-            setCurrentData(response.data.data)
-            setCurrentPage(page)
-          } catch (error) {
-            console.log('Error fetching data:', error);
-          }
-        };
-        fetchData(currentPage, itemsPerPage); 
-      }, [currentPage, itemsPerPage,change]); 
-      console.log("data",data);
 
     return (
         <div className='component'>
@@ -282,10 +230,11 @@ let [change,setChange]=useState(1)
                         </Modal.Title>
                     </Modal.Header>
                     <Form onSubmit={(e) => {
-                        if (editForecast) {
-                            handleUpdateForecast(e, editForecast)
-                        } else {
+
+                        if (!editForecast) {
                             handleAddForecast(e)
+                        } else {
+                            handleUpdateForecast(e, editForecast)
                         }
                     }}>
                         <Modal.Body>
@@ -305,6 +254,12 @@ let [change,setChange]=useState(1)
                                     type="text"
                                     autoFocus
                                     name='name'
+                                    value={editForecast?.name}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, name: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
 
@@ -313,6 +268,12 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="text"
                                     name='lat'
+                                    value={editForecast?.lat}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, lat: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
 
@@ -321,6 +282,12 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="text"
                                     name='lng'
+                                    value={editForecast?.lng}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, lng: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
 
@@ -329,6 +296,12 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="number"
                                     name='level'
+                                    value={editForecast?.level}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, level: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
 
@@ -337,6 +310,12 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="text"
                                     name='place'
+                                    value={editForecast?.place}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, place: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
 
@@ -345,19 +324,23 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="number"
                                     name='size'
+                                    value={editForecast?.size}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, size: Number(e.target.value) })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label className='modal-title'>Trạng thái</Form.Label>
                                 <Form.Select name='block'
-                                // value={editForecast ? (editForecast.block ? '1' : '0') : '0'}
-                                // onChange={(e) => {
-                                //     if (editForecast) {
-                                //         setEditForecast({ ...editForecast, block: e.target.value === '1' });
-                                //     } else {
-                                //         setBlock(e.target.value === '0');
-                                //     }
-                                // }}
+                                    value={editForecast ? (editForecast.block ? '1' : '0') : '0'}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, block: e.target.value === '1' });
+                                        }
+                                    }}
                                 >
                                     <option value="0">Kích hoạt</option>
                                     <option value="1">Vô hiệu hóa</option>
@@ -369,6 +352,12 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="datetime-local"
                                     name='time_start'
+                                    value={(editForecast?.time_start!).toString().substring(0, 16)}
+                                    onChange={(e) => {
+                                        if (editForecast) {
+                                            setEditForecast({ ...editForecast!, time_start: e.target.value })
+                                        }
+                                    }}
                                 />
                             </Form.Group>
                         </Modal.Body>
@@ -376,9 +365,20 @@ let [change,setChange]=useState(1)
                             <Button variant="secondary" onClick={handleClose}>
                                 Đóng
                             </Button>
-                            <Button type='submit' variant="primary">
-                                Lưu
-                            </Button>
+                            {
+                                editForecast ? (
+                                    <Button type='submit' variant="primary">
+                                        Lưu thay đổi
+                                    </Button>
+                                )
+                                    :
+                                    (
+                                        <Button type='submit' variant="primary">
+                                            Lưu
+                                        </Button>
+                                    )
+                            }
+
                         </Modal.Footer>
                     </Form>
 

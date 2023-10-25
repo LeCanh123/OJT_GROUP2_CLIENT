@@ -12,12 +12,13 @@ import { ForecastType } from '../../../interface/Forecast';
 
 export default function Dashboard() {
     const [data, setData] = useState<ForecastType[]>([])
+    const [sendMailUsers, setSendMailUsers] = useState()
 
     const [center, setCenter] = useState({ lat: 14.0583, lng: 108.2772 });
     const ZOOM_LEVEL = 5;
 
     const customIcon1 = data.length > 0 && L.icon({
-        iconUrl: "https://firebasestorage.googleapis.com/v0/b/test-a6843.appspot.com/o/image%2F1203e714405a6ee0dde7cb12b31cea19?alt=media&token=235bd534-5b34-44b1-a390-fe294b63749d&_gl=1*1bfdimf*_ga*MTQ3Njc5Mzk2OC4xNjg4MDg5NjI5*_ga_CW55HF8NVT*MTY5ODAzNjk4MC45MS4xLjE2OTgwMzcwNjYuNTAuMC4w",
+        iconUrl: String(data[0].categorys.icon),
         iconSize: [40, 40],
         iconAnchor: [20, 40]
     });
@@ -35,7 +36,21 @@ export default function Dashboard() {
         }
         getForecastMap()
 
+        async function sendMail() {
+            await apiAdmin.sendMail()
+                .then(res => {
+                    console.log('mail', res)
+                    setSendMailUsers(res.data.data)
+                })
+        }
+        sendMail()
+
     }, [])
+
+    // useEffect(() => {
+    //     console.log("sendMailUsers", sendMailUsers);
+
+    // }, [sendMailUsers])
     return (
         <div className='component'>
             <div className='dashboard-map'>
@@ -53,7 +68,12 @@ export default function Dashboard() {
                                 {data?.map((center, index: any) => (
                                     <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
                                         <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon1}>
-                                            <Popup>{center.name}</Popup>
+                                            <Popup>
+                                                <p style={{ textAlign: 'left' }}>Tên: {center.name}</p>
+                                                <p style={{ textAlign: 'left' }}>Mức độ: {center.level}</p>
+                                                <p style={{ textAlign: 'left' }}>Địa điểm: {center.place}</p>
+                                                <p style={{ textAlign: 'left' }}>Thời gian: {center.time_start.toString()}</p>
+                                            </Popup>
                                         </Marker>
                                     </Circle>
                                 ))}

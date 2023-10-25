@@ -82,7 +82,7 @@ export default {
 
     //chart
     AdminGetChart:async (data:any)=>{
-        return await axios.get(import.meta.env.VITE_SERVER_HOST+`earthquakes/getchart`)
+        return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/getchart`,{...data})
         .then(res => {
           if(res.data){
             return res.data

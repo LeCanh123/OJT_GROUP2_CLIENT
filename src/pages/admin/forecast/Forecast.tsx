@@ -333,6 +333,7 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="number"
                                     name='level'
+                                    min={1}
                                     value={editForecast?.level}
                                     onChange={(e) => {
                                         if (editForecast) {
@@ -361,6 +362,7 @@ let [change,setChange]=useState(1)
                                 <Form.Control
                                     type="number"
                                     name='size'
+                                    min={1}
                                     value={editForecast?.size}
                                     onChange={(e) => {
                                         if (editForecast) {

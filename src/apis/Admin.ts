@@ -79,4 +79,25 @@ export default {
             import.meta.env.VITE_SERVER_HOST + "earthquakes/mail"
         );
     },
+
+    //chart
+    AdminGetChart:async (data:any)=>{
+        return await axios.get(import.meta.env.VITE_SERVER_HOST+`earthquakes/getchart`)
+        .then(res => {
+          if(res.data){
+            return res.data
+          }
+          console.log("ress",res);
+          
+        })
+        .catch(error => {
+          console.log("errr",error);
+          
+          return {
+            status:false,
+            message:"Lỗi hệ thống"
+                }
+        }
+        );
+    }
 };

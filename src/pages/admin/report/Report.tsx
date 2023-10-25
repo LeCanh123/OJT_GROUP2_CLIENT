@@ -5,6 +5,9 @@ import html2PDF from 'jspdf-html2canvas';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import { useEffect } from 'react';
+import AdminApi from '../../../apis/Admin';
+
 
 const data = [
   {
@@ -50,6 +53,18 @@ const data = [
   amt: 2100,
   },
   ];
+
+  async function getChart(){
+    let chartResult=await AdminApi.AdminGetChart({type:"day",token:localStorage.getItem("token")})
+    console.log("chartResult",chartResult);
+
+  };
+
+useEffect(()=>{
+  getChart();
+},[])
+
+
 export default function Report() {
   // pdf
     const handleButtonClick = async () => {

@@ -123,7 +123,12 @@ function Map() {
               {data?.map((center: any, index: any) => (
                 <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
                   <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon1(center?.categorys?.icon)}>
-                    <Popup>{center.name}</Popup>
+                  <Popup>
+                            <p style={{ textAlign: 'left' }}>Tên: {center.name}</p>
+                            <p style={{ textAlign: 'left' }}>Mức độ: {center.level}</p>
+                            <p style={{ textAlign: 'left' }}>Địa điểm: {center.place}</p>
+                            <p style={{ textAlign: 'left' }}>Thời gian: {center.time_start.toString()}</p>
+                        </Popup>
                   </Marker>
                 </Circle>
               ))}

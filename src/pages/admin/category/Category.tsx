@@ -15,7 +15,7 @@ export default function Category() {
     const dispatch = useDispatch();
     const[searchData,setSearchData]=useState<CategoryType[]>([])
     const [currentPage,setCurrentPage]=useState(1);
-    const [itemsPerPage,setItemsPerPage]=useState(1);
+    const [itemsPerPage,setItemsPerPage]=useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [data, setData] = useState<CategoryType[]>([]);
     const [totalSearchPages, setTotalSearchPages] = useState(0);

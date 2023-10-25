@@ -10,8 +10,17 @@ import adminApi from '../../../apis/Admin';
 import { Button, Form, FormSelect, Modal } from 'react-bootstrap';
 
 
+
 export default function Category() {
     const dispatch = useDispatch();
+    const[searchData,setSearchData]=useState<CategoryType[]>([])
+    const [currentPage,setCurrentPage]=useState(1);
+    const [itemsPerPage,setItemsPerPage]=useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [data, setData] = useState<CategoryType[]>([]);
+    const [totalSearchPages, setTotalSearchPages] = useState(0);
+    const [currentData, setCurrentData] = useState([])
+
     const categoryStore = useSelector((store: StoreType) => {
         return store.categoryStore
     })
@@ -25,6 +34,7 @@ export default function Category() {
     const [block, setBlock] = useState("0")
     const formData: any = new FormData();
 
+let [changepage,setchangepage]=useState(1)
     async function handleAddCategory() {
         const fileImage: any = document.getElementById("imageCategory");
         const image = fileImage.files[0];
@@ -33,10 +43,11 @@ export default function Category() {
         formData.append("title", title);
 
         try {
-            adminApi.addCategory(formData)
+            await adminApi.addCategory(formData)
                 .then(res => {
                     console.log("res", res.data.data);
                     dispatch(categoryAction.addCategory(res.data.data))
+                    setchangepage(Math.random()*99999)
                 })
                 .catch(err => {
                     console.log("Err Api", err);
@@ -48,6 +59,8 @@ export default function Category() {
             console.log("Lỗi hệ thống", err);
         }
     }
+
+    
 
     async function handleUpdateCategory(category: CategoryType) {
         const updateFormData: any = new FormData();
@@ -67,25 +80,25 @@ export default function Category() {
             console.log("Lỗi hệ thống", err);
         }
     }
-
     // Get All Categories
-    useEffect(() => {
-        async function getCategory() {
-            await adminApi.getCategory()
-                .then(res => {
-                    dispatch(categoryAction.setDataCategory(res.data.data))
-                })
-                .catch(err => {
-                    console.log("Err Api", err);
-                })
-        }
-        getCategory();
-    }, [])
+    // useEffect(() => {
+    //     async function getCategory() {
+    //         await adminApi.getCategory()
+    //             .then(res => {
+    //                 dispatch(categoryAction.setDataCategory(res.data.data))
+    //             })
+    //             .catch(err => {
+    //                 console.log("Err Api", err);
+    //             })
+    //     }
+    //     getCategory();
+    // }, [])
 
     // Table Render
     const [editCategory, setEditCategory] = useState<CategoryType | null>(null);
 
     const columns: ColumnsType<CategoryType> = [
+        
         {
             title: '#',
             dataIndex: 'rowIndex',
@@ -97,12 +110,12 @@ export default function Category() {
         {
             title: 'Tên danh mục',
             dataIndex: 'title',
-            filters: categoryStore.data
-                ? categoryStore.data.map((category) => ({
-                    text: category.title,
-                    value: category.title,
-                }))
-                : [],
+            // filters: categoryStore.data
+            //     ? categoryStore.data.map((category) => ({
+            //         text: category.title,
+            //         value: category.title,
+            //     }))
+            //     : [],
             onFilter: (value: string, record) => record.title.indexOf(value) === 0,
             sorter: (a, b) => a.title.localeCompare(b.title, 'vi', { sensitivity: 'base' }),
             width: "30%"
@@ -136,11 +149,38 @@ export default function Category() {
         setEditCategory({ ...record });
         handleShow();
     }
+    let timeOut: string | number | NodeJS.Timeout | undefined;
+    function searchKeyWords(serchValue: string) {
+        clearTimeout(timeOut);
+        timeOut=setTimeout(async()=>{
+            await adminApi.searchCategory(serchValue)
+            .then((res)=>{
+                if (res.status===200) {
+                    const updatedTotalPages=Math.ceil(res.data.data.length/itemsPerPage)
+                    setSearchData(res.data.data.length !==0 ? res.data.data : null)
+                    setTotalSearchPages(updatedTotalPages)
+                }
+            })
+        })
+    }
+    const handlePageChange = (page:number) => {
+        setCurrentPage(page);
+      };
+      useEffect(() => {
+        const fetchCategoryData = async (page: number, limit: number) => {
+          try {
+            const response = await adminApi.paginationCategory(page, limit);
+            setCurrentData(response.data.data)
+            setTotalPages(response.data.totalPage);
+            setCurrentPage(page)
+          } catch (error) {
+            console.log('Error fetching data:', error);
+          }
+        };
+        fetchCategoryData(currentPage, itemsPerPage);
+    }, [currentPage, itemsPerPage,changepage]);
 
-    // useEffect(() => {
-    //     console.log("categoryStore", categoryStore);
-    // }, [categoryStore])
-
+  
     return (
         <div className='component'>
             <div className='category-modal'>
@@ -225,6 +265,15 @@ export default function Category() {
                             type="search"
                             placeholder='Tìm kiếm theo tên'
                             id="example-search-input"
+                            onChange={(e)=>{
+                                const serchValue=e.target.value
+                                if (serchValue.trim()!=="") {
+                                    searchKeyWords(serchValue)
+                                }else{
+                                    setSearchData([])
+                                }
+
+                            }}
                         />
                         <span className="input-group-append">
                             <button
@@ -237,10 +286,21 @@ export default function Category() {
                     </div>
                 </div>
             </div>
-
-            <Table columns={columns} dataSource={categoryStore.data} onChange={onChange} style={{ width: "100%!important" }} />
+            <Table columns={columns}
+              dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
+              pagination={{
+                current: currentPage,
+                pageSize: itemsPerPage,
+                total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages)* itemsPerPage,
+                onChange: handlePageChange,
+              }}
+            
+  style={{ width: "100% !important" }}
+/>
         </div>
     )
 }
+
+
 
 

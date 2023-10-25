@@ -18,7 +18,12 @@ export default {
     getCategory: async () => {
         return await axios.get(import.meta.env.VITE_SERVER_HOST + `categorys`);
     },
-
+    paginationCategory:async (page:number,limit:number)=>{
+        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}categorys?page=${page}&limit=${limit}`)
+    },
+    searchCategory:async(search:string)=>{
+        return await axios.get(import.meta.env.VITE_SERVER_HOST+"categorys?q="+search)
+    },
     /* Forecast */
     addForecast: async (data: ForecastType) => {
         return await axios.post(
@@ -43,13 +48,6 @@ export default {
         );
     },
 
-    /* Message */
-    addMessage: async (data: any) => {
-        return await axios.post(
-            import.meta.env.VITE_SERVER_HOST + "message",
-            data
-        );
-    },
     getMessage: async (page: number, limit: number) => {
         try {
             const url = `${

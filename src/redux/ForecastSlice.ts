@@ -28,8 +28,14 @@ const forecastSlice = createSlice({
             });
             state.data = updatedData;
         },
-    },
-});
+        paginationForecast: (state, action) => {
+            return {
+                ...state,
+                data: action.payload,
+            };
+        },
+    }
+      });
 
 export const forecastAction = {
     ...forecastSlice.actions,

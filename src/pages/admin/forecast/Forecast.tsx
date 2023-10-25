@@ -18,6 +18,13 @@ export default function Forecast() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const[searchData,setSearchData]=useState<CategoryType[]>([])
+    const [currentPage,setCurrentPage]=useState(1);
+    const [itemsPerPage,setItemsPerPage]=useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [data, setData] = useState<CategoryType[]>([]);
+    const [totalSearchPages, setTotalSearchPages] = useState(0);
+    const [currentData, setCurrentData] = useState([])
 
     const dispatch = useDispatch();
     const forecastStore = useSelector((store: StoreType) => store.forecastStore)
@@ -50,7 +57,7 @@ export default function Forecast() {
 
         }
     }, [])
-
+let [change,setChange]=useState(1)
     // Add Forecast
     async function handleAddForecast(e: React.FormEvent) {
         e.preventDefault();
@@ -73,6 +80,7 @@ export default function Forecast() {
                     console.log("res", res.data);
                     if (res.status == 200) {
                         dispatch(forecastAction.addForecast(res.data.data))
+                        setChange(Math.random()*9999)
                         message.success("Thêm thiên tai mới thành công!")
                         handleClose()
                     } else {
@@ -206,6 +214,7 @@ export default function Forecast() {
 
         }
     ];
+
 
     return (
         <div className='component'>
@@ -383,6 +392,15 @@ export default function Forecast() {
                             type="search"
                             placeholder='Tìm kiếm theo tên'
                             id="example-search-input"
+                            onChange={(e)=>{
+                                const serchValue=e.target.value
+                                if (serchValue.trim()!=="") {
+                                    searchKeyWords(serchValue)
+                                }else{
+                                    setSearchData([])
+                                }
+
+                            }}
                         />
                         <span className="input-group-append">
                             <button
@@ -396,7 +414,15 @@ export default function Forecast() {
                 </div>
             </div>
 
-            <Table columns={columns} dataSource={forecastStore.data} onChange={onChange} />
+            <Table columns={columns}
+              dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
+              pagination={{
+                current: currentPage,
+                pageSize: itemsPerPage,
+                total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages)* itemsPerPage,
+                onChange: handlePageChange,
+              }}
+              />
         </div>
     )
 }

@@ -1,26 +1,30 @@
-import "../about /about.scss"
+import "../about/about.scss"
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import adminApi from "../../apis/Admin"
+import { message } from "antd";
 
 export default function Help() {
   const [show, setShow] = useState(false);
-  const [message ,setMessage]=useState('');
+  const [messages ,setMessage]=useState('');
   const [file,setFile]=useState('');
+  const [title,setTitle]=useState('');
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   async function handleAddHelp(){
     const formData= new FormData();
+    formData.append("title",title)
     formData.append("file",file)
-    formData.append('message',message)
+    formData.append('message',messages)
     try {
       let result=await adminApi.addMessage(formData);
       if (result.status!==200) {
-        alert("Thử lại sau");
+        message.error("Thử lại sau");
       }else{
-       alert("Gửi thành công!");
+      //  message.success("Gửi thành công!");
       } 
     } catch (error) {
       console.log("err", error);
@@ -55,6 +59,15 @@ export default function Help() {
         </Modal.Header>
         <Modal.Body>
           <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Tiêu đề</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nhập tiêu đề"
+                autoFocus
+                onChange={(e)=>setTitle(e.target.value)}
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Hình ảnh</Form.Label>
               <Form.Control
@@ -80,7 +93,13 @@ export default function Help() {
           <Button variant="secondary" onClick={handleClose}>
             Đóng 
           </Button>
-          <Button variant="primary" onClick={handleAddHelp}>
+          <Button variant="primary" onClick={() => {
+            handleAddHelp()
+            message.success("Gửi thành công!");
+            handleClose()
+          }
+            
+          }>
            Gửi 
           </Button>
         </Modal.Footer>

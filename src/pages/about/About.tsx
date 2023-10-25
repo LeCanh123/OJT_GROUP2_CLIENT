@@ -5,26 +5,30 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import adminApi from "../../apis/Admin";
 import { toast } from 'react-toastify';
+import { message } from "antd";
 
 
 
 export default function About() {
     const [show, setShow] = useState(false);
-    const [message, setMessage] = useState('');
+    const [messages, setMessage] = useState('');
   const [file,setFile] = useState(null);
+  const [title,setTitle]=useState('')
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   async function handleAdd() {
     const formData = new FormData();
     formData.append("file",file);
-    formData.append("message", message);
+    formData.append("title",title);
+    formData.append("message", messages);
     try {
       let result=await adminApi.addMessage(formData);
       if (result.status!==200) {
-        alert("Thử lại sau");
+        message.error("Thử lại sau")
+  
       }else{
-       alert("Gửi thành công!");
+      // message.success("Gửi thành công!");
       } 
     } catch (error) {
       console.log("err", error);
@@ -68,6 +72,15 @@ export default function About() {
         <Modal.Body>
           <Form>
           <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>Tiêu đề</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nhập tiêu đề"
+                    autoFocus
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Hình ảnh</Form.Label>
                   <Form.Control
@@ -93,7 +106,11 @@ export default function About() {
           <Button variant="secondary" onClick={handleClose}>
             Đóng 
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
+          <Button variant="primary" onClick={()=>{
+            handleAdd()
+            message.success("Gửi thành công!");
+            handleClose()
+          }}>
           Gửi
           </Button>
         </Modal.Footer>

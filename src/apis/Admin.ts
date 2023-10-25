@@ -18,7 +18,12 @@ export default {
     getCategory: async () => {
         return await axios.get(import.meta.env.VITE_SERVER_HOST + `categorys`);
     },
-
+    paginationCategory:async (page:number,limit:number)=>{
+        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}categorys?page=${page}&limit=${limit}`)
+    },
+    searchCategory:async(search:string)=>{
+        return await axios.get(import.meta.env.VITE_SERVER_HOST+"categorys?q="+search)
+    },
     /* Forecast */
     addForecast: async (data: ForecastType) => {
         return await axios.post(
@@ -41,6 +46,12 @@ export default {
         return await axios.get(
             import.meta.env.VITE_SERVER_HOST + `earthquakes`
         );
+    },
+    paginationForecast:async (page:number,limit:number)=>{
+        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}earthquakes?page=${page}&limit=${limit}`)
+    },
+    serchForecast:async (search:string)=>{
+        return await axios.get(import.meta.env.VITE_SERVER_HOST +"earthquakes?q="+search)
     },
     //Message
     addMessage:async (data:any)=>{

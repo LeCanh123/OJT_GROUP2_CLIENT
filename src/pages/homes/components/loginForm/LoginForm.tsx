@@ -7,19 +7,19 @@ import { Table, message } from 'antd';
 
 //google
 import GoogleLoginButton from "../../../../module/google/Google";
-// import { gapi } from 'gapi-script';
+import { gapi } from 'gapi-script';
 
 
 export default function LoginForm() {
-  // useEffect(() => {
-  //   function start() {
-  //   gapi.client.init({
-  //   clientId : "idCliente",
-  //   scope : ''
-  //   })
-  //   };
-  //   gapi.load('client:auth2',start);
-  //   });
+  useEffect(() => {
+    function start() {
+    gapi.client.init({
+    clientId : "idCliente",
+    scope : ''
+    })
+    };
+    gapi.load('client:auth2',start);
+    });
     
   //facebook
   const [isLoggedIn, setIsLoggedIn] = useState(false);

@@ -7,7 +7,7 @@ import { MessageType } from '../../../interface/Message';
 
 export default function Message() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [totalSearchPages, setTotalSearchPages] = useState(0);
   const [data, setData] = useState<MessageType[]>([]);

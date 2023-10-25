@@ -7,17 +7,18 @@ import { AnyAction, Dispatch, createSlice } from '@reduxjs/toolkit';
 const mapSlice = createSlice({
   name: "maps",
   initialState: {
-
+  notification:[],
+  total:0
   },
   reducers: {
 
-    // getProductByCategorysl: (state, { payload }) => {//v
-    //   console.log("vào getProductByCategoryslgetProductByCategorysl");
+    setnotification: (state, { payload }) => {//v
+      console.log("vào getProductByCategoryslgetProductByCategorysl");
       
-    //   state.men = payload.data;
-    //   state.total = payload.total;
-    //   // state.search=payload
-    // },
+      state.notification = payload.data;
+      state.total = payload.total;
+      // state.search=payload
+    },
 
 
     // setData: function(state, action) {
@@ -33,10 +34,9 @@ const mapSlice = createSlice({
   },
 });
 
-export const {
-
-
-} = mapSlice.actions;
+export const mapAction = {
+...mapSlice.actions
+}
 
 
 

@@ -1,4 +1,11 @@
 
+
+
+.itemhover:hover{
+  cursor: pointer;
+  color: red;
+  
+}
 .footer {
   margin-top: 400px!important;
 }

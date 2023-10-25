@@ -13,5 +13,5 @@ export interface ForecastType {
     updated_at?: string;
     time_notification?: Date;
     block: boolean;
-    categorysId: CategoryType;
+    categorys: CategoryType;
 }

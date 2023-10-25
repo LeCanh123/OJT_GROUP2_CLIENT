@@ -23,87 +23,87 @@ function Map() {
     iconSize: [40, 40],
     iconAnchor: [20, 40]
   });
-  const customIcon1 =(icon:any)=>{
-return   L.icon({
-  iconUrl: icon,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
-});
+  const customIcon1 = (icon: any) => {
+    return L.icon({
+      iconUrl: icon,
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
+    });
 
-  } 
+  }
 
   //get data 
   //danh sách để lọc theo category
-  let [ChooseCategoryList,setChooseCategoryList]=useState("null");
+  let [ChooseCategoryList, setChooseCategoryList] = useState("null");
 
   let [data, setData] = useState([]) //dữ liệu render ra
-  console.log("data",data);
-  
+  console.log("data", data);
+
   useEffect(() => {
     async function getAllEarthquake() {
-    let getAllMapResult:any = await MapApi.getAllMap();
-    console.log("getAllMapResult", getAllMapResult);
-    if(getAllMapResult.status){
-      setData(getAllMapResult.data)
-      alert(getAllMapResult.message)
+      let getAllMapResult: any = await MapApi.getAllMap();
+      console.log("getAllMapResult", getAllMapResult);
+      if (getAllMapResult.status) {
+        setData(getAllMapResult.data)
+        // alert(getAllMapResult.message)
+      }
+      else {
+        alert(getAllMapResult.message)
+      }
+      console.log("getAllMapResult.data", getAllMapResult);
     }
-    else{
-      alert(getAllMapResult.message)
-    }
-    console.log("getAllMapResult.data",getAllMapResult);
-    }
-   
+
 
     async function getEarthquakeByCategoryById() {
-      let getCategoryById = await MapApi.getCategoryById({categoryId:ChooseCategoryList});
-      if(getCategoryById.status){
+      let getCategoryById = await MapApi.getCategoryById({ categoryId: ChooseCategoryList });
+      if (getCategoryById.status) {
         setData(getCategoryById.data)
-      }else{
+      } else {
         alert(getCategoryById.message)
       }
 
-      
+
     }
-    if(ChooseCategoryList=="null"){
+    if (ChooseCategoryList == "null") {
       getAllEarthquake();
-    }else{
+    } else {
       getEarthquakeByCategoryById();
     }
 
 
   }, [ChooseCategoryList])
-  
+
   //get category chỉ lấy danh sách category
-  let [listCategory,setListCategory]=useState([]);
-  useEffect(()=>{
+  let [listCategory, setListCategory] = useState([]);
+  useEffect(() => {
     async function getAllCategory() {
       let getAllCategory = await MapApi.getAllCategory();
-      console.log("getAllCategory",getAllCategory);
-      if(getAllCategory.status){
+      console.log("getAllCategory", getAllCategory);
+      if (getAllCategory.status) {
         setListCategory(getAllCategory.data)
-      }else{
+      } else {
         alert(getAllCategory.message)
       }
 
     }
     getAllCategory()
-  },[]);
+  }, []);
 
   //chọn category để lấy earchquake
-  function handleChooseCategoryList(e:any){
+  function handleChooseCategoryList(e: any) {
     setChooseCategoryList(e);
   }
 
   //lấy thông báo user
-  useEffect(()=>{
-    async function UserGetNotification(){
-    let UserGetNotificationResult = await MapApi.UserGetNotification({
-      token:localStorage.getItem("token")
-    })
+  useEffect(() => {
+    async function UserGetNotification() {
+      let UserGetNotificationResult = await MapApi.UserGetNotification({
+        token: localStorage.getItem("token")
+      })
 
     };
     UserGetNotification()
-  },[])
+  }, [])
 
 
   return (
@@ -123,7 +123,12 @@ return   L.icon({
               {data?.map((center: any, index: any) => (
                 <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
                   <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon1(center?.categorys?.icon)}>
-                    <Popup>{center.name}</Popup>
+                  <Popup>
+                            <p style={{ textAlign: 'left' }}>Tên: {center.name}</p>
+                            <p style={{ textAlign: 'left' }}>Mức độ: {center.level}</p>
+                            <p style={{ textAlign: 'left' }}>Địa điểm: {center.place}</p>
+                            <p style={{ textAlign: 'left' }}>Thời gian: {center.time_start.toString()}</p>
+                        </Popup>
                   </Marker>
                 </Circle>
               ))}
@@ -137,10 +142,10 @@ return   L.icon({
             <div className='mt-1' style={{ backgroundColor: "#FFFFCC" }}>Động Đất</div>
             <div className='mt-1' style={{ backgroundColor: "#FFFFCC" }}>Sóng Thần</div> */}
 
-            <select className="form-select" aria-label="Default select example" onChange={(e:any)=>{handleChooseCategoryList(e.target.value)}}>
+            <select className="form-select" aria-label="Default select example" onChange={(e: any) => { handleChooseCategoryList(e.target.value) }}>
               <option selected value={"null"}>Danh sách loại thiên tai</option>
-              {listCategory.map((item:any, index) => (
-              <option key={index} value={item.id}>{item.title}</option>
+              {listCategory.map((item: any, index) => (
+                <option key={index} value={item.id}>{item.title}</option>
               ))}
             </select>
 
@@ -155,7 +160,7 @@ return   L.icon({
           <div>Bảng ghi chú</div>
           <div style={{display:"flex",flexWrap:"wrap",}}>
           {listCategory.map((item:any, index) => (
-                    <div className='mt-3 ms-5' style={{backgroundColor:"#FFFFCC",width:"30%"}}>
+                    <div className='mt-3 ms-5' style={{backgroundColor:"#FFFFCC",width:"30%",marginBottom:"20px"}}>
                     <img src={item.icon}   alt="" style={{width:"40px",height:"40px",display:"inline"}} />
                     <div className='ms-3' style={{width: "33.33%", flexGrow: "1", flexShrink: "0",display:"inline"}}>
                      {item.title}
@@ -163,21 +168,10 @@ return   L.icon({
                   </div>
               ))}
 
-      
-
-
-
-
           </div>
-
-
 
         </div>
       </div>
-
-
-
-
 
     </div>
   );

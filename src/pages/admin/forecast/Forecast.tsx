@@ -266,8 +266,6 @@ let [change,setChange]=useState(1)
         };
         fetchData(currentPage, itemsPerPage); 
       }, [currentPage, itemsPerPage,change]); 
-      console.log("data",data);
-
     return (
         <div className='component'>
             <div className='category-modal'>

@@ -243,7 +243,6 @@ let [change,setChange]=useState(1)
         const fetchData = async (page: number, limit: number) => {
           try {
             const response = await adminApi.paginationForecast(page, limit);
-            setData(response.data.data);
             setTotalPages(response.data.totalPage);
             setCurrentData(response.data.data)
             setCurrentPage(page)

@@ -47,6 +47,9 @@ export default {
             import.meta.env.VITE_SERVER_HOST + `earthquakes`
         );
     },
+    paginationForecast:async (page:number,limit:number)=>{
+        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}earthquakes?page=${page}&limit=${limit}`)
+    },
 
     getMessage: async (page: number, limit: number) => {
         try {

@@ -216,6 +216,44 @@ let [change,setChange]=useState(1)
     ];
 
 
+    // useEffect(() => {
+    //     console.log("editForecastId", editForecastId);
+    // }, [editForecastId])
+    useEffect(() => {
+        console.log("editForecast", editForecast);
+    }, [editForecast])
+    let timeOut: string | number | NodeJS.Timeout | undefined;
+    function searchKeyWords(serchValue: string) {
+        clearTimeout(timeOut);
+        timeOut=setTimeout(async()=>{
+            await adminApi.searchCategory(serchValue)
+            .then((res)=>{
+                if (res.status===200) {
+                    const updatedTotalPages=Math.ceil(res.data.data.length/itemsPerPage)
+                    setSearchData(res.data.data.length !==0 ? res.data.data : null)
+                    setTotalSearchPages(updatedTotalPages)
+                }
+            })
+        })
+    }
+    const handlePageChange = (page:number) => {
+        setCurrentPage(page);
+      };
+    useEffect(() => {
+        const fetchData = async (page: number, limit: number) => {
+          try {
+            const response = await adminApi.paginationForecast(page, limit);
+            setData(response.data.data);
+            setTotalPages(response.data.totalPage);
+            setCurrentData(response.data.data)
+            setCurrentPage(page)
+          } catch (error) {
+            console.log('Error fetching data:', error);
+          }
+        };
+        fetchData(currentPage, itemsPerPage); 
+      }, [currentPage, itemsPerPage,change]); 
+
     return (
         <div className='component'>
             <div className='category-modal'>

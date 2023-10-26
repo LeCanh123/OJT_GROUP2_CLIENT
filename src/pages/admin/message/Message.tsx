@@ -65,36 +65,36 @@ export default function Message() {
     }
     const columns: ColumnsType<MessageType[]> = [
         { 
-          title: 'Date', 
+          title: 'Thời gian', 
           dataIndex: 'create_at', 
           key: 'create_at',
           render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
         },
         { 
-            title: 'Name', 
+            title: 'Tên thư mục', 
             dataIndex: 'title', 
             key: 'title',
           },
         { 
-          title: 'File', 
+          title: 'Hình ảnh', 
           dataIndex: 'file', 
           key: 'file', 
           render: (file) => <img src={file} alt={file} style={{width:"50px"}} />,
         },
         {
-          title: 'Action',
+          title: 'Thao tác',
           dataIndex: '',
           key: 'x',
           render: (record) => (
-            <a onClick={() => handleDelete(record.id)} style={{color:"red"}}>Delete</a>
+            <a onClick={() => handleDelete(record.id)} style={{color:"red"}}>Xóa</a>
           ),
         },
       ];
 
   return (
     <div  className='component'>
-               <h4 style={{ marginLeft: "550px", paddingTop: "40px" }}>DANH SÁCH GÓP Ý</h4>
-<div className="row" style={{ marginBottom: "40px", marginTop: "40px" }}>
+               <h4 style={{ marginLeft: "530px", paddingTop: "40px",fontWeight:"bold",color:"black" }}>DANH SÁCH GÓP Ý</h4>
+<div className="row" style={{ marginBottom: "40px", marginTop: "40px", }}>
                 <div className="col-md-5 mx-auto">
                     <div className="input-group">
                         <input

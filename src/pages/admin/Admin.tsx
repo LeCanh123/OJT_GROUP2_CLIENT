@@ -1,101 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import "./../../Css/Admin.scss"
-import AdminApi from "./../../apis/Admin"
-//loading
-import Loading from "./../../components/Loading/Loading"
-//lấy vị trí
-import geolib from 'geolib';
-import axios from 'axios';
-
-//thông báo
-import { Button, message } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
 export default function Admin() {
-
-    let [isLoading, setIsLoading] = useState(false);
-    //thông báo antd
-    const [messageApi, contextHolder] = message.useMessage();
-
-    //change component
-    let [selectComponent, SetSelectComponent] = useState(1);
-
-    let [ForeCastName, setForeCastName] = useState("");
-    let [LocationX, setLocationX] = useState("");
-    let [LocationY, setLocationY] = useState("");
-    let [Size, setSize] = useState("");
-    let [Country, setCountry] = useState("");
-    //lấy vị trí
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${LocationX}&lon=${LocationY}`;
-
-    async function handleAddForeCast() {
-        //lấy toạ độ thành phố
-        //10.6786996
-        //106.6826963
-
-        setIsLoading(true)
-        await axios.get(apiUrl)
-            .then(async response => {
-                const { city, state, country } = response.data.address;
-                console.log(`City: ${city}`);
-                console.log(`State: ${state}`);
-                console.log(`Country: ${country}`);
-                setCountry(`${city},${country}`)
-
-
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                messageApi.info('Thêm Forcecast thất bại');
-            });
-
-
-        let addForeCastResult = await AdminApi.AddForeCast({
-            name: ForeCastName,
-            locationx: LocationX,
-            locationy: LocationY,
-            size: Size,
-            country: Country,
-            CategoryId: selectedOption
-        })
-
-        messageApi.info('Thêm Forcecast thành công');
-        setIsLoading(false)
-
-    }
-
-    //manage Category
-    const [selectedOption, setSelectedOption] = useState('');
-    const handleSelectChange = (event: any) => {
-        setSelectedOption(event.target.value);
-        console.log("event", event.target.value);
-
-    };
-
-    let [ListGetCategory, setListGetCategory] = useState([]);
-    let [CategoryName, setCategoryName] = useState("");
-    async function handleAddCategory() {
-
-        const fileimage: any = document.getElementById('image00');
-        const image = fileimage.files[0];
-        console.log("image");
-
-        const formData: any = new FormData();
-        formData.append('image', image);
-        formData.append('type', CategoryName);
-
-        let addCategoryResult = await AdminApi.addCategory(formData);
-        console.log("addCategoryResult", addCategoryResult);
-
-    }
-    useEffect(() => {
-        async function getListCategory() {
-            let getCategoryResult = await AdminApi.getCategory();
-            setListGetCategory(getCategoryResult.data.data);
-        }
-        getListCategory();
-    }, [])
-
     return (
         <div className='container'>
             <div>
@@ -108,45 +14,45 @@ export default function Admin() {
                         <li>
                             <Link to="/admin/dashboard" className="">
                                 <i className="bx bx-grid-alt" />
-                                <span className="links_name">Dashboard</span>
+                                <span className="links_name">Bản đồ</span>
                             </Link>
                         </li>
                         <li>
                             <Link to="/admin/category">
                                 <i className="bx bx-box" />
-                                <span className="links_name">Category Forecast</span>
+                                <span className="links_name">Danh mục thiên tai</span>
                             </Link>
                         </li>
                         <li>
                             <Link to="/admin/forecast">
                                 <i className="bx bx-list-ul" />
-                                <span className="links_name">Manage Forecast</span>
+                                <span className="links_name">Quản lý thiên tai</span>
                             </Link>
                         </li>
                         <li>
                             <Link to="/admin/user">
                                 <i className="bx bx-user" />
-                                <span className="links_name">Manage User</span>
+                                <span className="links_name">Quản lý người dùng</span>
                             </Link>
                         </li>
                         <li>
                             <Link to="/admin/message">
                                 <i className="bx bx-book-alt" />
-                                <span className="links_name">Manage Message</span>
+                                <span className="links_name">Quản lý thư góp ý</span>
                             </Link>
                         </li>
 
                         <li>
                             <Link to="/admin/report">
                                 <i className="bx bx-book-alt" />
-                                <span className="links_name">Report</span>
+                                <span className="links_name">Biểu đồ</span>
                             </Link>
                         </li>
 
                         <li className="log_out">
                             <Link to="#">
                                 <i className="bx bx-log-out" />
-                                <span className="links_name">Log out</span>
+                                <span className="links_name">Đăng xuất</span>
                             </Link>
                         </li>
                     </ul>
@@ -161,11 +67,6 @@ export default function Admin() {
                                 <i className="fa-solid fa-house"></i>
                             </a>
                         </div>
-
-                        {/* <div className="search-box">
-                            <input type="text" placeholder="Search..." />
-                            <i className="bx bx-search" style={{ color: "#fff", backgroundColor: '#000' }} />
-                        </div> */}
                         <div className="profile-details">
                             <img src="https://cdn5.vectorstock.com/i/1000x1000/43/84/admin-support-black-glyph-icon-virtual-assistant-vector-39924384.jpg" alt="" />
                             <span className="admin_name">Admin ABC</span>
@@ -173,11 +74,7 @@ export default function Admin() {
                     </nav>
 
                     <Outlet />
-
-
                 </section>
-
-
             </div>
         </div>
     )

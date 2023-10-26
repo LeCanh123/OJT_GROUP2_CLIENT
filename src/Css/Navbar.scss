@@ -1,5 +1,10 @@
 @import 'mdb-ui-kit/css/mdb.min.css';
 
-.container{
-    // background: #4265a5 !important;
+.itemhover{
+    padding-top: 10px;
+
+    &:hover{
+        color: #ccc !important;
+        transform: scaleY(1.1);
+    }
 }

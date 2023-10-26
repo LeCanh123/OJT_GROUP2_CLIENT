@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StoreType } from '../../../redux/store';
 import { CategoryType } from '../../../interface/Category';
 import { forecastAction } from '../../../redux/ForecastSlice';
+import moment from 'moment';
 
 const onChange: TableProps<ForecastType>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
@@ -18,9 +19,9 @@ export default function Forecast() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const[searchData,setSearchData]=useState<CategoryType[]>([])
-    const [currentPage,setCurrentPage]=useState(1);
-    const [itemsPerPage,setItemsPerPage]=useState(5);
+    const [searchData, setSearchData] = useState<CategoryType[]>([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [data, setData] = useState<CategoryType[]>([]);
     const [totalSearchPages, setTotalSearchPages] = useState(0);
@@ -57,7 +58,7 @@ export default function Forecast() {
 
         }
     }, [])
-let [change,setChange]=useState(1)
+    let [change, setChange] = useState(1)
     // Add Forecast
     async function handleAddForecast(e: React.FormEvent) {
         e.preventDefault();
@@ -80,7 +81,7 @@ let [change,setChange]=useState(1)
                     console.log("res", res.data);
                     if (res.status == 200) {
                         dispatch(forecastAction.addForecast(res.data.data))
-                        setChange(Math.random()*9999)
+                        setChange(Math.random() * 9999)
                         message.success("Thêm thiên tai mới thành công!")
                         handleClose()
                     } else {
@@ -197,12 +198,13 @@ let [change,setChange]=useState(1)
         {
             title: "Thời gian bắt đầu",
             dataIndex: 'time_start',
+            render: (time_start) => moment(time_start).format('HH:mm:ss DD-MM-YYYY'),
         },
-        {
-            title: "Trạng thái",
-            dataIndex: 'block',
-            render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
-        },
+        // {
+        //     title: "Trạng thái",
+        //     dataIndex: 'block',
+        //     render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
+        // },
         {
             title: "Thao tác",
             render: (text, record) => (
@@ -225,33 +227,33 @@ let [change,setChange]=useState(1)
     let timeOut: string | number | NodeJS.Timeout | undefined;
     function searchKeyWords(serchValue: string) {
         clearTimeout(timeOut);
-        timeOut=setTimeout(async()=>{
+        timeOut = setTimeout(async () => {
             await adminApi.searchCategory(serchValue)
-            .then((res)=>{
-                if (res.status===200) {
-                    const updatedTotalPages=Math.ceil(res.data.data.length/itemsPerPage)
-                    setSearchData(res.data.data.length !==0 ? res.data.data : null)
-                    setTotalSearchPages(updatedTotalPages)
-                }
-            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        const updatedTotalPages = Math.ceil(res.data.data.length / itemsPerPage)
+                        setSearchData(res.data.data.length !== 0 ? res.data.data : null)
+                        setTotalSearchPages(updatedTotalPages)
+                    }
+                })
         })
     }
-    const handlePageChange = (page:number) => {
+    const handlePageChange = (page: number) => {
         setCurrentPage(page);
-      };
+    };
     useEffect(() => {
         const fetchData = async (page: number, limit: number) => {
-          try {
-            const response = await adminApi.paginationForecast(page, limit);
-            setTotalPages(response.data.totalPage);
-            setCurrentData(response.data.data)
-            setCurrentPage(page)
-          } catch (error) {
-            console.log('Error fetching data:', error);
-          }
+            try {
+                const response = await adminApi.paginationForecast(page, limit);
+                setTotalPages(response.data.totalPage);
+                setCurrentData(response.data.data)
+                setCurrentPage(page)
+            } catch (error) {
+                console.log('Error fetching data:', error);
+            }
         };
-        fetchData(currentPage, itemsPerPage); 
-      }, [currentPage, itemsPerPage,change]); 
+        fetchData(currentPage, itemsPerPage);
+    }, [currentPage, itemsPerPage, change]);
 
     return (
         <div className='component'>
@@ -431,11 +433,11 @@ let [change,setChange]=useState(1)
                             type="search"
                             placeholder='Tìm kiếm theo tên'
                             id="example-search-input"
-                            onChange={(e)=>{
-                                const serchValue=e.target.value
-                                if (serchValue.trim()!=="") {
+                            onChange={(e) => {
+                                const serchValue = e.target.value
+                                if (serchValue.trim() !== "") {
                                     searchKeyWords(serchValue)
-                                }else{
+                                } else {
                                     setSearchData([])
                                 }
 
@@ -454,14 +456,14 @@ let [change,setChange]=useState(1)
             </div>
 
             <Table columns={columns}
-              dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
-              pagination={{
-                current: currentPage,
-                pageSize: itemsPerPage,
-                total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages)* itemsPerPage,
-                onChange: handlePageChange,
-              }}
-              />
+                dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
+                pagination={{
+                    current: currentPage,
+                    pageSize: itemsPerPage,
+                    total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages) * itemsPerPage,
+                    onChange: handlePageChange,
+                }}
+            />
         </div>
     )
 }

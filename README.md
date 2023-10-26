@@ -23,3 +23,7 @@ npm install @react-pdf/renderer @react-pdf/pdfkit
 npm install jspdf
 npm install html2canvas
 npm install --save html-to-image
+
+
+# thư viện chọn ngày tháng
+npm install react-datepicker --save

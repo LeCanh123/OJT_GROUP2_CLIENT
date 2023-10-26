@@ -9,3 +9,36 @@
 .footer {
   margin-top: 400px!important;
 }
+
+
+.rdtPicker{
+  width: 320px;
+  /* // overflow: hidden; */
+}
+
+.rdtDays{
+  width: 320px;
+}
+
+.rdtPicker table{
+  width: 1px!important;
+
+  height: 10px!important ;
+  min-width: 320px!important  ;
+}
+.rdtPicker table thead{
+  width: 1px!important 
+}
+
+.rdtPicker table tbody{
+  width: 1px!important 
+}
+
+
+.rdtPicker table tr{
+  width: 1px!important 
+}
+
+.rdtPicker table td{
+  width: 1px 
+}

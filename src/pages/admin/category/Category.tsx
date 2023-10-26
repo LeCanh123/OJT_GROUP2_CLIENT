@@ -13,9 +13,9 @@ import { Button, Form, FormSelect, Modal } from 'react-bootstrap';
 
 export default function Category() {
     const dispatch = useDispatch();
-    const[searchData,setSearchData]=useState<CategoryType[]>([])
-    const [currentPage,setCurrentPage]=useState(1);
-    const [itemsPerPage,setItemsPerPage]=useState(5);
+    const [searchData, setSearchData] = useState<CategoryType[]>([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [data, setData] = useState<CategoryType[]>([]);
     const [totalSearchPages, setTotalSearchPages] = useState(0);
@@ -34,7 +34,7 @@ export default function Category() {
     const [block, setBlock] = useState("0")
     const formData: any = new FormData();
 
-let [changepage,setchangepage]=useState(1)
+    let [changepage, setchangepage] = useState(1)
     async function handleAddCategory() {
         const fileImage: any = document.getElementById("imageCategory");
         const image = fileImage.files[0];
@@ -47,7 +47,7 @@ let [changepage,setchangepage]=useState(1)
                 .then(res => {
                     console.log("res", res.data.data);
                     dispatch(categoryAction.addCategory(res.data.data))
-                    setchangepage(Math.random()*99999)
+                    setchangepage(Math.random() * 99999)
                 })
                 .catch(err => {
                     console.log("Err Api", err);
@@ -60,7 +60,7 @@ let [changepage,setchangepage]=useState(1)
         }
     }
 
-    
+
 
     async function handleUpdateCategory(category: CategoryType) {
         const updateFormData: any = new FormData();
@@ -98,7 +98,7 @@ let [changepage,setchangepage]=useState(1)
     const [editCategory, setEditCategory] = useState<CategoryType | null>(null);
 
     const columns: ColumnsType<CategoryType> = [
-        
+
         {
             title: '#',
             dataIndex: 'rowIndex',
@@ -120,6 +120,12 @@ let [changepage,setchangepage]=useState(1)
             sorter: (a, b) => a.title.localeCompare(b.title, 'vi', { sensitivity: 'base' }),
             width: "30%"
 
+        },
+        {
+            title: 'Hình ảnh',
+            dataIndex: 'icon',
+            key: 'icon',
+            render: (icon) => <img src={icon} alt={icon} style={{ width: "40px" }} />,
         },
         {
             title: 'Trạng thái',
@@ -152,35 +158,35 @@ let [changepage,setchangepage]=useState(1)
     let timeOut: string | number | NodeJS.Timeout | undefined;
     function searchKeyWords(serchValue: string) {
         clearTimeout(timeOut);
-        timeOut=setTimeout(async()=>{
+        timeOut = setTimeout(async () => {
             await adminApi.searchCategory(serchValue)
-            .then((res)=>{
-                if (res.status===200) {
-                    const updatedTotalPages=Math.ceil(res.data.data.length/itemsPerPage)
-                    setSearchData(res.data.data.length !==0 ? res.data.data : null)
-                    setTotalSearchPages(updatedTotalPages)
-                }
-            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        const updatedTotalPages = Math.ceil(res.data.data.length / itemsPerPage)
+                        setSearchData(res.data.data.length !== 0 ? res.data.data : null)
+                        setTotalSearchPages(updatedTotalPages)
+                    }
+                })
         })
     }
-    const handlePageChange = (page:number) => {
+    const handlePageChange = (page: number) => {
         setCurrentPage(page);
-      };
-      useEffect(() => {
+    };
+    useEffect(() => {
         const fetchCategoryData = async (page: number, limit: number) => {
-          try {
-            const response = await adminApi.paginationCategory(page, limit);
-            setCurrentData(response.data.data)
-            setTotalPages(response.data.totalPage);
-            setCurrentPage(page)
-          } catch (error) {
-            console.log('Error fetching data:', error);
-          }
+            try {
+                const response = await adminApi.paginationCategory(page, limit);
+                setCurrentData(response.data.data)
+                setTotalPages(response.data.totalPage);
+                setCurrentPage(page)
+            } catch (error) {
+                console.log('Error fetching data:', error);
+            }
         };
         fetchCategoryData(currentPage, itemsPerPage);
-    }, [currentPage, itemsPerPage,changepage]);
+    }, [currentPage, itemsPerPage, changepage]);
 
-  
+
     return (
         <div className='component'>
             <div className='category-modal'>
@@ -265,11 +271,11 @@ let [changepage,setchangepage]=useState(1)
                             type="search"
                             placeholder='Tìm kiếm theo tên'
                             id="example-search-input"
-                            onChange={(e)=>{
-                                const serchValue=e.target.value
-                                if (serchValue.trim()!=="") {
+                            onChange={(e) => {
+                                const serchValue = e.target.value
+                                if (serchValue.trim() !== "") {
                                     searchKeyWords(serchValue)
-                                }else{
+                                } else {
                                     setSearchData([])
                                 }
 
@@ -287,16 +293,16 @@ let [changepage,setchangepage]=useState(1)
                 </div>
             </div>
             <Table columns={columns}
-              dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
-              pagination={{
-                current: currentPage,
-                pageSize: itemsPerPage,
-                total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages)* itemsPerPage,
-                onChange: handlePageChange,
-              }}
-            
-  style={{ width: "100% !important" }}
-/>
+                dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
+                pagination={{
+                    current: currentPage,
+                    pageSize: itemsPerPage,
+                    total: ((searchData?.length > 0 || searchData === null) ? totalSearchPages : totalPages) * itemsPerPage,
+                    onChange: handlePageChange,
+                }}
+
+                style={{ width: "100% !important" }}
+            />
         </div>
     )
 }

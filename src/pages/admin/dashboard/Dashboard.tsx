@@ -17,11 +17,14 @@ export default function Dashboard() {
     const [center, setCenter] = useState({ lat: 14.0583, lng: 108.2772 });
     const ZOOM_LEVEL = 5;
 
-    const customIcon1 = data.length > 0 && L.icon({
-        iconUrl: String(data[0].categorys.icon),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40]
-    });
+    const customIcon = (icon: any) => {
+        return L.icon({
+            iconUrl: icon,
+            iconSize: [30, 30],
+            iconAnchor: [15, 30]
+        });
+
+    }
 
     useEffect(() => {
         async function getForecastMap() {
@@ -67,7 +70,7 @@ export default function Dashboard() {
 
                                 {data?.map((center, index: any) => (
                                     <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
-                                        <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon1}>
+                                        <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon(center?.categorys?.icon)}>
                                             <Popup>
                                                 <p style={{ textAlign: 'left' }}>Tên: {center.name}</p>
                                                 <p style={{ textAlign: 'left' }}>Mức độ: {center.level}</p>

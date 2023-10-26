@@ -150,7 +150,7 @@ export default function NavBar() {
                     setnotification(!notification);
                     HandleChangeTimeNotification();
                     if (MapStore.total == 0) {
-                      alert("Không có thông báo");
+                      // alert("Không có thông báo");
                     }
                   }}
                 ></i>

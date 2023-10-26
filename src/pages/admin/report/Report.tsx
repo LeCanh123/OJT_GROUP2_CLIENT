@@ -8,7 +8,8 @@ import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import AdminApi from '../../../apis/Admin';
 import "./Report.scss"
-
+import MapApi from "../../../apis/map"
+import { Table, message } from 'antd';
 
 //component time
 import Datetime from 'react-datetime';
@@ -69,32 +70,84 @@ export default function Report() {
           return { ...item, name: item.name1 };
         });
       }
-      //get chart
-      async function getChart(){
-        let chartResult=await AdminApi.AdminGetChart({type:"day"})
-        console.log("chartResult",chartResult);
-        if(chartResult.status){
-          setData(convertName1ToName(chartResult.data))
-        }
-      };
+
     
-    useEffect(()=>{
-      console.log("!");
-      getChart()
-    },[])
+    // useEffect(()=>{
+    //   console.log("!");
+    //   getChart()
+    // },[])
 
   //biến chọn ngày
-  const [startDate, setStartDate]:any = useState(new Date());
-  const handleDateChange = (date:any) => {
-    console.log("date",date);
+  const [startDate, setStartDate]:any = useState("null");
+  const [endDate, setEndDate]:any = useState("null");
+  const handleDateStartChange = (date:any) => {
+    console.log("Thời gian bắt đầu",date);
+    setStartDate(new Date(date._d))
+  };
+  const handleDateEndChange = (date:any) => {
+    setEndDate(new Date(date._d))
     
   };
 
   //chọn kiểu tổng kết theo ngày ,tháng
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('null');
 
   const handleOptionChange = (event:any) => {
     setSelectedOption(event.target.value);
+  };
+
+  //lấy list category
+  let [ChooseCategoryList, setChooseCategoryList] = useState("null");
+  let [listCategory, setListCategory] = useState([]);
+  useEffect(() => {
+    async function getAllCategory() {
+      let getAllCategory = await MapApi.getAllCategory();
+      console.log("getAllCategory", getAllCategory);
+      if (getAllCategory.status) {
+        setListCategory(getAllCategory.data)
+      } else {
+        alert(getAllCategory.message)
+      }
+
+    }
+    getAllCategory()
+  }, []);
+
+  function handleChooseCategoryList(e: any) {
+    setChooseCategoryList(e);
+  }
+
+
+  //get chart
+  async function getChart(){
+    console.log("vào getChart");
+
+    let dataChart={
+      timestart:startDate,
+      timeend:endDate,
+      typechart:selectedOption,
+      categoryid:ChooseCategoryList
+    };
+    if(startDate=="null"){
+      message.error("Chưa nhập thời gian bắt đầu");
+      return
+    }
+    if(endDate=="null"){
+      message.error("Chưa nhập thời gian kết thúc");
+      return
+    }
+    if(selectedOption=="null"){
+      message.error("Chưa chọn loại chart");
+      return
+    }
+    console.log(dataChart);
+    
+    
+    let chartResult=await AdminApi.AdminGetChart({type:"day"})
+    console.log("chartResult",chartResult);
+    if(chartResult.status){
+      // setData(convertName1ToName(chartResult.data))
+    }
   };
 
   return (
@@ -130,24 +183,35 @@ export default function Report() {
         <div style={{display:"block"}}>Chọn thời gian bắt đầu</div>
         <div style={{width:"300px",height:"100px"}}>
           <div style={{marginBottom:"0"}}>
-          <Datetime onChange={handleDateChange} />
+          <Datetime onChange={handleDateStartChange} />
           </div>
         </div>
         <div style={{display:"block",position:"relative",top:"-50px"}}>Chọn thời gian kết thúc</div>
         <div style={{width:"300px",height:"100px",position:"relative",top:"-50px"}}>
-        <Datetime />
+        <Datetime onChange={handleDateEndChange}/>
         </div>
 
         <select value={selectedOption} onChange={handleOptionChange} style={{display:"block",width:"300px",height:"40px",
-        position:"relative",top:"-95px"}}>
-        <option value="">-- Chọn một mục --</option>
-        <option value="1">Mục 1</option>
-        <option value="2">Mục 2</option>
-        <option value="3">Mục 3</option>
+        position:"relative",top:"-90px"}}>
+        <option value="">-- Chọn loại biểu đồ --</option>
+        <option value="day">Theo ngày</option>
+        <option value="month">Theo tháng</option>
       </select>
 
+      <select className="form-select" aria-label="Default select example" 
+      onChange={(e: any) => { handleChooseCategoryList(e.target.value) }}
+      style={{display:"block",width:"300px",height:"40px",
+      position:"relative",top:"-60px"}}
+      >
+              <option selected value={"null"}>Chọn loại thiên tai</option>
+              <option key={"index"} value="all">Tất cả thiên tai</option>
+              {listCategory.map((item: any, index) => (
+                <option key={index} value={item.id}>{item.title}</option>
+              ))}
+      </select>
+      <button onClick={()=>{getChart()}} style={{position:"relative",top:"-30px",width:"140px"}}>Xác Nhận</button>
       </div>
-      <button style={{marginLeft:"90px",position:"relative",top:"-50px"}} className="btn btn-primary" onClick={handleButtonClick}>Generate PDF</button>
+      <button style={{marginLeft:"90px",position:"relative",top:"-10px"}} className="btn btn-primary" onClick={handleButtonClick}>Generate PDF</button>
     </div>
   );
 }

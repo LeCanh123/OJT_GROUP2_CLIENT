@@ -48,7 +48,7 @@ function Map() {
         // alert(getAllMapResult.message)
       }
       else {
-        alert(getAllMapResult.message)
+        // alert(getAllMapResult.message)
       }
       console.log("getAllMapResult.data", getAllMapResult);
     }
@@ -59,7 +59,7 @@ function Map() {
       if (getCategoryById.status) {
         setData(getCategoryById.data)
       } else {
-        alert(getCategoryById.message)
+        // alert(getCategoryById.message)
       }
 
 
@@ -82,7 +82,7 @@ function Map() {
       if (getAllCategory.status) {
         setListCategory(getAllCategory.data)
       } else {
-        alert(getAllCategory.message)
+        // alert(getAllCategory.message)
       }
 
     }

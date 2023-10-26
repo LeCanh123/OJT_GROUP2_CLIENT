@@ -106,7 +106,7 @@ export default function Report() {
       if (getAllCategory.status) {
         setListCategory(getAllCategory.data)
       } else {
-        alert(getAllCategory.message)
+        // alert(getAllCategory.message)
       }
 
     }

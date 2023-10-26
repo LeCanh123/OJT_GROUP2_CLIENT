@@ -7,8 +7,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import AdminApi from '../../../apis/Admin';
+import "./Report.scss"
 
 
+//component time
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
 
 
 
@@ -42,7 +46,7 @@ export default function Report() {
       await printPdf();
     };
     const printPdf = async () => {
-      const page = document.getElementById('chart');
+      const page:any = document.getElementById('chart');
       htmlToImage.toPng(page)
         .then(function (dataUrl) {
           var img = new Image();
@@ -78,6 +82,21 @@ export default function Report() {
       console.log("!");
       getChart()
     },[])
+
+  //biến chọn ngày
+  const [startDate, setStartDate]:any = useState(new Date());
+  const handleDateChange = (date:any) => {
+    console.log("date",date);
+    
+  };
+
+  //chọn kiểu tổng kết theo ngày ,tháng
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleOptionChange = (event:any) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
     <div className='component' style={{ paddingTop: "10em" }}>
       <div id='chart'>
@@ -107,7 +126,28 @@ export default function Report() {
     </LineChart>
       <div>ABC</div>
       </div>
-      <button className="btn btn-primary" onClick={handleButtonClick}>Generate PDF</button>
+      <div style={{marginLeft:"90px"}}>
+        <div style={{display:"block"}}>Chọn thời gian bắt đầu</div>
+        <div style={{width:"300px",height:"100px"}}>
+          <div style={{marginBottom:"0"}}>
+          <Datetime onChange={handleDateChange} />
+          </div>
+        </div>
+        <div style={{display:"block",position:"relative",top:"-50px"}}>Chọn thời gian kết thúc</div>
+        <div style={{width:"300px",height:"100px",position:"relative",top:"-50px"}}>
+        <Datetime />
+        </div>
+
+        <select value={selectedOption} onChange={handleOptionChange} style={{display:"block",width:"300px",height:"40px",
+        position:"relative",top:"-95px"}}>
+        <option value="">-- Chọn một mục --</option>
+        <option value="1">Mục 1</option>
+        <option value="2">Mục 2</option>
+        <option value="3">Mục 3</option>
+      </select>
+
+      </div>
+      <button style={{marginLeft:"90px",position:"relative",top:"-50px"}} className="btn btn-primary" onClick={handleButtonClick}>Generate PDF</button>
     </div>
   );
 }

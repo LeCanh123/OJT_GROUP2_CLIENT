@@ -204,7 +204,7 @@ let [change,setChange]=useState(1)
             render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
         },
         {
-            title: "Actions",
+            title: "Thao tác",
             render: (text, record) => (
                 <div>
                     <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px", marginRight: "10px" }}>Sửa</button>

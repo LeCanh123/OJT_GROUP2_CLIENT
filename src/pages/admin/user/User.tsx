@@ -63,7 +63,7 @@ export default function User() {
 
   return (
     <div className="component">
-      <h4 style={{ marginLeft: "490px", paddingTop: "40px" }}>DANH SÁCH NGƯỜI DÙNG</h4>
+      <h4 style={{ marginLeft: "490px", paddingTop: "40px",fontWeight:"bold",color:"black" }}>DANH SÁCH NGƯỜI DÙNG</h4>
       <div className="row" style={{ marginBottom: "40px", marginTop: "40px" }}>
         <div className="col-md-5 mx-auto">
           <div className="input-group">

@@ -86,14 +86,15 @@ export default function Message() {
           dataIndex: '',
           key: 'x',
           render: (record) => (
-            <a onClick={() => handleDelete(record.id)}>Delete</a>
+            <a onClick={() => handleDelete(record.id)} style={{color:"red"}}>Delete</a>
           ),
         },
       ];
 
   return (
     <div  className='component'>
-         <div className="row" style={{ marginBottom: "20px",marginTop:"70px" }}>
+               <h4 style={{ marginLeft: "550px", paddingTop: "40px" }}>DANH SÁCH GÓP Ý</h4>
+<div className="row" style={{ marginBottom: "40px", marginTop: "40px" }}>
                 <div className="col-md-5 mx-auto">
                     <div className="input-group">
                         <input

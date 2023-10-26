@@ -160,11 +160,7 @@ export default function NavBar() {
                     setnotification(!notification);
                     HandleChangeTimeNotification();
                     if (MapStore.total == 0) {
-<<<<<<< HEAD
-                      // alert("Không có thông báo");
-=======
                       message.warning("Không có thông báo!")
->>>>>>> develop
                     }
                   }}
                 ></i>

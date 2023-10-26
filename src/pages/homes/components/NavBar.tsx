@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { mapAction } from "../../../redux/MapSlice";
 import { googleLogout } from "@react-oauth/google";
 import { authUserAction } from "../../../redux/AuthSlice";
+import { message } from "antd";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -16,6 +17,10 @@ export default function NavBar() {
   const authUser = useSelector((store: StoreType) => {
     return store.authUserStore.data;
   });
+
+  useEffect(() => {
+    console.log("authUser", authUser);
+  }, [authUser])
 
   const handleGoogleLogOut = () => {
     googleLogout();
@@ -52,7 +57,6 @@ export default function NavBar() {
   const MapStore = useSelector((store: StoreType) => {
     return store.MapSlice;
   });
-  console.log("MapStore", MapStore);
 
   //lấy thông báo user về
   useEffect(() => {
@@ -70,10 +74,12 @@ export default function NavBar() {
               <div className="col-md-7 mt-0">
                 <div className="row">
                   <div className="col col-md-2" style={{ textAlign: "right" }}>
-                    <img
-                      src="http://vndms.dmc.gov.vn/app/images/front/sprite-header-sp.png"
-                      style={{ width: "70px", height: "70px" }}
-                    ></img>
+                    <a href="/">
+                      <img
+                        src="http://vndms.dmc.gov.vn/app/images/front/sprite-header-sp.png"
+                        style={{ width: "70px", height: "70px" }}
+                      ></img>
+                    </a>
                   </div>
                   <div
                     className="col col-md-9 mt-2"
@@ -99,7 +105,7 @@ export default function NavBar() {
                   navigate("/");
                 }}
               >
-                Home
+                Trang chủ
               </div>
               <div
                 className="col-md-1 mt-3 text-center itemhover"
@@ -107,7 +113,7 @@ export default function NavBar() {
                   navigate("/about");
                 }}
               >
-                About
+                Thông tin
               </div>
 
               <div
@@ -116,27 +122,30 @@ export default function NavBar() {
                   navigate("/help");
                 }}
               >
-                Help
+                Hỗ trợ
               </div>
             </div>
           </div>
           <div className="col-6 col-md-2">
             <div className="row">
-              <div className="col-6 col-md-3 mt-3 itemhover ">
+              <div className="col-6 col-md-3 mt-3 d-flex justify-content-between w-50 ">
                 {authUser ? (
                   <>
-                    <span className="text-truncate d-inline-block">
-                      Hello, {authUser.displayName}
+                    <span className="text-truncate d-inline-block " style={{ marginTop: '10px', paddingRight: '100px' }}>
+                      Hello, {authUser.email}
                     </span>
-                    <span onClick={() => handleGoogleLogOut()}>Logout</span>
+                    <span className="itemhover" onClick={() => handleGoogleLogOut()}>
+                      <i className="fa-solid fa-right-from-bracket"></i>
+                    </span>
                   </>
                 ) : (
                   <span
                     onClick={() => {
                       navigate("/login");
                     }}
+                    className="itemhover"
                   >
-                    Login
+                    Đăng nhập
                   </span>
                 )}
               </div>
@@ -146,18 +155,23 @@ export default function NavBar() {
               >
                 <i
                   className="fa-regular fa-bell"
+
                   onClick={() => {
                     setnotification(!notification);
                     HandleChangeTimeNotification();
                     if (MapStore.total == 0) {
+<<<<<<< HEAD
                       // alert("Không có thông báo");
+=======
+                      message.warning("Không có thông báo!")
+>>>>>>> develop
                     }
                   }}
                 ></i>
 
                 <div style={{ position: "absolute" }}>
                   <div
-                    style={{ position: "absolute", top: "-35px", left: "10px" }}
+                    style={{ position: "absolute", top: "-35px", left: "15px" }}
                   >
                     {MapStore.total}
                   </div>

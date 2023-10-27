@@ -50,6 +50,13 @@ export default {
     paginationForecast:async (page:number,limit:number)=>{
         return await axios.get(`${import.meta.env.VITE_SERVER_HOST}earthquakes?page=${page}&limit=${limit}`)
     },
+     //message
+     addMessage: async (data: any) => {
+        return await axios.post(
+            import.meta.env.VITE_SERVER_HOST + "message",
+            data
+        );
+    },
 
     getMessage: async (page: number, limit: number) => {
         try {
@@ -100,5 +107,11 @@ export default {
                 }
         }
         );
-    }
+    },
+    //Admin Login
+    AdminLogin: async (data: any) => {
+        return await axios.post(import.meta.env.VITE_SERVER_HOST + "admin",
+            data
+        );
+    },
 };

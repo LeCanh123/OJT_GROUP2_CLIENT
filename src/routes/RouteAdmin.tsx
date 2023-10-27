@@ -7,6 +7,7 @@ import User from "../pages/admin/user/User";
 import Report from "../pages/admin/report/Report";
 import App from "../pages/admin/category/CateTest";
 import Message from "../pages/admin/message/Message";
+import Login from "../pages/admin/user/login/LoginAdmin";
 
 export default
     <>
@@ -18,6 +19,7 @@ export default
             <Route path="user" element={<User />} />
             <Route path="message" element={<Message />} />
             <Route path="report" element={<Report />} />
+
         </Route>
 
     </>

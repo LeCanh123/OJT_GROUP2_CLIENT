@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
   loginWithFacebook:async (data:any)=> {
-    return await axios.post(import.meta.env.VITE_SERVER_HOST+`users/facebooklogin`,{data})
+    return await axios.post(import.meta.env.VITE_SERVER_HOST+`users1/facebooklogin`,{data})
       .then(res => {
         if(res.data){
           return res.data
@@ -22,7 +22,7 @@ export default {
   },
   
   loginWithGoogle:async (data:any)=> {
-    return await axios.post(import.meta.env.VITE_SERVER_HOST+`users/googlelogin`,{data})
+    return await axios.post(import.meta.env.VITE_SERVER_HOST+`users1/googlelogin`,{data})
       .then(res => {
         if(res.data){
           return res.data

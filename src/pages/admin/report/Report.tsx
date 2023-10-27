@@ -143,10 +143,13 @@ export default function Report() {
     console.log(dataChart);
     
     
-    let chartResult=await AdminApi.AdminGetChart({type:"day"})
+    let chartResult=await AdminApi.AdminGetChart({...dataChart})
     console.log("chartResult",chartResult);
     if(chartResult.status){
-      // setData(convertName1ToName(chartResult.data))
+      setData(convertName1ToName(chartResult.data))
+      if(chartResult.data.length==0){
+        message.error("Dữ liệu trống");
+      }
     }
   };
 
@@ -171,13 +174,15 @@ export default function Report() {
       <Legend />
       <Line
         type="monotone"
-        dataKey="pv"
+        // dataKey="pv"
         stroke="#8884d8"
         activeDot={{ r: 8 }}
       />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
-      <div>ABC</div>
+    <div style={{position:'relative',top:"-650px",left:"40px"}}>Số Lượng thiên tai</div>
+    <div  style={{position:'relative',top:"-95px",left:"1010px"}}>Thời gian</div>
+      <div>{`Biểu đồ thiên tai - ${""}`}</div>
       </div>
       <div style={{marginLeft:"90px"}}>
         <div style={{display:"block"}}>Chọn thời gian bắt đầu</div>
@@ -204,7 +209,7 @@ export default function Report() {
       position:"relative",top:"-60px"}}
       >
               <option selected value={"null"}>Chọn loại thiên tai</option>
-              <option key={"index"} value="all">Tất cả thiên tai</option>
+              <option key={"index"} value="null">Tất cả thiên tai</option>
               {listCategory.map((item: any, index) => (
                 <option key={index} value={item.id}>{item.title}</option>
               ))}
@@ -212,6 +217,7 @@ export default function Report() {
       <button onClick={()=>{getChart()}} style={{position:"relative",top:"-30px",width:"140px"}}>Xác Nhận</button>
       </div>
       <button style={{marginLeft:"90px",position:"relative",top:"-10px"}} className="btn btn-primary" onClick={handleButtonClick}>Generate PDF</button>
+
     </div>
   );
 }

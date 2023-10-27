@@ -20,8 +20,8 @@ export default function Dashboard() {
     const customIcon = (icon: any) => {
         return L.icon({
             iconUrl: icon,
-            iconSize: [30, 30],
-            iconAnchor: [15, 30]
+            iconSize: [20, 20],
+            iconAnchor: [10, 20]
         });
 
     }
@@ -50,10 +50,21 @@ export default function Dashboard() {
 
     }, [])
 
-    // useEffect(() => {
-    //     console.log("sendMailUsers", sendMailUsers);
+    const getColorForMagnitude = (level: number): string => {
+        // Define earthquake levels and corresponding colors
+        if (level >= 9) {
+            return '#ea1010'; // Red
+        } else if (level >= 7) {
+            return '#ff4400'; // Orange
+        } else if (level >= 5) {
+            return '#ff8800'; // Orange
+        } else if (level >= 3) {
+            return '#ffcc00'; // Yellow
+        } else {
+            return '#ffff00'; // Light yellow
+        }
+    };
 
-    // }, [sendMailUsers])
     return (
         <div className='component'>
             <div className='dashboard-map'>
@@ -69,8 +80,8 @@ export default function Dashboard() {
                                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
                                 {data?.map((center, index: any) => (
-                                    <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size}>
-                                        <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon(center?.categorys?.icon)}>
+                                    <Circle key={index} center={[Number(center.lat), Number(center.lng)]} radius={center.size} pathOptions={{ fillColor: getColorForMagnitude(Number(center.level)) }}>
+                                        <Marker position={[Number(center.lat), Number(center.lng)]} icon={customIcon(center?.categorys?.icon)} >
                                             <Popup>
                                                 <p style={{ textAlign: 'left' }}>Tên: {center.name}</p>
                                                 <p style={{ textAlign: 'left' }}>Mức độ: {center.level}</p>

@@ -11,10 +11,6 @@ import { CategoryType } from '../../../interface/Category';
 import { forecastAction } from '../../../redux/ForecastSlice';
 import moment from 'moment';
 
-const onChange: TableProps<ForecastType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-};
-
 export default function Forecast() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -23,7 +19,6 @@ export default function Forecast() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
-    const [data, setData] = useState<CategoryType[]>([]);
     const [totalSearchPages, setTotalSearchPages] = useState(0);
     const [currentData, setCurrentData] = useState([])
 
@@ -58,7 +53,7 @@ export default function Forecast() {
 
         }
     }, [])
-    let [change, setChange] = useState(1)
+
     // Add Forecast
     async function handleAddForecast(e: React.FormEvent) {
         e.preventDefault();
@@ -100,13 +95,12 @@ export default function Forecast() {
 
     // Update Forecast
     const [editForecast, setEditForecast] = useState<ForecastType | null>(null);
-    // const [editForecastId, setEditForecastId] = useState<string | null>(null);
 
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
         e.preventDefault();
 
         let updateData = {
-            categorysId: editForecast?.categorysId.id!,
+            categorysId: editForecast?.categorys.id!,
             name: editForecast?.name!,
             lat: editForecast?.lat!,
             lng: editForecast?.lng!,
@@ -158,8 +152,6 @@ export default function Forecast() {
                     value: forecast.name,
                 }))
                 : [],
-            // specify the condition of filtering result
-            // here is that finding the name started with `value`
             onFilter: (value: string, record) => record.name.indexOf(value) === 0,
             sorter: (a, b) => a.name.length - b.name.length,
             sortDirections: ['descend'],
@@ -168,17 +160,17 @@ export default function Forecast() {
         {
             title: 'Vĩ độ (Lat)',
             dataIndex: "lat",
-
+            width: '10%'
         },
         {
             title: "Kinh độ (Lng)",
             dataIndex: "lng",
-
+            width: '10%'
         },
         {
             title: "Mức độ",
             dataIndex: "level",
-
+            width: '7%'
         },
         {
             title: "Địa điểm",
@@ -209,21 +201,15 @@ export default function Forecast() {
             title: "Thao tác",
             render: (text, record) => (
                 <div>
-                    <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} style={{ width: "80px", marginRight: "10px" }}>Sửa</button>
+                    <button type="button" className="btn btn-outline-success" onClick={() => handleEdit(record)} >Sửa</button>
 
                 </div>
             ),
+            width: '5%'
 
         }
     ];
 
-
-    // useEffect(() => {
-    //     console.log("editForecastId", editForecastId);
-    // }, [editForecastId])
-    useEffect(() => {
-        console.log("editForecast", editForecast);
-    }, [editForecast])
     let timeOut: string | number | NodeJS.Timeout | undefined;
     function searchKeyWords(serchValue: string) {
         clearTimeout(timeOut);
@@ -238,6 +224,8 @@ export default function Forecast() {
                 })
         })
     }
+
+    let [change, setChange] = useState(1)
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };

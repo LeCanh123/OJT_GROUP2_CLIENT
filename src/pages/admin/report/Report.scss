@@ -1,40 +1,27 @@
-.rdtPicker{
-    width: 320px;
-    // overflow: hidden;
+.rdtPicker {
+  width: 320px;
+  // overflow: hidden;
 }
 
-.rdtDays{
-    width: 320px;
+.rdtDays {
+  width: 320px;
 }
 
-table{
-    width: 1px;
-
-    height: 10px;
-    min-width: 320px ;
+table {
+  width: 1px;
+  height: 10px;
+  min-width: 320px;
 }
-thead{
-    width: 1px
-}
-
-tbody{
-    width: 1px
+thead {
+  width: 1px;
 }
 
-
-tr{
-    width: 1px
+tbody {
+  width: 1px;
 }
 
-td{
-    width: 1px
+tr {
+  width: 1px;
 }
 
 
-.recharts-legend-item svg{
-    display: none!important;
-}
-.recharts-legend-item-text{
-    display: none!important;
-
-}

@@ -9,14 +9,14 @@ import Login from "../pages/homes/components/Login";
 import RouteAdmin from "./RouteAdmin";
 import About from "../pages/about/About";
 import Help from "../pages/help/Help";
-import StormMap from "../pages/admin/Layer";
-import Test from "../pages/admin/forecast/Test";
+
 
 
 export default function RouteSetUp() {
     return (
         <BrowserRouter>
             <Routes>
+            <Route path="login_admin" element={<LoginAdmin />} />
                 <Route path="/" element={<Home />}>
                     <Route path="/chart" element={<Chart />} />
                     <Route path="/" element={<Map />} />

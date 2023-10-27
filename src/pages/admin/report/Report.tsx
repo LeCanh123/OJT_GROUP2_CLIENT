@@ -187,7 +187,7 @@ export default function Report() {
       />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
-    <div style={{position:'relative',top:"-650px",left:"40px"}}>Số Lượng thiên tai</div>
+    <div style={{position:'relative',top:"-595px",left:"80px"}}>Số Lượng thiên tai</div>
     <div  style={{position:'relative',top:"-95px",left:"1010px"}}>Thời gian</div>
       <div style={{position:"relative",left:"400px",top:"-50px",fontSize:"20px",fontWeight:"bold"}}>
         {`Biểu đồ thiên tai - ${(ChooseCategoryName=="null"||ChooseCategoryName=="Chọn loại thiên tai")?"Tất Cả":ChooseCategoryName}`}</div>

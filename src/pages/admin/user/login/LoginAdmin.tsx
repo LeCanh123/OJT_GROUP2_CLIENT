@@ -59,7 +59,7 @@ export default function LoginAdmin() {
           }}>
             <div className="form-group">
               <label className="form-control-label form-login-admin">Tên Admin</label>
-              <input type="text"   name='userName'className="form-control input_login_admin" />
+              <input type="text"   name='userName'className="form-control input_login_admin1" />
             </div>
             <div className="form-group">
               <label className="form-control-label form-login-admin">Mật khẩu</label>

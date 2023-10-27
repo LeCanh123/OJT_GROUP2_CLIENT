@@ -24,7 +24,7 @@ export default function User() {
       key: 'x',
       render: () => (
         <Space align="center" style={{ marginBottom: 16 }}>
-           <Switch checked={checkStrictly} onChange={setCheckStrictly} />
+          <Switch checked={checkStrictly} onChange={setCheckStrictly} />
         </Space>
       ),
     },
@@ -63,7 +63,7 @@ export default function User() {
 
   return (
     <div className="component">
-      <h4 style={{ marginLeft: "490px", paddingTop: "40px",fontWeight:"bold",color:"black" }}>DANH SÁCH NGƯỜI DÙNG</h4>
+      <h4 style={{ marginLeft: "39%", paddingTop: "40px", fontWeight: "bold", color: "black" }}>DANH SÁCH NGƯỜI DÙNG</h4>
       <div className="row" style={{ marginBottom: "40px", marginTop: "40px" }}>
         <div className="col-md-5 mx-auto">
           <div className="input-group">
@@ -72,14 +72,14 @@ export default function User() {
               type="search"
               placeholder='Tìm kiếm theo tên'
               id="example-search-input"
-              // onChange={(event) => {
-              //     const searchValue = event.target.value;
-              //     if (searchValue.trim() !== "") {
-              //         searchKeyWords(searchValue);
-              //     } else {
-              //         setSearchData([]);
-              //     }
-              // }}
+            // onChange={(event) => {
+            //     const searchValue = event.target.value;
+            //     if (searchValue.trim() !== "") {
+            //         searchKeyWords(searchValue);
+            //     } else {
+            //         setSearchData([]);
+            //     }
+            // }}
             />
             <span className="input-group-append">
               <button

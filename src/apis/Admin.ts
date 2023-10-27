@@ -18,12 +18,19 @@ export default {
     getCategory: async () => {
         return await axios.get(import.meta.env.VITE_SERVER_HOST + `categorys`);
     },
-    paginationCategory:async (page:number,limit:number)=>{
-        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}categorys?page=${page}&limit=${limit}`)
+    paginationCategory: async (page: number, limit: number) => {
+        return await axios.get(
+            `${
+                import.meta.env.VITE_SERVER_HOST
+            }categorys?page=${page}&limit=${limit}`
+        );
     },
-    searchCategory:async(search:string)=>{
-        return await axios.get(import.meta.env.VITE_SERVER_HOST+"categorys?q="+search)
+    searchCategory: async (search: string) => {
+        return await axios.get(
+            import.meta.env.VITE_SERVER_HOST + "categorys?q=" + search
+        );
     },
+
     /* Forecast */
     addForecast: async (data: ForecastType) => {
         return await axios.post(
@@ -47,8 +54,12 @@ export default {
             import.meta.env.VITE_SERVER_HOST + `earthquakes`
         );
     },
-    paginationForecast:async (page:number,limit:number)=>{
-        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}earthquakes?page=${page}&limit=${limit}`)
+    paginationForecast: async (page: number, limit: number) => {
+        return await axios.get(
+            `${
+                import.meta.env.VITE_SERVER_HOST
+            }earthquakes?page=${page}&limit=${limit}`
+        );
     },
      //message
      addMessage: async (data: any) => {
@@ -57,6 +68,8 @@ export default {
             data
         );
     },
+
+    /* Message */
 
     getMessage: async (page: number, limit: number) => {
         try {
@@ -89,29 +102,15 @@ export default {
     },
 
     //chart
-    AdminGetChart:async (data:any)=>{
-        return await axios.post(import.meta.env.VITE_SERVER_HOST+`earthquakes/getchart`,{...data})
-        .then(res => {
-          if(res.data){
-            return res.data
-          }
-          console.log("ress",res);
-          
-        })
-        .catch(error => {
-          console.log("errr",error);
-          
-          return {
-            status:false,
-            message:"Lỗi hệ thống"
+    AdminGetChart: async (data: any) => {
+        return await axios
+            .post(import.meta.env.VITE_SERVER_HOST + `earthquakes/getchart`, {
+                ...data,
+            })
+            .then((res) => {
+                if (res.data) {
+                    return res.data;
                 }
-        }
-        );
-    },
-    //Admin Login
-    AdminLogin: async (data: any) => {
-        return await axios.post(import.meta.env.VITE_SERVER_HOST + "admin",
-            data
-        );
+
     },
 };

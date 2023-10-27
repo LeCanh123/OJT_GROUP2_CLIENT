@@ -9,7 +9,7 @@ import Login from "../pages/homes/components/Login";
 import RouteAdmin from "./RouteAdmin";
 import About from "../pages/about/About";
 import Help from "../pages/help/Help";
-import LoginAdmin from "../pages/admin/user/login/LoginAdmin";
+
 
 
 export default function RouteSetUp() {
@@ -18,7 +18,7 @@ export default function RouteSetUp() {
             <Routes>
             <Route path="login_admin" element={<LoginAdmin />} />
                 <Route path="/" element={<Home />}>
-                    <Route path="/chart" element={<Chart />} />     
+                    <Route path="/chart" element={<Chart />} />
                     <Route path="/" element={<Map />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/about" element={<About />} />
@@ -27,6 +27,8 @@ export default function RouteSetUp() {
 
                 </Route>
                 {RouteAdmin}
+                <Route path="/layer" element={<StormMap />} />
+                <Route path="/test" element={<Test />} />
 
 
             </Routes>

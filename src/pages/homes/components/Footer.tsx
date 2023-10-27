@@ -15,15 +15,15 @@ export default function Footer() {
               <p>Hệ thống cảnh báo thiên tai Việt Nam là một cơ quan quốc gia chuyên nghiên cứu, theo dõi, và cảnh báo về các sự kiện thiên tai như bão, lũ lụt, động đất, và sạt lở ở Việt Nam. Cung cấp thông tin và cảnh báo kịp thời để giảm thiểu thiệt hại do thiên tai gây ra.</p>
             </div>
             <div className="link-items">
-              <a className="link-item" href="/" style={{ color: '#fff', textDecoration: 'underline' }}>Home</a>
-              <a className="link-item" href="/about" style={{ padding: "5em", color: '#fff', textDecoration: 'underline' }}>About</a>
-              <a className="link-item" href="/help" style={{ color: '#fff', textDecoration: 'underline' }}>Help</a>
+              <a className="link-item" href="/" style={{ color: '#fff', textDecoration: 'underline' }}>Trang chủ</a>
+              <a className="link-item" href="/about" style={{ padding: "5em", color: '#fff', textDecoration: 'underline' }}>Thông tin</a>
+              <a className="link-item" href="/help" style={{ color: '#fff', textDecoration: 'underline' }}>Hỗ trợ</a>
             </div>
           </div>
 
           <div className="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
             © 2020 Copyright:
-            <a className="text-white" href="https://mdbootstrap.com/">HTGSVN.com</a>
+            <a className="text-white" href="http://vndms.dmc.gov.vn">HTGSVN.com</a>
           </div>
 
         </footer>

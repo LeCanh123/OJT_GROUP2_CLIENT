@@ -20,24 +20,24 @@ import "react-datetime/css/react-datetime.css";
 
 export default function Report() {
   const [data,setData] = useState([
-    {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400000,
-    },
-    {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-    },
-    {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-    },
+    // {
+    // name: 'Page A',
+    // uv: 4000,
+    // pv: 2400,
+    // amt: 2400000,
+    // },
+    // {
+    // name: 'Page B',
+    // uv: 3000,
+    // pv: 1398,
+    // amt: 2210,
+    // },
+    // {
+    // name: 'Page C',
+    // uv: 2000,
+    // pv: 9800,
+    // amt: 2290,
+    // },
   
     ])
 
@@ -98,6 +98,7 @@ export default function Report() {
 
   //lấy list category
   let [ChooseCategoryList, setChooseCategoryList] = useState("null");
+  let [ChooseCategoryName,setChooseCategoryName]= useState("null");
   let [listCategory, setListCategory] = useState([]);
   useEffect(() => {
     async function getAllCategory() {
@@ -114,7 +115,13 @@ export default function Report() {
   }, []);
 
   function handleChooseCategoryList(e: any) {
-    setChooseCategoryList(e);
+    setChooseCategoryList(e.target.value);
+    console.log("e.target",e.target);
+    const selectedOption:any = Array.from(e.target.options).find((option:any) => option.value == e.target.value);
+    const selectedTitle = selectedOption?.text;
+    console.log("selectedTitle",selectedTitle);
+    setChooseCategoryName(selectedTitle);
+    
   }
 
 
@@ -182,7 +189,8 @@ export default function Report() {
     </LineChart>
     <div style={{position:'relative',top:"-650px",left:"40px"}}>Số Lượng thiên tai</div>
     <div  style={{position:'relative',top:"-95px",left:"1010px"}}>Thời gian</div>
-      <div>{`Biểu đồ thiên tai - ${""}`}</div>
+      <div style={{position:"relative",left:"400px",top:"-50px",fontSize:"20px",fontWeight:"bold"}}>
+        {`Biểu đồ thiên tai - ${(ChooseCategoryName=="null"||ChooseCategoryName=="Chọn loại thiên tai")?"Tất Cả":ChooseCategoryName}`}</div>
       </div>
       <div style={{marginLeft:"90px"}}>
         <div style={{display:"block"}}>Chọn thời gian bắt đầu</div>
@@ -204,7 +212,7 @@ export default function Report() {
       </select>
 
       <select className="form-select" aria-label="Default select example" 
-      onChange={(e: any) => { handleChooseCategoryList(e.target.value) }}
+      onChange={(e: any) => { handleChooseCategoryList(e) }}
       style={{display:"block",width:"300px",height:"40px",
       position:"relative",top:"-60px"}}
       >

@@ -20,7 +20,7 @@ export default function NavBar() {
 
   useEffect(() => {
     console.log("authUser", authUser);
-  }, [authUser])
+  }, [authUser]);
 
   const handleGoogleLogOut = () => {
     googleLogout();
@@ -131,10 +131,16 @@ export default function NavBar() {
               <div className="col-6 col-md-3 mt-3 d-flex justify-content-between w-50 ">
                 {authUser ? (
                   <>
-                    <span className="text-truncate d-inline-block " style={{ marginTop: '10px', paddingRight: '100px' }}>
-                      Hello, {authUser.email}
+                    <span
+                      className="text-truncate d-inline-block text-wrap"
+                      style={{ maxWidth: "79px", maxHeight: "50px" }}
+                    >
+                      Hi, {authUser.display_name}
                     </span>
-                    <span className="itemhover" onClick={() => handleGoogleLogOut()}>
+                    <span
+                      className="itemhover"
+                      onClick={() => handleGoogleLogOut()}
+                    >
                       <i className="fa-solid fa-right-from-bracket"></i>
                     </span>
                   </>
@@ -155,12 +161,11 @@ export default function NavBar() {
               >
                 <i
                   className="fa-regular fa-bell"
-
                   onClick={() => {
                     setnotification(!notification);
                     HandleChangeTimeNotification();
                     if (MapStore.total == 0) {
-                      message.warning("Không có thông báo!")
+                      message.warning("Không có thông báo!");
                     }
                   }}
                 ></i>

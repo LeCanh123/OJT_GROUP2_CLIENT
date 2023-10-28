@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { StoreType } from "../../../../redux/store";
 import { authUserAction } from "../../../../redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import FacebookLogin, {
+  ReactFacebookFailureResponse,
+  ReactFacebookLoginInfo,
+} from "react-facebook-login";
 
 const TYPE_LOGIN = {
   GOOGLE: 0,
@@ -36,7 +40,8 @@ export default function LoginForm() {
 
   const handleGetTokenFromServer = async (payload: {
     email: string;
-    displayName: string;
+    oauth_id: string;
+    display_name: string;
     type_login: number;
   }): Promise<{
     status: boolean;
@@ -56,7 +61,8 @@ export default function LoginForm() {
       const authUser = await getGoogleAuthUserInfo(access_token);
       const data = await handleGetTokenFromServer({
         email: authUser.email,
-        displayName: authUser.name,
+        oauth_id: authUser.id,
+        display_name: authUser.name,
         type_login: TYPE_LOGIN.GOOGLE,
       });
       localStorage.setItem("token", data.result.token);
@@ -69,6 +75,26 @@ export default function LoginForm() {
   const handleGoogleLogOut = () => {
     googleLogout();
     dispatch(authUserAction.reset());
+  };
+
+  const handleLoginFacebook = async (
+    response: ReactFacebookLoginInfo | ReactFacebookFailureResponse
+  ) => {
+    // Nếu response là ReactFacebookFailureResponse thì ko xủ lý tiếp
+    if ("status" in response) return;
+
+    // Kiểm tra response có phải là kiểu ReactFacebookLoginInfo
+    if ("email" in response && response.email !== undefined) {
+      const data = await handleGetTokenFromServer({
+        email: response.email,
+        oauth_id: response.id,
+        display_name: response?.name ?? "Unknown name",
+        type_login: TYPE_LOGIN.FACEBOOK,
+      });
+      localStorage.setItem("token", data.result.token);
+      dispatch(authUserAction.setAuthUser(data.result.user));
+      navigate("/");
+    }
   };
 
   return (
@@ -132,27 +158,32 @@ export default function LoginForm() {
               justifyContent: "center",
               color: "white",
               cursor: "pointer",
+
+              textTransform: "capitalize",
+              fontWeight: 700,
             }}
             onClick={() => handleGoogleLogin()}
           >
-            Login with Google
+            Đăng nhập với Google
           </div>
-          <div
-            style={{
+
+          <FacebookLogin
+            appId={import.meta.env.VITE_FACEBOOK_APP_ID}
+            fields="name,email,picture"
+            callback={handleLoginFacebook}
+            buttonStyle={{
               width: "250px",
               height: "40px",
-              backgroundColor: "#4c69ba",
               borderRadius: "50px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "white",
               cursor: "pointer",
+
+              textTransform: "capitalize",
             }}
-          >
-            {/* <FacebookLoginButton onLogin={handleLogin} /> */}
-            Login with Facebook
-          </div>
+            textButton="Đăng nhập với Facebook"
+          />
         </div>
       </div>
     </div>

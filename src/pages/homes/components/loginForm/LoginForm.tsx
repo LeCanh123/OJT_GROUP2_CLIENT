@@ -14,7 +14,7 @@ import FacebookLogin, {
   ReactFacebookLoginInfo,
 } from "react-facebook-login";
 
-const TYPE_LOGIN = {
+export const TYPE_LOGIN = {
   GOOGLE: 0,
   FACEBOOK: 1,
 } as const;
@@ -124,17 +124,7 @@ export default function LoginForm() {
         >
           Log in
         </h2>
-        {authUser ? (
-          <div>
-            <h3>User Logged in</h3>
-            <p>Name: {authUser.displayName}</p>
-            <p>Email Address: {authUser.email}</p>
-            <p>userId: {authUser.id}</p>
-            <br />
-            <br />
-            <button onClick={() => handleGoogleLogOut()}>Log out</button>
-          </div>
-        ) : null}
+
         <div
           style={{
             width: "100%",

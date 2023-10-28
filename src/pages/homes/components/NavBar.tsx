@@ -8,6 +8,7 @@ import { mapAction } from "../../../redux/MapSlice";
 import { googleLogout } from "@react-oauth/google";
 import { authUserAction } from "../../../redux/AuthSlice";
 import { message } from "antd";
+import { TYPE_LOGIN } from "./loginForm/LoginForm";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -22,8 +23,12 @@ export default function NavBar() {
     console.log("authUser", authUser);
   }, [authUser]);
 
-  const handleGoogleLogOut = () => {
-    googleLogout();
+  const handleLogOut = () => {
+    if (authUser?.type_login === TYPE_LOGIN.GOOGLE) {
+      googleLogout();
+    }
+
+    localStorage.removeItem("token");
     dispatch(authUserAction.reset());
     navigate("/login");
   };
@@ -137,10 +142,7 @@ export default function NavBar() {
                     >
                       Hi, {authUser.display_name}
                     </span>
-                    <span
-                      className="itemhover"
-                      onClick={() => handleGoogleLogOut()}
-                    >
+                    <span className="itemhover" onClick={() => handleLogOut()}>
                       <i className="fa-solid fa-right-from-bracket"></i>
                     </span>
                   </>

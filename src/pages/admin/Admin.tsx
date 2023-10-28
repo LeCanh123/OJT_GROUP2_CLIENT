@@ -1,24 +1,44 @@
 import { Modal } from "antd";
 import "./../../Css/Admin.scss"
 import { Link, Outlet } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import AdminloginApi from "../../apis/Adminlogin";
 
 export default function Admin() {
+const navigate = useNavigate();
+
+let [isAdmin,setIsAdmin]=useState(true)
+
     function handleAdminLogin(){
         Modal.confirm({
             title:"Bạn có muốn đăng xuất không",
             okText: 'Có',
             onOk: () => {
-              localStorage.removeItem('userName');
-              window.location.href = '/';
+              localStorage.removeItem('token');
+            //   window.location.href = '/';
+              navigate("/")
             },
         })
-        
     }
 
 
+    //check admin
+    async function checkAdmin(){
+        let result= await AdminloginApi.adminCheckLogintoken({token:localStorage.getItem("token")});
+        if(!result.status){
+            localStorage.removeItem('token');
+            navigate("/login_admin")
+        }
+    }
+
+    useEffect(()=>{
+        checkAdmin()
+    },[])
+
     return (
         <div className='container'>
-            {localStorage.getItem("userName")?(
+            {isAdmin?(
                  <div>
                  <div className="sidebar">
                      <div className="logo-details">

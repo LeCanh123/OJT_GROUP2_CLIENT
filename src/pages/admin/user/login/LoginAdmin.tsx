@@ -1,9 +1,14 @@
 import "./login.scss"
-import { Modal } from "antd"
+import { Modal, message } from "antd"
 import adminApi from "../../../../apis/Admin"
 import axios from "axios"
+import AdminloginApi from "../../../../apis/Adminlogin"
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function LoginAdmin() {
+  const navigate = useNavigate();
    async function  handleLogin(e: React.FormEvent) {
         e.preventDefault()
         let data = {
@@ -13,32 +18,18 @@ export default function LoginAdmin() {
         console.log("data",data);
         
         try {
-          //const res = await adminApi.AdminLogin(data);
-          const res= await axios.post("http://localhost:3000/api/v1/admin",{...data})
-          console.log("data");
-          console.log("res",res);
-          
-          if (res.data.status !== true) {
-            Modal.confirm({
-              content: "Đăng nhập thất bại",
-              okText: "Hãy thử lại"
-            });
-          } else {
-            Modal.confirm({
-              title:"Đăng nhập thành công",
-              okText: "Ok",
-              onOk: () => {
-                localStorage.setItem("userName", res.data.loginDto.userName);
-                window.location.href = "/admin/dashboard";
-              }
-            });
+        let loginResult=await AdminloginApi.adminLogin({...data})
+          if(loginResult.status){
+            message.success(loginResult.message);
+            localStorage.setItem("token",loginResult.token)
+            navigate("/admin");
+          }else{
+            message.error(loginResult.message);
           }
+
         } catch (err) {
-          console.log("err", err);
-          Modal.success({
-            content: "Sập server",
-            okText: "Hãy thử lại"
-          });
+          message.error("Đăng nhâp thất bại 1");
+
         }
     
         }

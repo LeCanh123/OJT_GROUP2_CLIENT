@@ -8,25 +8,51 @@ import { mapAction } from "../../../redux/MapSlice";
 import { googleLogout } from "@react-oauth/google";
 import { authUserAction } from "../../../redux/AuthSlice";
 import { message } from "antd";
+import LoginApi from "../../../apis/Login";
+
 
 export default function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let [notification, setnotification] = useState(false);
 
-  const authUser = useSelector((store: StoreType) => {
-    return store.authUserStore.data;
-  });
+  // const authUser = useSelector((store: StoreType) => {
+  //   return store.authUserStore.data;
+  // });
 
-  useEffect(() => {
-    console.log("authUser", authUser);
-  }, [authUser])
+  // useEffect(() => {
+  //   console.log("authUser", authUser);
+  // }, [authUser])
 
-  const handleGoogleLogOut = () => {
-    googleLogout();
-    dispatch(authUserAction.reset());
-    navigate("/login");
-  };
+  // const handleGoogleLogOut = () => {
+  //   googleLogout();
+  //   dispatch(authUserAction.reset());
+  //   navigate("/login");
+  // };
+
+//ckeck token user
+let [isUser,setIsUser]=useState(true);
+async function checkUser(){
+  let result= await LoginApi.userCheckLogintoken({token:localStorage.getItem("token")});
+  console.log("resultusertoken",result);
+  
+  if(!result.status){
+      localStorage.removeItem('token');
+      setIsUser(false)
+  }
+}
+
+useEffect(()=>{
+  checkUser()
+},[])
+
+//
+function handleLogOut(){
+  localStorage.removeItem('token');
+  setIsUser(false)
+}
+
+
 
   //function lấy thông báo
   async function userGetNoication() {
@@ -129,13 +155,13 @@ export default function NavBar() {
           <div className="col-6 col-md-2">
             <div className="row">
               <div className="col-6 col-md-3 mt-3 d-flex justify-content-between w-50 ">
-                {authUser ? (
+                {isUser ? (
                   <>
-                    <span className="text-truncate d-inline-block " style={{ marginTop: '10px', paddingRight: '100px' }}>
-                      Hello, {authUser.email}
-                    </span>
-                    <span className="itemhover" onClick={() => handleGoogleLogOut()}>
-                      <i className="fa-solid fa-right-from-bracket"></i>
+                    {/* <span className="text-truncate d-inline-block " style={{ marginTop: '10px', paddingRight: '100px' }}>
+                     Đăng xuất
+                    </span> */}
+                    <span className="itemhover" onClick={() => handleLogOut()}>
+                    Đăng xuất
                     </span>
                   </>
                 ) : (

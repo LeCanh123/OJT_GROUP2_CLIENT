@@ -164,7 +164,7 @@ export default function LoginForm() {
             }}
             onClick={() => handleGoogleLogin()}
           >
-            Đăng nhập với Google
+            Đăng nhập Google
           </div>
 
           <FacebookLogin
@@ -182,7 +182,7 @@ export default function LoginForm() {
 
               textTransform: "capitalize",
             }}
-            textButton="Đăng nhập với Facebook"
+            textButton="Đăng nhập Facebook"
           />
         </div>
       </div>

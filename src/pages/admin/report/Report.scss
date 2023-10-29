@@ -24,4 +24,12 @@ tr {
   width: 1px;
 }
 
+.recharts-legend-item svg{
+  display: none!important;
+}
+.recharts-legend-item-text{
+  display: none!important;
+
+}
+
 

@@ -1,23 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthUserType } from "../interface/AuthUser";
 
-const initialState: { data: null | AuthUserType } = {
-    data: null,
-};
+// const initialState: { data: null | AuthUserType } = {
+//     data: null,
+// };
 
 const authUserSlice = createSlice({
     name: "authUser",
-    initialState,
+    initialState:{
+        isUser:false
+    },
     reducers: {
-        reset: function () {
-            return { data: null };
-        },
+        // reset: function () {
+        //     return { data: null };
+        // },
         setAuthUser: function (state, action) {
             console.log("action.payload", action.payload);
 
             return {
                 ...state,
-                data: action.payload,
+                isUser: action.payload,
             };
         },
     },

@@ -26,6 +26,8 @@ let [isAdmin,setIsAdmin]=useState(true)
     //check admin
     async function checkAdmin(){
         let result= await AdminloginApi.adminCheckLogintoken({token:localStorage.getItem("token")});
+        console.log("result",result);
+        
         if(!result.status){
             localStorage.removeItem('token');
             navigate("/login_admin")
@@ -38,7 +40,7 @@ let [isAdmin,setIsAdmin]=useState(true)
 
     return (
         <div className='container'>
-            {isAdmin?(
+ 
                  <div>
                  <div className="sidebar">
                      <div className="logo-details">
@@ -111,9 +113,7 @@ let [isAdmin,setIsAdmin]=useState(true)
                      <Outlet />
                  </section>
              </div>
-            ):(
-                window.location.href="/login_admin"
-            )}
+            
            
         </div>
     )

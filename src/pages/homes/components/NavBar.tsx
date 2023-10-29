@@ -10,15 +10,16 @@ import { authUserAction } from "../../../redux/AuthSlice";
 import { message } from "antd";
 import LoginApi from "../../../apis/Login";
 
-
 export default function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let [notification, setnotification] = useState(false);
 
-  // const authUser = useSelector((store: StoreType) => {
-  //   return store.authUserStore.data;
-  // });
+  const isUser = useSelector((store: StoreType) => {
+    return store.authUserStore.isUser;
+  });
+  // console.log("authUser",authUser);
+  
 
   // useEffect(() => {
   //   console.log("authUser", authUser);
@@ -31,15 +32,17 @@ export default function NavBar() {
   // };
 
 //ckeck token user
-let [isUser,setIsUser]=useState(true);
+// let [isUser,setIsUser]=useState(true);
 async function checkUser(){
   let result= await LoginApi.userCheckLogintoken({token:localStorage.getItem("token")});
   console.log("resultusertoken",result);
   
   if(!result.status){
       localStorage.removeItem('token');
-      setIsUser(false)
+      dispatch(authUserAction.setAuthUser(false));
+      return
   }
+  dispatch(authUserAction.setAuthUser(true));
 }
 
 useEffect(()=>{
@@ -49,7 +52,8 @@ useEffect(()=>{
 //
 function handleLogOut(){
   localStorage.removeItem('token');
-  setIsUser(false)
+  dispatch(authUserAction.setAuthUser(false));
+
 }
 
 

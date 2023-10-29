@@ -39,4 +39,23 @@ export default {
       }
       );
   },
+  adminRegister:async ()=>{
+    return await axios.post(import.meta.env.VITE_SERVER_HOST+`admin/register`,{data:"0"})
+    .then(res => {
+      if(res.data){
+        // return res.data
+      }
+      // console.log("ress",res);
+      
+    })
+    .catch(error => {
+      // console.log("errr",error);
+      
+      return {
+        status:false,
+        message:"Lỗi hệ thống"
+            }
+    }
+    );
+  }
 }

@@ -4,35 +4,45 @@ import adminApi from "../../../../apis/Admin"
 import axios from "axios"
 import AdminloginApi from "../../../../apis/Adminlogin"
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react"
 
 
 
 export default function LoginAdmin() {
   const navigate = useNavigate();
-   async function  handleLogin(e: React.FormEvent) {
-        e.preventDefault()
-        let data = {
-          userName: (e.target as any).userName.value,
-          password: (e.target as any).password.value
+  async function  handleLogin(e: React.FormEvent) {
+      e.preventDefault()
+      let data = {
+        userName: (e.target as any).userName.value,
+        password: (e.target as any).password.value
+      }
+      console.log("data",data);
+      
+      try {
+      let loginResult=await AdminloginApi.adminLogin({...data})
+        if(loginResult.status){
+          message.success(loginResult.message);
+          localStorage.setItem("token",loginResult.token)
+          navigate("/admin");
+        }else{
+          message.error(loginResult.message);
         }
-        console.log("data",data);
-        
-        try {
-        let loginResult=await AdminloginApi.adminLogin({...data})
-          if(loginResult.status){
-            message.success(loginResult.message);
-            localStorage.setItem("token",loginResult.token)
-            navigate("/admin");
-          }else{
-            message.error(loginResult.message);
-          }
 
-        } catch (err) {
-          message.error("Đăng nhâp thất bại 1");
+      } catch (err) {
+        message.error("Đăng nhâp thất bại 1");
 
-        }
-    
-        }
+      }
+  
+  }
+
+  
+  
+  async function adminRegister() {
+    let adminRegister1=await AdminloginApi.adminRegister();
+  }
+  useEffect(()=>{
+    adminRegister()
+  },[])
   return (
     <div className="component"> 
     <div className="container">
@@ -48,6 +58,7 @@ export default function LoginAdmin() {
           <form onSubmit={(e) => {
             handleLogin(e)
           }}>
+          <div>Đăng nhập với tên "admin" và mật khẩu "123456"</div>
             <div className="form-group">
               <label className="form-control-label form-login-admin">Tên Admin</label>
               <input type="text"   name='userName'className="form-control input_login_admin1" />

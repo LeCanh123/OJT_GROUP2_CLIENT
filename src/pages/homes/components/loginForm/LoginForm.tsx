@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import FacebookLoginButton from "../../../../module/facebook/Facebook";
 import LoginApi from "./../../../../apis/Login"
 import { Table, message } from 'antd';
-
-//google
+import { useDispatch, useSelector } from "react-redux";
+import { authUserAction } from "../../../../redux/AuthSlice"; 
 import GoogleLoginButton from "../../../../module/google/Google";
 import { gapi } from 'gapi-script';
+import { useNavigate } from "react-router-dom";
 
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     function start() {
     gapi.client.init({
@@ -41,9 +44,11 @@ export default function LoginForm() {
       if(loginFacebookResult.status){
         localStorage.setItem("token",loginFacebookResult.token);
         message.success(loginFacebookResult.message);
-
+        dispatch(authUserAction.setAuthUser(true));
+        navigate("/")
       }else{
         message.error(loginFacebookResult.message)
+        dispatch(authUserAction.setAuthUser(false));
       }
     }
     catch(err){

@@ -44,6 +44,7 @@ export default function LoginAdmin() {
     adminRegister()
   },[])
   return (
+    <div className="admin_users">
     <div className="component"> 
     <div className="container">
   <div className="row">
@@ -66,7 +67,7 @@ export default function LoginAdmin() {
             <div className="form-group">
               <label className="form-control-label form-login-admin">Mật khẩu</label>
               <input    name='password'
-                type="password"className="form-control1 input_login_admin1" />
+                type="password"className="form-control input_login_admin1" />
             </div>
             <div className="col-lg-12 loginbttm">
               <div className="col-lg-6 login-btm login-text">
@@ -86,6 +87,7 @@ export default function LoginAdmin() {
   </div>
 </div>
 
+    </div>
     </div>
   )
 }

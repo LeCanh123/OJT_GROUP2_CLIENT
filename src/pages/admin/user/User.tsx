@@ -6,6 +6,7 @@ import adminApi from "../../../apis/Admin"
 
 
 
+
 export default function User() {
   const [searchData,setSearchData]=useState<UserType[]>([]);
   const [currentPage,setCurrentPage]=useState(1);
@@ -29,10 +30,21 @@ return {...item,facebookid:"Google"}
     // { title: 'Kiểu đăng nhập', dataIndex: 'googleid ?(googleid):(facebookid)', key: 'googleid ?(googleid):(facebookid)' },
     {    title: 'Kiểu đăng nhập',
     dataIndex: "googleid" ? `${"facebookid"}` : `${"facebook"}`,
-    key: "googleid" ? "googleid" : "facebookid"}
+    key: "googleid" ? "googleid" : "facebookid"}]
           
  
-  ];
+  // async function getUser() {
+  //   const users = await adminApi.getAllUser();
+  //   console.log("users", users);
+  // }
+
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+  const [checkStrictly, setCheckStrictly] = useState(false);
+  
+
+
   useEffect(()=>{
     const userData= async (page:number,limit:number)=>{
       console.log("davao");
@@ -67,17 +79,27 @@ return {...item,facebookid:"Google"}
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
+ 
 
   return (
     <div className="component">
-      <h4 style={{ marginLeft: "39%", paddingTop: "40px", fontWeight: "bold", color: "black" }}>DANH SÁCH NGƯỜI DÙNG</h4>
+      <h4
+        style={{
+          marginLeft: "39%",
+          paddingTop: "40px",
+          fontWeight: "bold",
+          color: "black",
+        }}
+      >
+        DANH SÁCH NGƯỜI DÙNG
+      </h4>
       <div className="row" style={{ marginBottom: "40px", marginTop: "40px" }}>
         <div className="col-md-5 mx-auto">
           <div className="input-group">
             <input
               className="form-control border-end-0 border rounded-pill"
               type="search"
-              placeholder='Tìm kiếm theo tên'
+              placeholder="Tìm kiếm theo tên"
               id="example-search-input"
             onChange={(event) => {
                 const searchValue = event.target.value;
@@ -87,6 +109,7 @@ return {...item,facebookid:"Google"}
                     setSearchData([]);
                 }
             }}
+
             />
             <span className="input-group-append">
               <button

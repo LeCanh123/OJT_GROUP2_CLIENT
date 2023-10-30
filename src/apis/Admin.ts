@@ -50,6 +50,11 @@ export default {
     paginationForecast:async (page:number,limit:number)=>{
         return await axios.get(`${import.meta.env.VITE_SERVER_HOST}earthquakes?page=${page}&limit=${limit}`)
     },
+    searchForecast: async (search: string) => {
+        return await axios.get(
+            import.meta.env.VITE_SERVER_HOST + "earthquakes?q=" + search
+        );
+    },
      //message
      addMessage: async (data: any) => {
         return await axios.post(
@@ -114,4 +119,14 @@ export default {
             data
         );
     },
+    //users
+    paginationUsers:async (page:number,limit:number)=>{
+        return await axios.get(`${import.meta.env.VITE_SERVER_HOST}users1?page=${page}&limit=${limit}`)
+    },
+    searchUsers: async (search: string) => {
+        return await axios.get(
+            import.meta.env.VITE_SERVER_HOST + "users1?q=" + search
+        );
+    },
+
 };

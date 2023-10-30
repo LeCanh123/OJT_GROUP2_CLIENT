@@ -59,14 +59,14 @@ export default function LoginAdmin() {
             handleLogin(e)
           }}>
           <div>Đăng nhập với tên "admin" và mật khẩu "123456"</div>
-            <div className="form-group">
+            <div className="form-group1">
               <label className="form-control-label form-login-admin">Tên Admin</label>
               <input type="text"   name='userName'className="form-control input_login_admin1" />
             </div>
             <div className="form-group">
               <label className="form-control-label form-login-admin">Mật khẩu</label>
               <input    name='password'
-                type="password"className="form-control input_login_admin1" />
+                type="password"className="form-control1 input_login_admin1" />
             </div>
             <div className="col-lg-12 loginbttm">
               <div className="col-lg-6 login-btm login-text">

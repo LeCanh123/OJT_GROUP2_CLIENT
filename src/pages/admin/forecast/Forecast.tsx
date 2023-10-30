@@ -214,7 +214,7 @@ export default function Forecast() {
     function searchKeyWords(serchValue: string) {
         clearTimeout(timeOut);
         timeOut = setTimeout(async () => {
-            await adminApi.searchCategory(serchValue)
+            await adminApi.searchForecast(serchValue)
                 .then((res) => {
                     if (res.status === 200) {
                         const updatedTotalPages = Math.ceil(res.data.data.length / itemsPerPage)

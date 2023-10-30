@@ -44,6 +44,7 @@ export default function LoginAdmin() {
     adminRegister()
   },[])
   return (
+    <div className="admin_users">
     <div className="component"> 
     <div className="container">
   <div className="row">
@@ -59,7 +60,7 @@ export default function LoginAdmin() {
             handleLogin(e)
           }}>
           <div>Đăng nhập với tên "admin" và mật khẩu "123456"</div>
-            <div className="form-group">
+            <div className="form-group1">
               <label className="form-control-label form-login-admin">Tên Admin</label>
               <input type="text"   name='userName'className="form-control input_login_admin1" />
             </div>
@@ -86,6 +87,7 @@ export default function LoginAdmin() {
   </div>
 </div>
 
+    </div>
     </div>
   )
 }

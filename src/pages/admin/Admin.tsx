@@ -31,7 +31,11 @@ let [isAdmin,setIsAdmin]=useState(true)
         if(!result.status){
             localStorage.removeItem('token');
             navigate("/login_admin")
+            return 
         }
+        navigate("/admin/dashboard")
+
+
     }
 
     useEffect(()=>{

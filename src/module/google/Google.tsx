@@ -31,12 +31,14 @@ const GoogleLoginButton = () => {
   };
 
   return (
+    
     <GoogleLogin
       clientId="749333288267-io0mik6vpnfpqli0ufl8dkgh4vg6e6a4.apps.googleusercontent.com"
       buttonText="Đăng nhập bằng Google"
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={'single_host_origin'}
+      style={{width:"300px",fontSize:"15px",backgroundColor:"#1877f2!important"}}
     />
   );
 };

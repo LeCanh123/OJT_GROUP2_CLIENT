@@ -56,14 +56,14 @@ export default function LoginForm() {
     }
   };
   return (
-    <div>
+    <div  style={{marginBottom:"150px",marginTop:"150px"}}>
       <div
         style={{
           width: "450px",
           height: "400px",
           margin: "0 auto",
           border: "1px solid #ced4da",
-          borderRadius: "4px",
+          borderRadius: "20px",
           listStyle: "none",
           marginTop: "50px",
         }}
@@ -73,22 +73,31 @@ export default function LoginForm() {
             color: "#282a35",
             fontSize: "29px",
             fontWeight: "700",
-            marginLeft: "50px",
-            marginTop: "40px",
+            // marginLeft: "50px",
+            // marginTop: "40px",
+            margin:"0 auto",
+            // backgroundColor:"red",
+           textAlign:"center",
+
+           paddingTop:"50px"
           }}
         >
-          Log in
+          <div>
+          Đăng nhập
+          </div>
         </h2>
         <li style={{ marginLeft: "100px", marginTop: "50px" }}>
           <div
             className="mt-4"
             style={{
               borderRadius: "50px",
-              width: "250px",
+              width: "290px",
               height: "40px",
               overflow: "hidden",
-              backgroundColor: "#4c69ba",
+              backgroundColor: "white",
               paddingBottom: "60px",
+              position:"relative",
+              left:"-20px"
             }}
           >
             <FacebookLoginButton onLogin={handleLogin} />
@@ -97,16 +106,24 @@ export default function LoginForm() {
         <br /> <br />
         <li style={{ marginLeft: "100px" }}>
           <div
-            className="mt-4"
+            className="mt-4 googlelogin1"
             style={{
               borderRadius: "50px",
-              width: "250px",
+              width: "290px",
               height: "60px",
               overflow: "hidden",
               backgroundColor: "white",
+              border:"1px solid grey",
+              position:"relative",
+              left:"-20px",
+
+              top:"-40px"
             }}
           >
-             <GoogleLoginButton />
+            <div style={{position:"relative",left:"30px",top:"6px"}}>
+            <GoogleLoginButton />
+
+            </div>
           </div>
         </li>
         <br /> <br />

@@ -19,6 +19,8 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       autoLoad={false}
       fields="name,email,picture"
       callback={responseFacebook}
+      textButton="Đăng nhập bằng Facebook"
+      buttonStyle={{width:"300px",fontSize:"15px",backgroundColor:"#1877f2",fontWeight:"bold",textTransform:"inherit"}}
     />
   );
 };

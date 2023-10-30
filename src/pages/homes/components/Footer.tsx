@@ -2,7 +2,7 @@ import "../../../Css/Footer.scss"
 
 export default function Footer() {
   return (
-    <div className='container mt-5' style={{ backgroundColor: "#083a8c" }}>
+    <div className='container' style={{ backgroundColor: "#083a8c" }}>
       <div className='container'>
         <footer className="text-center text-white mt-5" style={{ backgroundColor: "#083a8c" }}>
 

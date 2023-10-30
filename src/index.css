@@ -42,3 +42,21 @@
 .rdtPicker table td{
   width: 1px 
 }
+
+
+
+
+.googlelogin1 button span {
+  background-color:rgba(red, green, blue, 0)!important;
+  border: none!important;
+  position: relative;
+  font-size: 15px;
+  font-weight: bold!important;
+  color:grey;
+  left: "1000px"!important;
+  box-shadow:none!important
+}
+.googlelogin1 button{
+  box-shadow:none!important
+
+}

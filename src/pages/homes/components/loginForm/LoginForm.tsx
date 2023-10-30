@@ -20,7 +20,7 @@ export default function LoginForm() {
     clientId : "idCliente",
     scope : ''
     })
-    };
+    }
     gapi.load('client:auth2',start);
     });
     
@@ -39,7 +39,7 @@ export default function LoginForm() {
     setUserData(response);
     console.log("response",response);
     try{
-      let loginFacebookResult=await LoginApi.loginWithFacebook(response);
+      const loginFacebookResult=await LoginApi.loginWithFacebook(response);
       console.log("loginFacebookResult",loginFacebookResult);
       if(loginFacebookResult.status){
         localStorage.setItem("token",loginFacebookResult.token);

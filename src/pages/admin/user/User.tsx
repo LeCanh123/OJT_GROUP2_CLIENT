@@ -16,8 +16,8 @@ export default function User() {
   const[currentData,setCurrentData]=useState([])
 
 
-  function hoademo(){
-  return currentData.map((item:any,index)=>{
+  function Demo(){
+  return currentData?.map((item:any,index)=>{
 if(item.facebookid){return {...item,facebookid:"Facebook"}}
 return {...item,facebookid:"Google"}
     
@@ -124,7 +124,7 @@ return {...item,facebookid:"Google"}
       </div>
       <Table
         columns={columns}
-        dataSource={(searchData?.length > 0 || searchData === null) ? searchData : hoademo()}
+        dataSource={(searchData?.length > 0 || searchData === null) ? searchData : Demo()}
 
 
 

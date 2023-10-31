@@ -53,7 +53,7 @@ export default function LoginAdmin() {
       <div className="col-lg-12 login-key">
         <i className="fa fa-key" aria-hidden="true" />
       </div>
-      <div className="col-lg-12 login-title">ADMIN PANEL</div>
+      <div className="col-lg-12 login-title">Đăng nhập Admin</div>
       <div className="col-lg-12 login-form">
         <div className="col-lg-12 login-form">
           <form onSubmit={(e) => {

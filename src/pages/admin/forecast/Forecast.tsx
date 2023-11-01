@@ -25,6 +25,15 @@ export default function Forecast() {
     const dispatch = useDispatch();
     const forecastStore = useSelector((store: StoreType) => store.forecastStore)
 
+    function formatData() {
+        return currentData?.map((data: any) => {
+            return {
+                ...data,
+                lat: String(data.lat)
+            }
+        })
+    }
+
     // Get Category - Forecast
     const [categories, setCategories] = useState<CategoryType[] | null>([])
     useEffect(() => {
@@ -77,9 +86,10 @@ export default function Forecast() {
                     if (res.status == 200) {
                         dispatch(forecastAction.addForecast(res.data.data))
                         setChange(Math.random() * 9999)
-                        message.success("Thêm thiên tai mới thành công!")
+                        message.success(res.data.message)
                         handleClose()
                     } else {
+                        handleClose()
                         message.error(res.data.message)
                     }
                 })
@@ -298,7 +308,8 @@ export default function Forecast() {
                                     value={editForecast?.lat}
                                     onChange={(e) => {
                                         if (editForecast) {
-                                            setEditForecast({ ...editForecast!, lat: e.target.value })
+                                            const formattedLat = parseFloat(e.target.value); // Convert string to number
+                                            setEditForecast({ ...editForecast, lat: formattedLat });
                                         }
                                     }}
                                 />
@@ -312,7 +323,8 @@ export default function Forecast() {
                                     value={editForecast?.lng}
                                     onChange={(e) => {
                                         if (editForecast) {
-                                            setEditForecast({ ...editForecast!, lng: e.target.value })
+                                            const formattedLat = parseFloat(e.target.value); // Convert string to number
+                                            setEditForecast({ ...editForecast!, lng: formattedLat })
                                         }
                                     }}
                                 />
@@ -324,10 +336,11 @@ export default function Forecast() {
                                     type="number"
                                     name='level'
                                     min={1}
+                                    max={9}
                                     value={editForecast?.level}
                                     onChange={(e) => {
                                         if (editForecast) {
-                                            setEditForecast({ ...editForecast!, level: e.target.value })
+                                            setEditForecast({ ...editForecast!, level: Number(e.target.value) })
                                         }
                                     }}
                                 />
@@ -404,6 +417,7 @@ export default function Forecast() {
                                     (
                                         <Button type='submit' variant="primary">
                                             Lưu
+
                                         </Button>
                                     )
                             }
@@ -444,7 +458,7 @@ export default function Forecast() {
             </div>
 
             <Table columns={columns}
-                dataSource={(searchData?.length > 0 || searchData === null) ? searchData : currentData}
+                dataSource={(searchData?.length > 0 || searchData === null) ? searchData : formatData()}
                 pagination={{
                     current: currentPage,
                     pageSize: itemsPerPage,

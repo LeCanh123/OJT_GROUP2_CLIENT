@@ -127,13 +127,13 @@ export default function Category() {
             key: 'icon',
             render: (icon) => <img src={icon} alt={icon} style={{ width: "40px" }} />,
         },
-        {
-            title: 'Trạng thái',
-            dataIndex: "block",
-            render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
-            width: "20%"
+        // {
+        //     title: 'Trạng thái',
+        //     dataIndex: "block",
+        //     render: (block) => (block == "0" ? "Kích hoạt" : "Vô hiệu hóa"),
+        //     width: "20%"
 
-        },
+        // },
         {
             title: 'Thao tác',
             dataIndex: 'operation',

@@ -3,9 +3,9 @@ import { CategoryType } from "./Category";
 export interface ForecastType {
     id?: string;
     name: string;
-    lat: string;
-    lng: string;
-    level: string;
+    lat: number;
+    lng: number;
+    level: number;
     place: string;
     size: number;
     time_start: Date;

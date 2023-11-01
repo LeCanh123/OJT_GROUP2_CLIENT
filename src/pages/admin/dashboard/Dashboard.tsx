@@ -39,15 +39,6 @@ export default function Dashboard() {
         }
         getForecastMap()
 
-        async function sendMail() {
-            await apiAdmin.sendMail()
-                .then(res => {
-                    console.log('mail', res)
-                    setSendMailUsers(res.data.data)
-                })
-        }
-        sendMail()
-
     }, [])
 
     const getColorForMagnitude = (level: number): string => {
@@ -64,6 +55,16 @@ export default function Dashboard() {
             return '#ffff00'; // Light yellow
         }
     };
+
+    async function sendMail() {
+        await apiAdmin.sendMail()
+            .then(res => {
+                setSendMailUsers(res.data.data)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
 
     return (
         <div className='component'>
@@ -102,7 +103,7 @@ export default function Dashboard() {
             <div className="card warning-btn">
                 <div className="card-body ">
                     <div className='card-warning'>
-                        <h5 className="card-title">WARNING</h5>
+                        <h5 className="card-title">CẢNH BÁO</h5>
                         <i className="fa-solid fa-triangle-exclamation"></i>
                     </div>
                     <p className="card-text">
@@ -113,6 +114,7 @@ export default function Dashboard() {
                             Modal.confirm({
                                 content: "BẠN CÓ MUỐN GỬI CẢNH BÁO THIÊN TAI ĐẾN TẤT CẢ USER KHÔNG?",
                                 onOk: () => {
+                                    sendMail()
                                     message.success("Đã gửi cảnh báo đến các user thành công!")
                                 }
                             })

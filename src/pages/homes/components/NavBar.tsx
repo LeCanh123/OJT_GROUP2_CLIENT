@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { mapAction } from "../../../redux/MapSlice";
 import { googleLogout } from "@react-oauth/google";
 import { authUserAction } from "../../../redux/AuthSlice";
-import { message } from "antd";
+import { Modal, message } from "antd";
 import LoginApi from "../../../apis/Login";
 
 export default function NavBar() {
@@ -51,8 +51,17 @@ useEffect(()=>{
 
 //
 function handleLogOut(){
-  localStorage.removeItem('token');
-  dispatch(authUserAction.setAuthUser(false));
+
+  Modal.confirm({
+    title:"Bạn có muốn đăng xuất không",
+    okText: 'Có',
+    onOk: () => {
+      localStorage.removeItem('token');
+      dispatch(authUserAction.setAuthUser(false));
+    },
+})
+
+
 
 }
 
@@ -183,7 +192,7 @@ function handleLogOut(){
                 className="col-6 col-md-3 mt-3 itemhover"
                 style={{ height: "50px" }}
               >
-                <i
+                {isUser?<i
                   className="fa-regular fa-bell"
 
                   onClick={() => {
@@ -193,14 +202,18 @@ function handleLogOut(){
                       message.warning("Không có thông báo!")
                     }
                   }}
-                ></i>
+                ></i>:<></>}
 
                 <div style={{ position: "absolute" }}>
+                  {isUser?
                   <div
                     style={{ position: "absolute", top: "-35px", left: "15px" }}
                   >
                     {MapStore.total}
                   </div>
+                  :<></>}
+
+
                 </div>
                 {notification ? (
                   <div
@@ -209,6 +222,7 @@ function handleLogOut(){
                       backgroundColor: "#6699FF",
                       zIndex: "10",
                       position: "relative",
+                      left:"-130px"
                     }}
                   >
                     {MapStore.notification.map((item: any) => {

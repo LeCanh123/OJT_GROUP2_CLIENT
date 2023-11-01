@@ -166,14 +166,14 @@ export default function Report() {
   return (
     <div className='component' style={{ paddingTop: "10em" }}>
       {showChart?
-      <div id='chart'>
+      <div id='chart' style={{padding:"30px",width:"1700px"}}>
       <LineChart 
       width={1000}
       height={600}
       data={data}
       margin={{
         top: 5,
-        right: 30,
+        right: 60,
         left: 20,
         bottom: 5
       }}
@@ -191,8 +191,8 @@ export default function Report() {
       />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
-    <div style={{position:'relative',top:"-650px",left:"40px"}}>Số Lượng thiên tai</div>
-    <div  style={{position:'relative',top:"-95px",left:"1010px"}}>Thời gian</div>
+    <div style={{position:'relative',top:"-620px",left:"40px"}}>Số Lượng thiên tai</div>
+    <div  style={{position:'relative',top:"-110px",left:"950px"}}>Thời gian</div>
       <div style={{position:"relative",left:"400px",top:"-50px",fontSize:"20px",fontWeight:"bold"}}>
         {`Biểu đồ thiên tai - ${(ChooseCategoryName=="null"||ChooseCategoryName=="Chọn loại thiên tai")?"Tất Cả":ChooseCategoryName}`}</div>
       </div>

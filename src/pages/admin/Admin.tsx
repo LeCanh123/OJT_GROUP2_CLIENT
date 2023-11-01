@@ -44,9 +44,11 @@ let [isAdmin,setIsAdmin]=useState(true)
 
     return (
         <div className='container'>
- 
-                 <div>
-                 <div className="sidebar">
+ <div className="sidebar"></div>
+                 <div className="row">
+                    <div className="col-12 col-md-2 col-sm-12">
+                    {/* <div className="sidebar"> */}
+                    <div className="sidebar1">
                      <div className="logo-details">
                          <i className="bx bxl-c-plus-plus" />
                          <span className="logo_name">HỆ THỐNG CẢNH BÁO THIÊN TAI VIỆT NAM</span>
@@ -98,9 +100,12 @@ let [isAdmin,setIsAdmin]=useState(true)
                          </li>
                      </ul>
                  </div>
+                    </div>
+   
  
-                 <section className="home-section">
-                     <nav>
+ <div  className=" col-12 col-md-10 col-sm-12 " >
+ <div className="home-section ">
+                     <nav style={{zIndex:100}}>
                          <div className="sidebar-button">
                              {/* <i className="bx bx-menu sidebarBtn" /> */}
                              <span className="dashboard"></span>
@@ -113,10 +118,14 @@ let [isAdmin,setIsAdmin]=useState(true)
                              <span className="admin_name">Admin {localStorage.getItem("userName")}</span>
                          </div>
                      </nav>
- 
-                     <Outlet />
-                 </section>
-             </div>
+ <div style={{zIndex:0}}>
+ <Outlet />
+
+ </div>
+                 </div>
+ </div>
+             
+                </div>
             
            
         </div>

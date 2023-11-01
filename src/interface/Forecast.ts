@@ -8,7 +8,7 @@ export interface ForecastType {
     level: number;
     place: string;
     size: number;
-    time_start: Date;
+    time_start: any;
     created_at?: string;
     updated_at?: string;
     time_notification?: Date;

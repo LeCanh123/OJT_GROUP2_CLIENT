@@ -102,10 +102,10 @@ let [isAdmin,setIsAdmin]=useState(true)
                  <section className="home-section">
                      <nav>
                          <div className="sidebar-button">
-                             <i className="bx bx-menu sidebarBtn" />
+                             {/* <i className="bx bx-menu sidebarBtn" /> */}
                              <span className="dashboard"></span>
                              <a href="/" className='admin-btn-home' style={{ textDecoration: 'none', color: "#000", fontSize: '15px' }}>
-                                 <i className="fa-solid fa-house"></i>
+                                 <i className="fa-solid fa-house" onClick={()=>{navigate("/")}}></i>
                              </a>
                          </div>
                          <div className="profile-details">

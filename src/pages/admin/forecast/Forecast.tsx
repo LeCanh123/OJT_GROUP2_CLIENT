@@ -104,7 +104,7 @@ export default function Forecast() {
     }
 
     // Update Forecast
-    const [editForecast, setEditForecast] = useState<ForecastType | null>(null);
+    const [editForecast, setEditForecast]:any = useState();
 
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
         e.preventDefault();
@@ -128,7 +128,8 @@ export default function Forecast() {
                     if (res.status === 200) {
                         dispatch(forecastAction.updateForecast(res.data.data))
                         message.success("Cập nhật thông tin thiên tai thành công!")
-                        handleClose()
+                        handleClose();
+                        setEditForecast(null)
                     } else {
                         message.error(res.data.message)
                     }
@@ -255,8 +256,9 @@ export default function Forecast() {
 
     return (
         <div className='component'>
-            <div className='category-modal'>
-                <h4 className='category-modal-title'>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
+            
+            <div className='category-modal' >
+                <h4 className='category-modal-title' style={{position:"relative",left:"130px"}}>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
                 <Button variant="outline-primary" style={{ marginLeft: "300px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>

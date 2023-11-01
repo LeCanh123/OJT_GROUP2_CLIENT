@@ -73,7 +73,7 @@ export default function Message() {
       render: (text) => moment(text).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
-      title: "Tên thư mục",
+      title: "Tên tiêu đề",
       dataIndex: "title",
       key: "title",
     },

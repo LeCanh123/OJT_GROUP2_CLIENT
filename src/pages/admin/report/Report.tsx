@@ -18,6 +18,8 @@ import "react-datetime/css/react-datetime.css";
 
 
 export default function Report() {
+
+  let [showChart,setShowChart]=useState(false);
   const [data,setData] = useState([
     // {
     // name: 'Page A',
@@ -152,15 +154,18 @@ export default function Report() {
     let chartResult=await AdminApi.AdminGetChart({...dataChart})
     console.log("chartResult",chartResult);
     if(chartResult.status){
+      setShowChart(true)
       setData(convertName1ToName(chartResult.data))
       if(chartResult.data.length==0){
         message.error("Dữ liệu trống");
+        setShowChart(false)
       }
     }
   };
 
   return (
     <div className='component' style={{ paddingTop: "10em" }}>
+      {showChart?
       <div id='chart'>
       <LineChart 
       width={1000}
@@ -191,6 +196,9 @@ export default function Report() {
       <div style={{position:"relative",left:"400px",top:"-50px",fontSize:"20px",fontWeight:"bold"}}>
         {`Biểu đồ thiên tai - ${(ChooseCategoryName=="null"||ChooseCategoryName=="Chọn loại thiên tai")?"Tất Cả":ChooseCategoryName}`}</div>
       </div>
+      :
+      <></>
+      }
       <div style={{marginLeft:"90px"}}>
         <div style={{display:"block"}}>Chọn thời gian bắt đầu</div>
         <div style={{width:"300px",height:"100px"}}>

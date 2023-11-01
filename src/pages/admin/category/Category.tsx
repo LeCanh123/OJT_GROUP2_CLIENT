@@ -190,7 +190,7 @@ export default function Category() {
     return (
         <div className='component'>
             <div className='category-modal'>
-                <h4 className='category-modal-title'>DANH SÁCH LOẠI THIÊN TAI</h4>
+                <h4 className='category-modal-title'  style={{position:"relative",left:"170px"}}>DANH SÁCH LOẠI THIÊN TAI</h4>
                 <Button variant="outline-primary" style={{ marginLeft: "320px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton >

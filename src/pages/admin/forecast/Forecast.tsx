@@ -1,6 +1,6 @@
 import { Table, message } from 'antd';
-import type { ColumnsType, TableProps } from 'antd/es/table';
-import React, { FormEvent, useEffect, useState } from 'react';
+import type { ColumnsType } from 'antd/es/table';
+import React, { useEffect, useState } from 'react';
 import "../category/category.scss"
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ForecastType } from '../../../interface/Forecast';
@@ -10,6 +10,7 @@ import { StoreType } from '../../../redux/store';
 import { CategoryType } from '../../../interface/Category';
 import { forecastAction } from '../../../redux/ForecastSlice';
 import moment from 'moment';
+import PreviewMap from './PreviewMap';
 
 export default function Forecast() {
     const [show, setShow] = useState(false);
@@ -20,7 +21,14 @@ export default function Forecast() {
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [totalSearchPages, setTotalSearchPages] = useState(0);
-    const [currentData, setCurrentData] = useState([])
+    const [currentData, setCurrentData] = useState([]);
+
+    /* Map */
+    const [latPreview, setLatPreview] = useState(0);
+    const [lngPreview, setLngPreview] = useState(0);
+    const [levelPreview, setLevelPreview] = useState(0);
+    const [sizePreview, setSizePreview] = useState(0);
+
 
     const dispatch = useDispatch();
     const forecastStore = useSelector((store: StoreType) => store.forecastStore)
@@ -29,7 +37,6 @@ export default function Forecast() {
         return currentData?.map((data: any) => {
             return {
                 ...data,
-                lat: String(data.lat)
             }
         })
     }
@@ -104,7 +111,7 @@ export default function Forecast() {
     }
 
     // Update Forecast
-    const [editForecast, setEditForecast]:any = useState();
+    const [editForecast, setEditForecast]: any = useState();
     const fetchData = async (page: number, limit: number) => {
         try {
             const response = await adminApi.paginationForecast(page, limit);
@@ -115,7 +122,8 @@ export default function Forecast() {
             console.log('Error fetching data:', error);
         }
     };
-    const handleClose = () => {setShow(false);
+    const handleClose = () => {
+        setShow(false);
         setEditForecast(null)
     };
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
@@ -160,6 +168,7 @@ export default function Forecast() {
     function handleEdit(record: ForecastType) {
         setEditForecast({ ...record });
         handleShow();
+
     }
 
     const columns: ColumnsType<ForecastType> = [
@@ -255,15 +264,15 @@ export default function Forecast() {
         setCurrentPage(page);
     };
     useEffect(() => {
-       
+
         fetchData(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage, change]);
 
     return (
         <div className='component'>
-            
+
             <div className='category-modal' >
-                <h4 className='category-modal-title' style={{position:"relative",left:"130px"}}>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
+                <h4 className='category-modal-title' style={{ position: "relative", left: "130px" }}>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
                 <Button variant="outline-primary" style={{ marginLeft: "300px" }} onClick={handleShow}>THÊM MỚI</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
@@ -317,6 +326,10 @@ export default function Forecast() {
                                         if (editForecast) {
                                             const formattedLat = parseFloat(e.target.value); // Convert string to number
                                             setEditForecast({ ...editForecast, lat: formattedLat });
+                                            setLatPreview(Number(e.target.value))
+
+                                        } else {
+                                            setLatPreview(Number(e.target.value))
                                         }
                                     }}
                                 />
@@ -332,6 +345,10 @@ export default function Forecast() {
                                         if (editForecast) {
                                             const formattedLat = parseFloat(e.target.value); // Convert string to number
                                             setEditForecast({ ...editForecast!, lng: formattedLat })
+                                            setLngPreview(Number(e.target.value))
+
+                                        } else {
+                                            setLngPreview(Number(e.target.value))
                                         }
                                     }}
                                 />
@@ -348,6 +365,10 @@ export default function Forecast() {
                                     onChange={(e) => {
                                         if (editForecast) {
                                             setEditForecast({ ...editForecast!, level: Number(e.target.value) })
+                                            setLevelPreview(Number(e.target.value))
+
+                                        } else {
+                                            setLevelPreview(Number(e.target.value))
                                         }
                                     }}
                                 />
@@ -377,6 +398,10 @@ export default function Forecast() {
                                     onChange={(e) => {
                                         if (editForecast) {
                                             setEditForecast({ ...editForecast!, size: Number(e.target.value) })
+                                            setSizePreview(Number(e.target.value))
+
+                                        } else {
+                                            setSizePreview(Number(e.target.value))
                                         }
                                     }}
                                 />
@@ -409,6 +434,9 @@ export default function Forecast() {
                                     }}
                                 />
                             </Form.Group>
+
+                            <PreviewMap latPreview={latPreview} lngPreview={lngPreview} levelPreview={levelPreview} sizePreview={sizePreview} editForecast={editForecast} />
+
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
@@ -424,7 +452,6 @@ export default function Forecast() {
                                     (
                                         <Button type='submit' variant="primary">
                                             Lưu
-
                                         </Button>
                                     )
                             }

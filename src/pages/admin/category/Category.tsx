@@ -192,8 +192,18 @@ export default function Category() {
     return (
         <div className='component'>
             <div className='category-modal'>
-                <h4 className='category-modal-title'  style={{position:"relative",left:"170px"}}>DANH SÁCH LOẠI THIÊN TAI</h4>
-                <Button variant="outline-primary" style={{ marginLeft: "320px" }} onClick={handleShow}>THÊM MỚI</Button>
+                <div className='row'>
+<div className='col-6 ' style={{textAlign:"left"}}>
+<h4 className='category-modal-title'  style={{position:"relative",top:"-5px",left:"30px",display:"inline"}}>DANH SÁCH LOẠI THIÊN TAI</h4>
+
+</div>
+<div className='col-6'>
+
+<Button variant="outline-primary" style={{ marginLeft: "320px" ,display:"inline"}} onClick={handleShow}>THÊM MỚI</Button>
+
+</div>
+                </div>
+           
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton >
                         <Modal.Title className='modal-title'>

@@ -59,7 +59,6 @@ export default function LoginAdmin() {
           <form onSubmit={(e) => {
             handleLogin(e)
           }}>
-          <div>Đăng nhập với tên "admin" và mật khẩu "123456"</div>
             <div className="form-group1">
               <label className="form-control-label form-login-admin">Tên Admin</label>
               <input type="text"   name='userName'className="form-control input_login_admin1" />

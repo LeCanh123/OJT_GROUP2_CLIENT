@@ -268,6 +268,8 @@ export default function Forecast() {
         fetchData(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage, change]);
 
+    console.log("vaof admin");
+
     return (
         <div className='component'>
 

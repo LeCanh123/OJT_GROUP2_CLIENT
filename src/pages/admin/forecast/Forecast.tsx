@@ -274,8 +274,15 @@ export default function Forecast() {
         <div className='component'>
 
             <div className='category-modal' >
-                <h4 className='category-modal-title' style={{ position: "relative", left: "130px" }}>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
-                <Button variant="outline-primary" style={{ marginLeft: "300px" }} onClick={handleShow}>THÊM MỚI</Button>
+                <div className='row'>
+                    <div className="col-7">
+                    <h4 className='category-modal-title' style={{position:"relative",left:"10px"}}>DANH SÁCH THIÊN TAI ĐỘNG ĐẤT</h4>
+
+                    </div>
+                    <div className="col-5">
+                    <Button variant="outline-primary" style={{ marginLeft: "400px" }} onClick={handleShow}>THÊM MỚI</Button>
+                    </div>
+                </div>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>

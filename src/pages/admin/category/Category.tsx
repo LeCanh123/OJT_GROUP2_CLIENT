@@ -162,7 +162,6 @@ export default function Category() {
             setCurrentData(response.data.data)
             setTotalPages(response.data.totalPage);
             setCurrentPage(page)
-            fetchCategoryData(currentPage, itemsPerPage);
         } catch (error) {
             console.log('Error fetching data:', error);
         }

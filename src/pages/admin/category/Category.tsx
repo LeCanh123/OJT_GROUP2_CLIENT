@@ -156,6 +156,18 @@ export default function Category() {
         handleShow();
     }
     let timeOut: string | number | NodeJS.Timeout | undefined;
+    const fetchCategoryData = async (page: number, limit: number) => {
+        try {
+            const response = await adminApi.paginationCategory(page, limit);
+            setCurrentData(response.data.data)
+            setTotalPages(response.data.totalPage);
+            setCurrentPage(page)
+            fetchCategoryData(currentPage, itemsPerPage);
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
+    };
+
     function searchKeyWords(serchValue: string) {
         clearTimeout(timeOut);
         timeOut = setTimeout(async () => {
@@ -173,16 +185,7 @@ export default function Category() {
         setCurrentPage(page);
     };
     useEffect(() => {
-        const fetchCategoryData = async (page: number, limit: number) => {
-            try {
-                const response = await adminApi.paginationCategory(page, limit);
-                setCurrentData(response.data.data)
-                setTotalPages(response.data.totalPage);
-                setCurrentPage(page)
-            } catch (error) {
-                console.log('Error fetching data:', error);
-            }
-        };
+
         fetchCategoryData(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage, changepage]);
 

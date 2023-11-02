@@ -13,7 +13,7 @@ import moment from 'moment';
 
 export default function Forecast() {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+
     const handleShow = () => setShow(true);
     const [searchData, setSearchData] = useState<CategoryType[]>([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -105,7 +105,19 @@ export default function Forecast() {
 
     // Update Forecast
     const [editForecast, setEditForecast]:any = useState();
-
+    const fetchData = async (page: number, limit: number) => {
+        try {
+            const response = await adminApi.paginationForecast(page, limit);
+            setTotalPages(response.data.totalPage);
+            setCurrentData(response.data.data)
+            setCurrentPage(page)
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
+    };
+    const handleClose = () => {setShow(false);
+        setEditForecast(null)
+    };
     async function handleUpdateForecast(e: React.FormEvent, forecast: ForecastType) {
         e.preventDefault();
 
@@ -130,6 +142,8 @@ export default function Forecast() {
                         message.success("Cập nhật thông tin thiên tai thành công!")
                         handleClose();
                         setEditForecast(null)
+                        fetchData(currentPage, itemsPerPage);
+
                     } else {
                         message.error(res.data.message)
                     }
@@ -241,16 +255,7 @@ export default function Forecast() {
         setCurrentPage(page);
     };
     useEffect(() => {
-        const fetchData = async (page: number, limit: number) => {
-            try {
-                const response = await adminApi.paginationForecast(page, limit);
-                setTotalPages(response.data.totalPage);
-                setCurrentData(response.data.data)
-                setCurrentPage(page)
-            } catch (error) {
-                console.log('Error fetching data:', error);
-            }
-        };
+       
         fetchData(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage, change]);
 

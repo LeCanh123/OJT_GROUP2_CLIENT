@@ -85,7 +85,7 @@ return {...item,facebookid:"Google"}
     <div className="component">
       <h4
         style={{
-          marginLeft: "39%",
+          marginLeft: "33%",
           paddingTop: "40px",
           fontWeight: "bold",
           color: "black",

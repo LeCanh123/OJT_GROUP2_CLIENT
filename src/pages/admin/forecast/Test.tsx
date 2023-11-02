@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import EarthquakeMap from './EarthquakeMap';
-import Admin from '../../../apis/Admin';
-import { ForecastType } from '../../../interface/Forecast';
+import { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Circle, Popup } from 'react-leaflet';
+
 
 function Test() {
-    // const earthquakes:  = [
-    //     { lat: 10, lon: 20, magnitude: 5.5 },
-    //     { lat: 15, lon: 25, magnitude: 6.2 },
-    //     { lat: 5, lon: 30, magnitude: 7.8 },
-    // ];
-
-    const [earthquakes, setEarthquakes] = useState<ForecastType[] | null>([]);
-    useEffect(() => {
-        Admin.getForecast()
-            .then(res => {
-                setEarthquakes(res.data.data)
-            })
-    }, [])
+    const position = { lat: 10.7552929, lng: 106.365562 }
 
     return (
         <div>
-            <h1>Earthquake Map</h1>
-            <EarthquakeMap earthquakes={earthquakes} />
+            <h1>Map</h1>
+            <MapContainer center={[14.0583, 108.2772]} zoom={6}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={position}>
+                    <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                    </Popup>
+                </Marker>
+            </MapContainer>
         </div>
     );
 }
